@@ -1,0 +1,357 @@
+<!-------------------------------------------------------------------- 
+TO DO LIST | Format = "n ( [Issue Caption] | [Assigned To] ) - [Issue Description Details]"
+______________________________________________________________________
+ 
+--DEPLOYMENT REQUIREMENTS---
+1 [COMPLETED] /// (Fix Timer | Corey) - Timer function loses place if started, then stopped, then move to different view, then move back and start again.
+2 (Setup Internal Database | Justin) - create and setup internal database structure for app data.
+3 (Delete/Edit Records | Corey) - enable swipe-to-delete and edit-to-delete functionality of list item records
+4 (View Transitions | Corey) - Fix transition/animation of from-to views; fix slide direction of viewport on 'save'
+5 [COMPLETED] /// (Notification Banners | Corey) - Add Success/Error notification banners to viewport containing details behind successful and failed actions
+
+
+ 
+--POTENTIAL FUTURE ENHANCEMENTS--
+1 (Social Aspect | Corey/Justin) - Enable social functionality to connect project views with friends, enabling access to friends task lists
+2 (Calendar Integration | Corey/Justin) - Link completed/saved tasks to internal phone calendar as an appointment with start & end time
+3 (GPS Integration | Corey/Justin) - Show map pins dropped where each task was performed within project view
+
+
+ 
+--------------------------------------------------------------------->
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+  <head>
+  <title></title>
+  
+    <!--<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no;" />-->
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<meta charset="utf-8">
+
+	<!-- iPad/iPhone specific css below, add after your main css >
+	<link rel="stylesheet" media="only screen and (max-device-width: 1024px)" href="ipad.css" type="text/css" />		
+	<link rel="stylesheet" media="only screen and (max-device-width: 480px)" href="iphone.css" type="text/css" />		
+	-->
+   
+	<!-- If your application is targeting iOS BEFORE 4.0 you MUST put json2.js from http://www.JSON.org/json2.js into your www directory and include it here -->
+    <script type="text/javascript" charset="utf-8" src="phonegap-1.3.0.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="jquery/src/lib/jquery-1.7.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch-jquery.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch.js"></script>
+    <link rel="stylesheet" media="screen" href="jquery/themes/css/jqtouch.css" type="text/css">
+    <!--<link rel="stylesheet" media="screen" href="jquery/themes/css/apple.css" type="text/css">-->
+
+    <script type="text/javascript">
+        //document.addEventListener('deviceready', stateReady, false);
+        //$(document).bind("deviceready", function() {
+        $(document).ready(function(){
+                          //initialize jqTouch with some placeholder value as object (irrelevant what the value actually is as long as it is real)
+                          //$.jQTouch(); fails without some value within function "()"
+                          $.jQTouch({'debug':true});
+
+                          $('li.arrow').bind('swipe', function(event, info){ 
+                              //setup swipe-to-delete functionality
+                                             //add class to listitem which adds delete button to listitem
+                                             $(this).toggleClass('arrow deletemode');
+                          });
+                          
+                          /*$(body).bind('tap', function(){
+                                           //
+                          });*/
+                          
+                          $('.cancelbtn').tap(function(){
+                            //clear input, textareas, and timer value (if applicable) when cancel button is clicked
+                                              //get document parent div for referencing throughout function
+                                              var ppel = $(this).parent().parent();
+                                              //clear text input and textarea fields
+                                              ppel.find('input, textarea').val('').text('');
+                                              //get timer button div for referencing
+                                              var timeel = ppel.find('.timerbtn')
+                                              //check if timer is started
+                                              if( timeel.hasClass('redButton') ){
+                                                  //stop the timer
+                                                  clearInterval( timeel.data('timer') )
+                                                  //reset the timer button to Start & Green
+                                                  timeel.toggleClass('greenButton redButton').text('Start');
+                                              }
+                                              //reset timer value to 0 regardless of Green or Red timer button
+                                              //ex: what if user starts and stops timer; timer=('00:04:34'), and cancels the creation
+                                              //we still need to reset the timer value even though button is Stop & Red
+                                              ppel.find('h2.time').text('00:00:00');
+                          });
+                          
+                                                    
+                          
+                          $('li.deletemode .delete-button').tap(function(){
+                                //setup delete record function when delete is clicked
+                                             //remove the class which adds the button to the listitem
+                                             $(this).parent().removeClass('deletemode');
+                          });
+            
+                          $('a.edit').tap(function(){
+                                    notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
+                          });
+                          $('a.save').tap(function(){
+                                    notifyBanner( $(this), 'success', "Success<br><span style='font-size:14px;'>Your Data Has Been Saved.</span>" );
+                          });
+                          
+                          //when timerbtn is tapped
+                          $('.timerbtn').tap(function(){
+                                             //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
+                                             $(this).toggleClass('greenButton redButton ');
+                                             //get inner text of tapped button and check its value
+                                             if( this.innerHTML == 'Start' ){
+                                                 //change text to Stop
+                                                 this.innerHTML = 'Stop';
+                                                 //get time format string "HH:MM:SS" from the timer label
+                                                 var timediv = $(this).parent().find('h2.time'),
+                                                     aTime   = timediv.text().split(':'),
+                                                     seconds = toSeconds( aTime );
+                                                 
+                                                 //create 1 second interal loop which increments seconds var and calls toHHMMSS func
+                                                 //then writes results to timer label
+                                                 $(this).data('timer', setInterval( function(){ 
+                                                                           seconds++;
+                                                                           timediv.text( toHHMMSS( seconds ) ); 
+                                                                        },1000)
+                                                              );
+                                                              
+                                             } else {
+                                                 //change text to Start
+                                                 this.innerHTML = 'Start';
+                                                 //stop the interval loop from incrementing seconds
+                                                 clearInterval( $(this).data('timer') )
+                                             }
+                                             
+                          });
+                          
+                          function notifyBanner( $this, type, msg ){
+                                //set class variable based on type of notifyBanner caller function
+                                var bannerType = ( type == 'success' ? 'banner-success' : 'banner-error' );
+                                //remove banner-notify from DOM if already showing
+                                if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
+                                //select .parent()*2 which is document parent
+                                $this.parents('.pages')
+                                       //append the banner div and add the banner-notify class and success/error class
+                                       .append( $('<div/>').addClass('banner-notify ' + bannerType)
+                                                           //add explanation content to banner div
+                                                           .html( msg )
+                                              )
+                                        //find the banner just created within the parent document
+                                        .find('.banner-notify')
+                                        //animate the banner up from below the viewport
+                                        .animate({'bottom':'0px'}, 150)
+                                        //leave it visible for 4 seconds
+                                        .delay(4000)
+                                        //animate the banner back below the viewport bottom and remove it from the DOM
+                                        .animate({'bottom':'-52px'}, 500, function(){
+                                                $(this).detach();
+                                        });
+                          }
+                          
+                          
+                          function toHHMMSS( seconds ){
+                            //convert seconds variable to HH:MM:SS
+                            sec_numb    = parseInt( seconds );
+                            var hours   = Math.floor(sec_numb / 3600);
+                            var minutes = Math.floor((sec_numb - (hours * 3600)) / 60);
+                            var seconds = sec_numb - (hours * 3600) - (minutes * 60);
+                            //add leading zero (0) if value is less than 10
+                            if (hours   < 10) {hours   = "0"+hours;}
+                            if (minutes < 10) {minutes = "0"+minutes;}
+                            if (seconds < 10) {seconds = "0"+seconds;}
+                            return hours+':'+minutes+':'+seconds;
+                          }
+                          
+                          function toSeconds( aTime ) {
+                            //convert text string HH:MM:SS to seconds variable
+                            return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
+                          }
+            });
+        
+        
+
+	// If you want to prevent dragging, uncomment this section
+	/*
+	function preventBehavior(e) 
+	{ 
+      e.preventDefault(); 
+    };
+	document.addEventListener("touchmove", preventBehavior, false);
+	*/
+	
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	/*
+	function handleOpenURL(url)
+	{
+		// TODO: do something with the url passed in.
+	}
+	*/
+    //$(document).bind("deviceready", function() {
+    /*document.addEventListener("deviceready", function(){
+
+        //you need to 'bind' this on 'deviceready' because 'deviceready' is a specific incoming call from the OS
+        //much like .click in web browsing (e.g. $(document).bind('click', function(){ //some click function; });
+        var natControl = window.plugins.nativeControls;
+        setupTabBar( natControl );
+        //setupToolBar( natControl );
+    });
+     */
+        
+	/* When this function is called, PhoneGap has been initialized and is ready to roll */
+	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
+	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
+	for more details -jm */
+	</script>
+    <style>
+        li .delete-button{
+            visibility: hidden; 
+        } 
+        li.deletemode .delete-button { 
+            position:absolute;
+            visibility: visible; 
+            height:10px !important;
+            line-height:10px !important;
+            font-size:15px !important;
+            top:-5px;
+            right:-10px !important;
+        }
+        #jqt .pages {
+            background:url(jquery/themes/img/apple/pinstripes.png);
+        }
+        #jqt .timerbtn{
+            position:relative;
+            float:left;
+            width:80px;
+        }
+        #jqt h4{
+            padding:3px 0 0 10px;
+            color:#666;
+        }
+        /*setup notification banner properties and styles*/
+        .banner-notify{
+            position:absolute;
+            bottom:-52px;
+            width:100%;
+            height:50px;
+            color:#fff;
+            font-weight:500;
+            font-size:18px;
+            text-align:center;
+            z-index:9998;
+        }
+        .banner-error{
+            background:#bf4343;
+            border-top:2px solid #ab1818;
+        }
+        .banner-success{
+            background:#50bc65;
+            border-top:2px solid #17962f;
+        }
+        /*end notification banner properties and styles*/
+    </style>
+        
+    <!--jqTouch DOM Element Functionality Reference-----------------------------------
+     Direct Descendent Div's - create full screen page views
+     Div.toolbar             - create width:100% toolbar
+     a.button                - create button
+     ul                      - create list container bubble
+     li                      - create list items within the bubble
+     li.a                    - create clickable list items linked to other views/pages
+     h4                      - create section titles
+     li input                - create list items containing textbox field
+     li textarea             - create list items containing textarea field
+     -------------------------------------------------------------------------------->
+        
+  </head>
+  <body >
+      <!--create the first view holding our project list-->
+      <div id='firstPage' class='pages'>
+          <div class='toolbar' >
+              <h1>My Projects</h1>
+              <a class='button edit' href='#' style='left:6px; width:22px;'>Edit</a>
+              <a href='#createProjectPage' class='button add'>+</a>
+          </div>
+          <ul class='rounded'>
+              <li class='arrow'><a href='#detailView'>Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a href='#detailView'>Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a href='#detailView'>StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
+          </ul>
+      </div>
+      <!--create the drilldown view holding out task list-->
+      <div id='detailView' class='pages'>
+          <div class='toolbar'>
+              <h1>Task List</h1>
+              <a class="button back" href="#">Back</a>
+              <a class="button add" href="#createTaskPage">+</a>
+          </div>
+          <ul id='detail_ul' class='rounded'>
+              <li class='arrow'><a href='#taskDetailView'>March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a href='#taskDetailView'>July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a href='#taskDetailView'>July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a href='#taskDetailView'>December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+          </ul>
+      </div>
+      <!--create the view to create projects and return to the 'firstPage' view-->
+      <div id='createProjectPage' class='pages'>
+          <div class='toolbar'>
+              <h1>Create Project</h1>
+              <a class="cancelbtn button back" href="#">Cancel</a>
+              <a class="button save" href="#firstPage" style='right:6px;'>Save</a>
+          </div>
+          <ul id='detail_ul' class='rounded'>
+              <li><input type="text" placeholder="Project Name" name="projectname" id="projectname_input" autocapitalize="off" autocorrect="off" autocomplete="off"></li>
+          </ul>
+      </div>
+      <!--create the drilldown view for specific task details-->
+      <div id='taskDetailView' class='pages'>
+          <div class='toolbar'>
+              <h1>Task Details</h1>
+              <a class="button back" href="#">Back</a>
+              <a class="button save" href="#" style='right:6px;'>Save</a>
+          </div>
+          <h4>Timer</h4>
+          <ul id='detail_timer_ul' class='rounded' style='height:80px;'>
+              <li style='height:55px;'>
+                  <a class='button greenButton timerbtn'href='#' >Start</a>
+                  <h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2>
+              </li>
+          </ul>
+          <h4>Task Details</h4>
+          <ul id='detail_ul' class='rounded'>
+              <li><textarea name="taskdetails" style='height:280px;' id="taskdetails_input" autocapitalize="on" autocorrect="on" autocomplete="on">These are some default task details that will be specific to the task you clicked on within the previous screen once we link this program to a database.  At this time all the details within this view are the same.</textarea></li>
+          </ul>
+      </div>
+      <!--create the view to create tasks within a project-->
+      <div id='createTaskPage' class='pages'>
+          <div class='toolbar'>
+              <h1>Create Task</h1>
+              <a class="cancelbtn button back" href="#">Cancel</a>
+              <a class="button save" href="#detailView" style='right:6px;'>Save</a>
+          </div>
+          <h4>Timer</h4>
+          <ul id='detail_timer_ul' class='rounded' style='height:80px;'>
+              <li style='height:55px;'>
+                  <a class='button greenButton timerbtn' href='#' >Start</a>
+                  <h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2>
+              </li>
+          </ul>
+          <h4>Task Details</h4>
+          <ul id='detail_ul' class='rounded'>
+              <li><textarea placeholder="Enter a Description of Your Task" name="taskname" style='height:280px;' id="taskname_input" autocapitalize="on" autocorrect="on" autocomplete="on"></textarea></li>
+          </ul>
+      </div>
+      <!--<div id='addProject' class='view'>This is the addProject View</div>
+      <div id='inbox' class='view'>this is the inbox view</div>
+      <div id='upload'class='view'>this is the upload view</div>-->
+	<!--<h1>Hey, it's PhoneGap!</h1>
+	<p>Don't know how to get started? Check out <em><a target="_blank" href="http://www.phonegap.com/start#ios-x4">PhoneGap Start</a></em>
+	<br />
+	<ol>
+		<li>Check your console log for any white-list rejection errors.</li>
+		<li>Add your allowed <strong>hosts</strong> in PhoneGap.plist/ExternalHosts (wildcards OK, don't enter the URL scheme)</li>
+	</ol>-->
+  </body>
+</html>
