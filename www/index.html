@@ -1,13 +1,14 @@
-<!-------------------------------------------------------------------- 
+<!------------------------------------------------------------------------------------------------------------------------------------------------------
 TO DO LIST | Format = "n ( [Issue Caption] | [Assigned To] ) - [Issue Description Details]"
-______________________________________________________________________
+________________________________________________________________________________________________________________________________________________________
  
 --DEPLOYMENT REQUIREMENTS---
 1 [COMPLETED] /// (Fix Timer | Corey) - Timer function loses place if started, then stopped, then move to different view, then move back and start again.
 2 (Setup Internal Database | Justin) - create and setup internal database structure for app data.
 3 (Delete/Edit Records | Corey) - enable swipe-to-delete and edit-to-delete functionality of list item records
-4 (View Transitions | Corey) - Fix transition/animation of from-to views; fix slide direction of viewport on 'save'
+4 [COMPLETED] /// (View Transitions | Corey) - Fix transition/animation of from-to views; fix slide direction of viewport on 'save'
 5 [COMPLETED] /// (Notification Banners | Corey) - Add Success/Error notification banners to viewport containing details behind successful and failed actions
+6 [COMPLETED] /// (Empty UI Fields | Corey) - Empty each user input/interface field when cancel button is clicked
 
 
  
@@ -16,9 +17,7 @@ ______________________________________________________________________
 2 (Calendar Integration | Corey/Justin) - Link completed/saved tasks to internal phone calendar as an appointment with start & end time
 3 (GPS Integration | Corey/Justin) - Show map pins dropped where each task was performed within project view
 
-
- 
---------------------------------------------------------------------->
+-------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -55,8 +54,8 @@ ______________________________________________________________________
                                              $(this).toggleClass('arrow deletemode');
                           });
                           
-                          /*$(body).bind('tap', function(){
-                                           //
+                          /*$('body').tap(function(event){
+                                       alert( event.target );
                           });*/
                           
                           $('.cancelbtn').tap(function(){
@@ -131,7 +130,8 @@ ______________________________________________________________________
                                 //remove banner-notify from DOM if already showing
                                 if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
                                 //select .parent()*2 which is document parent
-                                $this.parents('.pages')
+                                //$this.parents('.pages')
+                                $('.pages')
                                        //append the banner div and add the banner-notify class and success/error class
                                        .append( $('<div/>').addClass('banner-notify ' + bannerType)
                                                            //add explanation content to banner div
@@ -206,6 +206,11 @@ ______________________________________________________________________
 	for more details -jm */
 	</script>
     <style>
+        /*body{
+            border:1px solid #ff0000 !important;
+            background:#fff !important;
+            z-index:99999;
+        }*/
         li .delete-button{
             visibility: hidden; 
         } 
@@ -251,6 +256,8 @@ ______________________________________________________________________
             border-top:2px solid #17962f;
         }
         /*end notification banner properties and styles*/
+        
+        /*style='-webkit-border-image: url(jquery/themes/img/button.png) 0 5 0 5 !important; right:6px;'*/
     </style>
         
     <!--jqTouch DOM Element Functionality Reference-----------------------------------
@@ -299,7 +306,7 @@ ______________________________________________________________________
           <div class='toolbar'>
               <h1>Create Project</h1>
               <a class="cancelbtn button back" href="#">Cancel</a>
-              <a class="button save" href="#firstPage" style='right:6px;'>Save</a>
+              <a class="button save" href="#firstPage" >Save</a>
           </div>
           <ul id='detail_ul' class='rounded'>
               <li><input type="text" placeholder="Project Name" name="projectname" id="projectname_input" autocapitalize="off" autocorrect="off" autocomplete="off"></li>
