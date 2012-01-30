@@ -37,10 +37,10 @@ ________________________________________________________________________________
     <!--<link rel="stylesheet" media="screen" href="jquery/themes/css/apple.css" type="text/css">-->
 
     <script type="text/javascript">
-        //document.addEventListener('deviceready', stateReady, false);
-        
+        //document.addEventListener('deviceready', stateReady, false);        
         //$(document).bind("deviceready", function() {
         //document.addEventListener('deviceready', stateReady, false);
+
         $(document).ready(function(){
                           
                           
@@ -152,7 +152,7 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
-                          });
+                          //});
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
                                                                      //console.log( e.target.className );
@@ -167,7 +167,8 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
-                          });
+
+                          //});
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
                                                                      //console.log( e.target.className );
@@ -200,6 +201,7 @@ ________________________________________________________________________________
                           
                           //when timerbtn is tapped
                           $('.timerbtn').tap(function(){
+
                                              //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
                                              $(this).toggleClass('greenButton redButton ');
                                              //get inner text of tapped button and check its value
@@ -226,6 +228,7 @@ ________________________________________________________________________________
                                                  clearInterval( $(this).data('timer') )
                                              }
 
+
                                 //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
                                 $(this).toggleClass('greenButton redButton ');
                                 //get inner text of tapped button and check its value
@@ -251,6 +254,7 @@ ________________________________________________________________________________
                                     //stop the interval loop from incrementing seconds
                                     clearInterval( $(this).data('timer') )
                                 }
+
                           });
                           
                           function notifyBanner( type, msg ){
@@ -443,6 +447,7 @@ ________________________________________________________________________________
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
           <ul class='rounded'>
+
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
@@ -455,6 +460,7 @@ ________________________________________________________________________________
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
+
           </ul>
       </div>
       <!--create the drilldown view holding out task list-->
@@ -465,6 +471,7 @@ ________________________________________________________________________________
               <a class="button add" href="#createTaskPage">+</a>
           </div>
           <ul id='detail_ul' class='rounded'>
+
               <!-- testing task list li's
               <li class='arrow'><a href='#taskDetailView'>March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#taskDetailView'>July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
