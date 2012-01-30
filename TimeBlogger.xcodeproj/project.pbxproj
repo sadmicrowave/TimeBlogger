@@ -481,6 +481,7 @@
 				4EFA064A14D3A0D900054364 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

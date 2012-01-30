@@ -8,7 +8,6 @@
  * Copyright (c) 2011, Proyectos Equis Ka, S.L.
  * 
  */
-
 if (typeof PhoneGap === "undefined") {
 
 if (typeof(DeviceInfo) !== 'object'){

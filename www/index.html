@@ -42,130 +42,203 @@ ________________________________________________________________________________
 
     <script type="text/javascript">
         //document.addEventListener('deviceready', stateReady, false);
-        //$(document).bind("deviceready", function() {
         $(document).ready(function(){
                           //initialize jqTouch with some placeholder value as object (irrelevant what the value actually is as long as it is real)
                           //$.jQTouch(); fails without some value within function "()"
                           $.jQTouch({'debug':true});
+                          
+                          function clearUIActions(){
+                          //reset UI settings like 'Done'/'Edit' button text, delete-button, delete-icon, listitem left margins
+                              //remove list item main delete button
+                              $('li.deletemode').toggleClass('deletemode arrow');
+                              //remove list item a tag padding and hide and rotate UI delete icons
+                              $('li a.pad').toggleClass('pad').find('.delete-icon.active').toggleClass('active');
+                              //change inner text of 'done' button to 'edit' if button has active state
+                              $('.toolbar a.edit-click').toggleClass('edit-click').text( ( $(this).text() == 'Edit' ? 'Done' : 'Edit' ) );
+                          }
 
                           $('li.arrow').bind('swipe', function(event, info){ 
-                              //setup swipe-to-delete functionality
-                                             //add class to listitem which adds delete button to listitem
-                                             $(this).toggleClass('arrow deletemode');
+                          //setup swipe-to-delete functionality
+                              //clear any other visible UI actions
+                              clearUIActions();
+                              //add class to listitem which adds delete button to listitem
+                              $(this).toggleClass('arrow deletemode');
                           });
                           
-                          /*$('body').tap(function(event){
-                                       alert( event.target );
-                          });*/
-                          
-                          $('.cancelbtn').tap(function(){
-                            //clear input, textareas, and timer value (if applicable) when cancel button is clicked
-                                              //get document parent div for referencing throughout function
-                                              var ppel = $(this).parent().parent();
-                                              //clear text input and textarea fields
-                                              ppel.find('input, textarea').val('').text('');
-                                              //get timer button div for referencing
-                                              var timeel = ppel.find('.timerbtn')
-                                              //check if timer is started
-                                              if( timeel.hasClass('redButton') ){
-                                                  //stop the timer
-                                                  clearInterval( timeel.data('timer') )
-                                                  //reset the timer button to Start & Green
-                                                  timeel.toggleClass('greenButton redButton').text('Start');
-                                              }
-                                              //reset timer value to 0 regardless of Green or Red timer button
-                                              //ex: what if user starts and stops timer; timer=('00:04:34'), and cancels the creation
-                                              //we still need to reset the timer value even though button is Stop & Red
-                                              ppel.find('h2.time').text('00:00:00');
+                          $(document.body).tap(function(event){
+                          //simulate a web 'lost-focus' event when there are active/visible UI actions and anywhere else in the body is clicked
+                               //clear any other visible UI actions
+                               clearUIActions();
+                                               /*$('li.deletemode .delete-button').addClass('remove');
+                                               $('li.deletemode').toggleClass('arrow deletemode');
+                                               alert(  $('li.deletemode .delete-button').attr('class') );
+                                               setTimeout(function(){
+                                                          $('li.deletemode .delete-button').toggleClass('remove')
+                                                                                           .parent().toggleClass('arrow deletemode');
+                                               },100);
+                                               $('a.edit-click').toggleClass('edit-click').html( ( this.innerHTML == 'Edit' ? 'Done' : 'Edit' ) );
+                                               $('a.pad').toggleClass('pad');
+                                               $('li a.pad').toggleClass('pad nopad');
+                                               $('.toolbar a.edit').text( ( $(this).text() == 'Edit' ? 'Done' : 'Edit' ) );*/
                           });
                           
+                          $('.cancelbtn').tap(function(){ $(this).clearUIInputs() });
                                                     
+                          $.fn.clearUIInputs = function(){
+                                //clear input, textareas, and timer value (if applicable) when cancel button is clicked
+                                //get document parent div for referencing throughout function
+                                var ppel = $(this).parent().parent();
+                                //clear text input and textarea fields
+                                ppel.find('input, textarea').val('').text('');
+                                //get timer button div for referencing
+                                var timeel = ppel.find('.timerbtn')
+                                //check if timer is started
+                                if( timeel.hasClass('redButton') ){
+                                    //stop the timer
+                                    clearInterval( timeel.data('timer') )
+                                    //reset the timer button to Start & Green
+                                    timeel.toggleClass('greenButton redButton').text('Start');
+                                }
+                                //reset timer value to 0 regardless of Green or Red timer button
+                                //ex: what if user starts and stops timer; timer=('00:04:34'), and cancels the creation
+                                //we still need to reset the timer value even though button is Stop & Red
+                                ppel.find('h2.time').text('00:00:00');
+                          }
                           
-                          $('li.deletemode .delete-button').tap(function(){
+                          $('li.deletemode .delete-button', document.body).tap(function(){
                                 //setup delete record function when delete is clicked
-                                             //remove the class which adds the button to the listitem
-                                             $(this).parent().removeClass('deletemode');
+                                //remove the class which adds the delete button to the listitem
+                                $(this).parent().toggleClass('arrow deletemode');
+                                //prevent document event bubbling
+                                return false;
                           });
             
-                          $('a.edit').tap(function(){
-                                    notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
+                          $('a.edit', document.body).tap(function(){
+                            //show/hide multiple delete UI icons and pad inner content of listitem to simulate iOS behavior
+                                    //change text of button 
+                                    $(this).html( ( this.innerHTML == 'Edit' ? 'Done' : 'Edit' ) )
+                                           //change class of button for clearUIActions() to infer button active status
+                                           .toggleClass('edit-click')
+                                           //find parent page container
+                                           .parents('.pages')
+                                           //find the list item link
+                                           .find('ul li a.item')
+                                           //toggle the inner padding of link and show multiple UI delete buttons
+                                           .toggleClass('pad')
+                                           //find the active (clicked state) UI delete buttons
+                                           .find('.delete-icon.active')
+                                           //toggle the active click state of active UI delete icons found
+                                           .toggleClass('active');
+                                    //hide large delete buttons if any are visible
+                                    $('li.deletemode').toggleClass('arrow deletemode');
+                                    //prevent document event bubbling
+                                    return false;
+                                                         
+                                    //notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
                           });
+                          
+                          $('a.pad .delete-icon', document.body).tap(function(e){
+                                                                     //console.log( e.target.className );
+                          //set animations for UI delete icon click event
+                                //set active (clicked) status of UI delete icon (rotate icon 90deg)
+                                $(this).toggleClass('active')
+                                       //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
+                                       .parent().toggleClass('active').parent()
+                                       //show/hide the main list item delete button
+                                       .toggleClass('arrow deletemode');
+                                //prevent document event bubbling
+                                return false;
+                          });
+                          
                           $('a.save').tap(function(){
-                                    notifyBanner( $(this), 'success', "Success<br><span style='font-size:14px;'>Your Data Has Been Saved.</span>" );
+                            var newprojname = $('input#projectname_input').val();
+                            if( newprojname.length > 0 ){
+                                $('#firstPage ul').append(
+                                        "<li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;" + newprojname + "</a><a class='delete-button button redButton' href='#'>Delete</a></li>"
+                                                                    );
+                                notifyBanner( 'success', "Success<br><span style='font-size:14px;'>Your Data Has Been Saved.</span>" );
+                                $(this).clearUIInputs();
+                            } else {
+                                notifyBanner( 'error', "Failure<br><span style='font-size:14px;'>Project Name Cannot Be Empty.</span>" );
+                                return false;
+                            }
+                            
+
                           });
                           
                           //when timerbtn is tapped
                           $('.timerbtn').tap(function(){
-                                             //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
-                                             $(this).toggleClass('greenButton redButton ');
-                                             //get inner text of tapped button and check its value
-                                             if( this.innerHTML == 'Start' ){
-                                                 //change text to Stop
-                                                 this.innerHTML = 'Stop';
-                                                 //get time format string "HH:MM:SS" from the timer label
-                                                 var timediv = $(this).parent().find('h2.time'),
-                                                     aTime   = timediv.text().split(':'),
-                                                     seconds = toSeconds( aTime );
-                                                 
-                                                 //create 1 second interal loop which increments seconds var and calls toHHMMSS func
-                                                 //then writes results to timer label
-                                                 $(this).data('timer', setInterval( function(){ 
-                                                                           seconds++;
-                                                                           timediv.text( toHHMMSS( seconds ) ); 
-                                                                        },1000)
-                                                              );
-                                                              
-                                             } else {
-                                                 //change text to Start
-                                                 this.innerHTML = 'Start';
-                                                 //stop the interval loop from incrementing seconds
-                                                 clearInterval( $(this).data('timer') )
-                                             }
-                                             
+                                //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
+                                $(this).toggleClass('greenButton redButton ');
+                                //get inner text of tapped button and check its value
+                                if( this.innerHTML == 'Start' ){
+                                    //change text to Stop
+                                    this.innerHTML = 'Stop';
+                                    //get time format string "HH:MM:SS" from the timer label
+                                    var timediv = $(this).parent().find('h2.time'),
+                                        aTime   = timediv.text().split(':'),
+                                        seconds = toSeconds( aTime );
+                                    
+                                    //create 1 second interal loop which increments seconds var and calls toHHMMSS func
+                                    //then writes results to timer label
+                                    $(this).data('timer', setInterval( function(){ 
+                                                            seconds++;
+                                                            timediv.text( toHHMMSS( seconds ) ); 
+                                                        },1000)
+                                                );
+                                                
+                                } else {
+                                    //change text to Start
+                                    this.innerHTML = 'Start';
+                                    //stop the interval loop from incrementing seconds
+                                    clearInterval( $(this).data('timer') )
+                                }
                           });
                           
-                          function notifyBanner( $this, type, msg ){
+                          function notifyBanner( type, msg ){
                                 //set class variable based on type of notifyBanner caller function
                                 var bannerType = ( type == 'success' ? 'banner-success' : 'banner-error' );
                                 //remove banner-notify from DOM if already showing
                                 if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
                                 //select .parent()*2 which is document parent
                                 //$this.parents('.pages')
-                                $('.pages')
-                                       //append the banner div and add the banner-notify class and success/error class
-                                       .append( $('<div/>').addClass('banner-notify ' + bannerType)
+                                setTimeout(function(){
+                                       $('.pages')
+                                           //append the banner div and add the banner-notify class and success/error class
+                                           .append( $('<div/>').addClass('banner-notify ' + bannerType)
                                                            //add explanation content to banner div
                                                            .html( msg )
-                                              )
-                                        //find the banner just created within the parent document
-                                        .find('.banner-notify')
-                                        //animate the banner up from below the viewport
-                                        .animate({'bottom':'0px'}, 150)
-                                        //leave it visible for 4 seconds
-                                        .delay(4000)
-                                        //animate the banner back below the viewport bottom and remove it from the DOM
-                                        .animate({'bottom':'-52px'}, 500, function(){
-                                                $(this).detach();
-                                        });
+                                                   )
+                                           //find the banner just created within the parent document
+                                           .find('.banner-notify')
+                                           //animate the banner up from below the viewport
+                                           .animate({'bottom':'0px'}, 150)
+                                           //leave it visible for 4 seconds
+                                           .delay(4000)
+                                           //animate the banner back below the viewport bottom and remove it from the DOM
+                                           .animate({'bottom':'-52px'}, 500, function(){
+                                                    $(this).detach();
+                                                    });
+                                },500);
                           }
                           
                           
                           function toHHMMSS( seconds ){
-                            //convert seconds variable to HH:MM:SS
-                            sec_numb    = parseInt( seconds );
-                            var hours   = Math.floor(sec_numb / 3600);
-                            var minutes = Math.floor((sec_numb - (hours * 3600)) / 60);
-                            var seconds = sec_numb - (hours * 3600) - (minutes * 60);
-                            //add leading zero (0) if value is less than 10
-                            if (hours   < 10) {hours   = "0"+hours;}
-                            if (minutes < 10) {minutes = "0"+minutes;}
-                            if (seconds < 10) {seconds = "0"+seconds;}
-                            return hours+':'+minutes+':'+seconds;
+                                //convert seconds variable to HH:MM:SS
+                                sec_numb    = parseInt( seconds );
+                                var hours   = Math.floor(sec_numb / 3600);
+                                var minutes = Math.floor((sec_numb - (hours * 3600)) / 60);
+                                var seconds = sec_numb - (hours * 3600) - (minutes * 60);
+                                //add leading zero (0) if value is less than 10
+                                if (hours   < 10) {hours   = "0"+hours;}
+                                if (minutes < 10) {minutes = "0"+minutes;}
+                                if (seconds < 10) {seconds = "0"+seconds;}
+                                return hours+':'+minutes+':'+seconds;
                           }
                           
                           function toSeconds( aTime ) {
-                            //convert text string HH:MM:SS to seconds variable
-                            return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
+                                //convert text string HH:MM:SS to seconds variable
+                                return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
                           }
             });
         
@@ -206,22 +279,49 @@ ________________________________________________________________________________
 	for more details -jm */
 	</script>
     <style>
-        /*body{
-            border:1px solid #ff0000 !important;
-            background:#fff !important;
-            z-index:99999;
-        }*/
+        li a.item{
+            margin-left:-45px !important;
+            -webkit-transition: -webkit-transform .4s ease;
+        }
+        a.item.pad{
+            -webkit-transform: translate(35px) !important;
+        }
+        a .delete-icon{
+            position:relative;
+            float:left;
+            font-size:40px;
+            color:#fff;
+            text-align:center;
+            line-height:16px;
+            left:-2px;
+            width:23px;
+            height:23px;
+            /*background: -webkit-linear-gradient(top, #cc3535 52%,#cc0000 54%);
+            border: 3px solid #fff;*/
+            -webkit-border-radius: 15px;
+            -webkit-box-shadow: 1px 1px 2px #000;
+            -webkit-transition: -webkit-transform .4s ease;
+            background:url(icons/ios-delete-circle.png) no-repeat;
+        }
+        .delete-icon.active{
+            -webkit-transform: rotate(90deg);
+        }
         li .delete-button{
-            visibility: hidden; 
-        } 
-        li.deletemode .delete-button { 
-            position:absolute;
-            visibility: visible; 
+            position:absolute;            
+            opacity:0;
             height:10px !important;
+            width:0px !important;
             line-height:10px !important;
             font-size:15px !important;
-            top:-5px; 
-            right:-10px !important;
+            margin-right:3px !important;
+            top:-4px;
+            -webkit-transition-property: width, opacity;
+            -webkit-transition-duration: .3s, .2s;
+            -webkit-transition-delay: .1s, .2s;
+        } 
+        li.deletemode .delete-button { 
+            opacity:1;
+            width:50px !important;
         }
         #jqt .pages {
             background:url(jquery/themes/img/apple/pinstripes.png);
@@ -278,13 +378,13 @@ ________________________________________________________________________________
       <div id='firstPage' class='pages'>
           <div class='toolbar' >
               <h1>My Projects</h1>
-              <a class='button edit' href='#' style='left:6px; width:22px;'>Edit</a>
+              <a class='button edit' href='#' style='left:6px; text-align:center; width:30px;'>Edit</a>
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
           <ul class='rounded'>
-              <li class='arrow'><a href='#detailView'>Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a href='#detailView'>Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a href='#detailView'>StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
           </ul>
       </div>
       <!--create the drilldown view holding out task list-->
@@ -295,10 +395,10 @@ ________________________________________________________________________________
               <a class="button add" href="#createTaskPage">+</a>
           </div>
           <ul id='detail_ul' class='rounded'>
-              <li class='arrow'><a href='#taskDetailView'>March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a href='#taskDetailView'>July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a href='#taskDetailView'>July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a href='#taskDetailView'>December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
+              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
           </ul>
       </div>
       <!--create the view to create projects and return to the 'firstPage' view-->
