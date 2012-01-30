@@ -37,22 +37,10 @@ ________________________________________________________________________________
     <!--<link rel="stylesheet" media="screen" href="jquery/themes/css/apple.css" type="text/css">-->
 
     <script type="text/javascript">
-<<<<<<< HEAD
-<<<<<<< HEAD
-        //document.addEventListener('deviceready', stateReady, false);
-=======
-<<<<<<< HEAD
-=======
->>>>>>> database_changes
-        
+        //document.addEventListener('deviceready', stateReady, false);        
         //$(document).bind("deviceready", function() {
-=======
         //document.addEventListener('deviceready', stateReady, false);
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> database_changes
-=======
->>>>>>> database_changes
+
         $(document).ready(function(){
                           
                           
@@ -148,8 +136,7 @@ ________________________________________________________________________________
                                     return false;
                                                          
                                     //notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
-<<<<<<< HEAD
-<<<<<<< HEAD
+
                           });
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
@@ -165,8 +152,7 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
-=======
-                          });
+                          //});
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
                                                                      //console.log( e.target.className );
@@ -181,9 +167,8 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
->>>>>>> database_changes
-=======
-                          });
+
+                          //});
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
                                                                      //console.log( e.target.className );
@@ -198,7 +183,6 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
->>>>>>> database_changes
                           $('a.save').tap(function(){
                             var newprojname = $('input#projectname_input').val();
                             if( newprojname.length > 0 ){
@@ -217,12 +201,7 @@ ________________________________________________________________________________
                           
                           //when timerbtn is tapped
                           $('.timerbtn').tap(function(){
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> database_changes
+
                                              //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
                                              $(this).toggleClass('greenButton redButton ');
                                              //get inner text of tapped button and check its value
@@ -249,11 +228,7 @@ ________________________________________________________________________________
                                                  clearInterval( $(this).data('timer') )
                                              }
 
-=======
-<<<<<<< HEAD
->>>>>>> database_changes
-=======
->>>>>>> database_changes
+
                                 //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
                                 $(this).toggleClass('greenButton redButton ');
                                 //get inner text of tapped button and check its value
@@ -279,14 +254,7 @@ ________________________________________________________________________________
                                     //stop the interval loop from incrementing seconds
                                     clearInterval( $(this).data('timer') )
                                 }
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
->>>>>>> database_changes
-=======
->>>>>>> master
->>>>>>> database_changes
+
                           });
                           
                           function notifyBanner( type, msg ){
@@ -479,29 +447,20 @@ ________________________________________________________________________________
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
           <ul class='rounded'>
-<<<<<<< HEAD
-<<<<<<< HEAD
+
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
-=======
-<<<<<<< HEAD
-=======
->>>>>>> database_changes
+
               <!-- testing project li's
               <li class='arrow'><a href='#detailView'>Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#detailView'>Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#detailView'>StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
                -->
-=======
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
->>>>>>> master
-<<<<<<< HEAD
->>>>>>> database_changes
-=======
->>>>>>> database_changes
+
           </ul>
       </div>
       <!--create the drilldown view holding out task list-->
@@ -512,35 +471,19 @@ ________________________________________________________________________________
               <a class="button add" href="#createTaskPage">+</a>
           </div>
           <ul id='detail_ul' class='rounded'>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
-=======
->>>>>>> database_changes
+
               <!-- testing task list li's
               <li class='arrow'><a href='#taskDetailView'>March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#taskDetailView'>July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#taskDetailView'>July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#taskDetailView'>December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
                -->
-=======
-<<<<<<< HEAD
->>>>>>> database_changes
-=======
->>>>>>> database_changes
+
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> master
->>>>>>> database_changes
-=======
->>>>>>> master
->>>>>>> database_changes
+
           </ul>
       </div>
       <!--create the view to create projects and return to the 'firstPage' view-->
