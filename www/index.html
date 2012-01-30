@@ -38,14 +38,20 @@ ________________________________________________________________________________
 
     <script type="text/javascript">
 <<<<<<< HEAD
+<<<<<<< HEAD
         //document.addEventListener('deviceready', stateReady, false);
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> database_changes
         
         //$(document).bind("deviceready", function() {
 =======
         //document.addEventListener('deviceready', stateReady, false);
 >>>>>>> master
+<<<<<<< HEAD
+>>>>>>> database_changes
+=======
 >>>>>>> database_changes
         $(document).ready(function(){
                           
@@ -143,6 +149,7 @@ ________________________________________________________________________________
                                                          
                                     //notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
 <<<<<<< HEAD
+<<<<<<< HEAD
                           });
                           
                           $('a.pad .delete-icon', document.body).tap(function(e){
@@ -158,6 +165,23 @@ ________________________________________________________________________________
                                 return false;
                           });
                           
+=======
+                          });
+                          
+                          $('a.pad .delete-icon', document.body).tap(function(e){
+                                                                     //console.log( e.target.className );
+                          //set animations for UI delete icon click event
+                                //set active (clicked) status of UI delete icon (rotate icon 90deg)
+                                $(this).toggleClass('active')
+                                       //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
+                                       .parent().toggleClass('active').parent()
+                                       //show/hide the main list item delete button
+                                       .toggleClass('arrow deletemode');
+                                //prevent document event bubbling
+                                return false;
+                          });
+                          
+>>>>>>> database_changes
 =======
                           });
                           
@@ -194,8 +218,11 @@ ________________________________________________________________________________
                           //when timerbtn is tapped
                           $('.timerbtn').tap(function(){
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> database_changes
                                              //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
                                              $(this).toggleClass('greenButton redButton ');
                                              //get inner text of tapped button and check its value
@@ -222,6 +249,9 @@ ________________________________________________________________________________
                                                  clearInterval( $(this).data('timer') )
                                              }
 
+=======
+<<<<<<< HEAD
+>>>>>>> database_changes
 =======
 >>>>>>> database_changes
                                 //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
@@ -250,6 +280,10 @@ ________________________________________________________________________________
                                     clearInterval( $(this).data('timer') )
                                 }
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
+>>>>>>> database_changes
 =======
 >>>>>>> master
 >>>>>>> database_changes
@@ -446,11 +480,14 @@ ________________________________________________________________________________
           </div>
           <ul class='rounded'>
 <<<<<<< HEAD
+<<<<<<< HEAD
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> database_changes
               <!-- testing project li's
               <li class='arrow'><a href='#detailView'>Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#detailView'>Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
@@ -461,6 +498,9 @@ ________________________________________________________________________________
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Staples</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;StarBucks</a><a class='delete-button button redButton' href="#">Delete</a></li>
 >>>>>>> master
+<<<<<<< HEAD
+>>>>>>> database_changes
+=======
 >>>>>>> database_changes
           </ul>
       </div>
@@ -473,8 +513,11 @@ ________________________________________________________________________________
           </div>
           <ul id='detail_ul' class='rounded'>
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+=======
+>>>>>>> database_changes
               <!-- testing task list li's
               <li class='arrow'><a href='#taskDetailView'>March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a href='#taskDetailView'>July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
@@ -482,12 +525,19 @@ ________________________________________________________________________________
               <li class='arrow'><a href='#taskDetailView'>December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
                -->
 =======
+<<<<<<< HEAD
+>>>>>>> database_changes
+=======
 >>>>>>> database_changes
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
               <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> master
+>>>>>>> database_changes
 =======
 >>>>>>> master
 >>>>>>> database_changes
