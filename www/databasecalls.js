@@ -80,7 +80,7 @@ function renderProjectDBEntries(tx, results){
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
-            $("#firstPage ul").append("<li class='arrow' id="+results.rows.item(i).projectName+"><a href='#detailView'>"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id="+results.rows.item(i).projectName+">&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
             // we need to also get the taskName and taskText that fall under the project selected
         }
         
