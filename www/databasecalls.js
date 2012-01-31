@@ -26,12 +26,13 @@ function setupDBTable(tx){
     // **** taskName - task name
     // **** taskText - information about job performed
     // **** amtTime - derived time doing task (i.e., 1.5 hrs)
-    tx.executeSql("CREATE TABLE IF NOT EXISTS tb(id INTEGER PRIMARY KEY, projectName, taskName, taskText)");
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tb(id INTEGER PRIMARY KEY, projectName TEXT, cDate DATETIME, taskText TEXT)");
     log("DB Setup successfully");
     
     // test fill of the DB
-    tx.executeSql('INSERT INTO tb (id, projectName, taskName, taskText) VALUES (1, "Project 1", "Task 1", "I did some stuff that was awesome!")');
-    tx.executeSql('INSERT INTO tb (id, projectName, taskName, taskText) VALUES (2, "Project 2", "Task 2", "I did some stuff that was part of Project 2 but was somewhat boring!")');
+    // for now the date and time is hardcoded... this will need to be changed to generate the date & time when task is created
+    tx.executeSql("INSERT INTO tb (id, projectName, cdate, taskText) VALUES ('1', 'Project 1', '2011-01-01 06:01:57', 'I did some stuff that was awesome!')");
+    tx.executeSql("INSERT INTO tb (id, projectName, cdate, taskText) VALUES ('2', 'Project 2', '2011-01-02 11:33:45', 'I washed some guys car')");
 }
 
 // Database query function
@@ -71,6 +72,8 @@ function renderProjectDBEntries(tx, results){
         // html is where we are storing the rendered html
         // for loop to run through the db query results
         for(var i=0; i<results.rows.length; i++){
+            // ***** testing line to see what is coming out of DB ********
+            log(results.rows.item(i));
             // store the output in the html variable
             // results.rows.item(i).projectName will give us the projectname
             // results.rows.item(i).taskName will give us the project .... which should be shown
