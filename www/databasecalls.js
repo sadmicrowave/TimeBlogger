@@ -8,6 +8,12 @@ function log(s){
     console.log(s);
 }
 
+// function to set the current time when it is called
+function setCurrTime(){
+    var time = new Date();
+    return time;
+}
+
 function phoneReady(){
     // **** first, open the database ****
     dbShell = window.openDatabase("TimeBlogger", 1, "TimeBlogger", 1000000);
@@ -17,22 +23,26 @@ function phoneReady(){
 
 // setup the db
 function setupDBTable(tx){
-    tx.executeSql("DROP TABLE IF EXISTS tb");
+    tx.executeSql("DROP TABLE IF EXISTS tbProjects");
+    tx.executeSql("DROP TABLE IF EXISTS tbTasks");
+    log("All tables dropped!");
     // this statement creates the table named 'tb'. We use 'IF NOT EXISTS' so that this statement
     // is safe to run again and again
-    // **** the db needs the following fields for production:
-    // **** dTime - date/time (can we use epoch to cover both in one field?)
-    // **** projName - project name
-    // **** taskName - task name
-    // **** taskText - information about job performed
-    // **** amtTime - derived time doing task (i.e., 1.5 hrs)
-    tx.executeSql("CREATE TABLE IF NOT EXISTS tb(id INTEGER PRIMARY KEY, projectName TEXT, cDate DATETIME, taskText TEXT)");
-    log("DB Setup successfully");
+    // setup project table
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tbProjects(projectId INTEGER PRIMARY KEY AUTOINCREMENT, projectName TEXT, created DATE)");
+    log("Project Table Setup successfully");
+    // setup tasks table
+    /*
+    tx.executeSQL("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime TEXT, taskDetails TEXT, taskCreated DATE, taskUpdated DATE)");
+    log("Tasks Table Setup successfully");
+    */
     
     // test fill of the DB
     // for now the date and time is hardcoded... this will need to be changed to generate the date & time when task is created
-    tx.executeSql("INSERT INTO tb (id, projectName, cdate, taskText) VALUES ('1', 'Project 1', '2011-01-01 06:01:57', 'I did some stuff that was awesome!')");
-    tx.executeSql("INSERT INTO tb (id, projectName, cdate, taskText) VALUES ('2', 'Project 2', '2011-01-02 11:33:45', 'I washed some guys car')");
+    // javascript to calculate date/time
+    
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
 }
 
 // Database query function
@@ -43,7 +53,7 @@ function getDBProjectEntries(){
     // **** Want to order the SQL results by something? date, project name?
     log("collecting DB Project entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT id, projectName FROM tb", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT projectId, projectName FROM tbProjects", [], renderProjectDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
@@ -74,25 +84,19 @@ function renderProjectDBEntries(tx, results){
         // for loop to run through the db query results
         for(var i=0; i<results.rows.length; i++){
             // ***** testing line to see what is coming out of DB ********
-            log(results.rows.item(i).id);
-            log(results.rows.item(i).projectName);
             // store the output in the html variable
+            // results.rows.item(i).projectID will give us the projectID to tie into the tasks table
             // results.rows.item(i).projectName will give us the projectname
-            // results.rows.item(i).taskName will give us the project .... which should be shown
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
-            $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id='"+results.rows.item(i).id+"' onClick='getDBTaskEntries("+results.rows.item(i).id+");'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
-            // we need to also get the taskName and taskText that fall under the project selected
+            $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"' onClick='getDBTaskEntries("+results.rows.item(i).projectId+");'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
         }
-        
-        
-        // .listview is pretty cool... jquery mobile
-        //$("#firstPage").listview("refresh"); <---- what does listview do? is that only a mobile thing?
+
     }
     
 }
-
+/*
 // This function writes the relevant fields to the database that we have built
 function writeToDatabase(projectName, taskName, taskText){
     // notice how executeSQL is within the transaction function ... transaction(funcToRun, errorFunc, successFunc)
@@ -115,7 +119,7 @@ function getFormData(){
     // clear the form field values
     document.form1.reset();
 }
-
+*/
 //Transaction Error Processing
 function errorHandler(err){
     //alert("Error processing SQL: "+err);
