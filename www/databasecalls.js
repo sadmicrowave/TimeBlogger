@@ -47,19 +47,19 @@ function getDBProjectEntries(){
     log("got DB entries!...");
 }
 
-/*
- // Database query function
- function getDBTaskEntries(){
- // embedding the function with the transaction call, if successful run 'renderDBEntries,
- // if result is bad run errorHandler, if the whole transaction fails run erroHandler
- // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
- // **** Want to order the SQL results by something? date, project name?
- log("collecting DB Task entries...");
- dbShell.transaction(function(tx){
- tx.executeSql("SELECT taskName, FROM tb", [], renderProjectDBEntries, errorHandler)}, errorHandler);
- log("got DB entries!...");
- }
- */
+
+// Database Task query function
+function getDBTaskEntries(id){
+    alert('hi');
+    // embedding the function with the transaction call, if successful run 'renderDBEntries,
+    // if result is bad run errorHandler, if the whole transaction fails run erroHandler
+    // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
+    // **** Want to order the SQL results by something? date, project name?
+    log("collecting DB Task entries...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("SELECT taskName, FROM tb", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+    log("got DB entries!...");
+}
 
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
@@ -80,7 +80,7 @@ function renderProjectDBEntries(tx, results){
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
-            $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id="+results.rows.item(i).projectName+">&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id="+results.rows.item(i).id+" onClick='alert(\"hi\")'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
             // we need to also get the taskName and taskText that fall under the project selected
         }
         
