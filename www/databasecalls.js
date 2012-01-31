@@ -32,17 +32,20 @@ function setupDBTable(tx){
     tx.executeSql("CREATE TABLE IF NOT EXISTS tbProjects(projectId INTEGER PRIMARY KEY AUTOINCREMENT, projectName TEXT, created DATE)");
     log("Project Table Setup successfully");
     // setup tasks table
-    /*
-    tx.executeSQL("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime TEXT, taskDetails TEXT, taskCreated DATE, taskUpdated DATE)");
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime TEXT, taskDetails TEXT, taskCreated DATE, taskUpdated DATE)");
     log("Tasks Table Setup successfully");
-    */
     
     // test fill of the DB
     // for now the date and time is hardcoded... this will need to be changed to generate the date & time when task is created
-    // javascript to calculate date/time
-    
+    log("generating dummy data");
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "??", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "??", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Cleaned Garage", "??", "Cleaned the garage so I could fit the car in it", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "??", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "??", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
+    log("generated dummy data");
 }
 
 // Database query function
