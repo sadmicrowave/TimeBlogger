@@ -127,14 +127,17 @@ function renderTaskDBEntries(tx, results){
     log("...db task entries rendered!");
 }
 
-function renderTaskDetails(){
+function renderTaskDetails(tx, results){
     log("...rendering task detail entries");
     if(results.rows.length == 0){
         //alert?
         log("No entries to display");
     } else {
-        $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item.taskDetails+"</textarea></li>");
+        for(var i=0; i<results.rows.length; i++){
+            $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
+        }
     }
+    log("...task detail entry rendered!");
 }
 
 /*
