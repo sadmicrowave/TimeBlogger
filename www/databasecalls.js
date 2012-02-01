@@ -73,23 +73,23 @@ function getDBTaskEntries(id){
                         tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId='"+id+"'", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
-/*
+
 // database call to get the specific task details that is selected (taskDetails)
 function getDBDetailEntries(id){
     log("collecting Task Detail information...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskName, taskDetails FROM tbTasks WHERE taskId='"+id+"'", [], renderDBDetailEntries, errorHandler)}, errorHandler);
-                        }
+                        tx.executeSql("SELECT taskName, taskDetails, taskTime FROM tbTasks WHERE taskId='"+id+"'", [], renderTaskDetails, errorHandler)}, errorHandler);
     log("got Task Details!...");
+
 }
-*/
+
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
     log("rendering db project entries...");
     if(results.rows.length == 0){
         // **** needs be to changed to manipulate the DOM
         // **** ideally, we would have an <li> entry to say the message below
-        $("#firstPage").html("<li>You have no projects</li>");
+        log("No entries to display");
     } else {
         // html is where we are storing the rendered html
         // for loop to run through the db query results
@@ -112,30 +112,30 @@ function renderTaskDBEntries(tx, results){
     log("...rendering db task entries");
     if(results.rows.length == 0){
         // alert of simply an li to create a task ?
-        $("#detailView").html("<li>You have no tasks</li>");
+        log("No entries to display");
     } else {
         // for loop to run through the db query results
         // some things to pull:
         // results.rows.item(i).taskId - the id of the task (used to pull the taskDetails on the next page
         // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
         // results.rows.item(i).taskCreated - the creation date/time of the task
+        // "+results.rows.item(i).taskId+"
         for(var i=0; i<results.rows.length; i++){
             $("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
         }
     }
     log("...db task entries rendered!");
 }
-/*
-function renderDBDetailEntries(tx, results){
+
+function renderTaskDetails(){
     log("...rendering task detail entries");
     if(results.rows.length == 0){
         //alert?
-        $("#taskDetailView").html("<li>You have no notes</li>");
+        log("No entries to display");
     } else {
         $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item.taskDetails+"</textarea></li>");
     }
 }
-*/
 
 /*
 // This function writes the relevant fields to the database that we have built
