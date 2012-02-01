@@ -60,24 +60,25 @@ function getDBProjectEntries(){
     log("got DB entries!...");
 }
 
-/*
+
 // Database Task query function
 function getDBTaskEntries(id){
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
     // **** Want to order the SQL results by something? date, project name?
-
+    // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskName, FROM tb", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskName, taskTime, taskDetails, taskCreated, taskUpdated FROM tbTasks WHERE projectId="+id+"", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 
 }
-*/
+
+
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
-    log("rendering db entries...");
+    log("rendering db project entries...");
     if(results.rows.length == 0){
         // **** needs be to changed to manipulate the DOM
         // **** ideally, we would have an <li> entry to say the message below
@@ -95,9 +96,12 @@ function renderProjectDBEntries(tx, results){
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
             $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
         }
-
     }
-    
+}
+
+// Database function to fetch the DB entries for Tasks and render them in HTML format
+function renderTaskDBEntries(tx, results){
+    log("...rendering db task entries");
 }
 /*
 // This function writes the relevant fields to the database that we have built
