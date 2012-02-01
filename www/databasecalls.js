@@ -72,10 +72,17 @@ function getDBTaskEntries(id){
     dbShell.transaction(function(tx){
                         tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId='"+id+"'", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
-
 }
-
-
+/*
+// database call to get the specific task details that is selected (taskDetails)
+function getDBDetailEntries(id){
+    log("collecting Task Detail information...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("SELECT taskName, taskDetails FROM tbTasks WHERE taskId='"+id+"'", [], renderDBDetailEntries, errorHandler)}, errorHandler);
+                        }
+    log("got Task Details!...");
+}
+*/
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
     log("rendering db project entries...");
@@ -113,11 +120,23 @@ function renderTaskDBEntries(tx, results){
         // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
         // results.rows.item(i).taskCreated - the creation date/time of the task
         for(var i=0; i<results.rows.length; i++){
-            $("#detailView ul").append("<li class='arrow'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            $("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
         }
     }
     log("...db task entries rendered!");
 }
+/*
+function renderDBDetailEntries(tx, results){
+    log("...rendering task detail entries");
+    if(results.rows.length == 0){
+        //alert?
+        $("#taskDetailView").html("<li>You have no notes</li>");
+    } else {
+        $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item.taskDetails+"</textarea></li>");
+    }
+}
+*/
+
 /*
 // This function writes the relevant fields to the database that we have built
 function writeToDatabase(projectName, taskName, taskText){
