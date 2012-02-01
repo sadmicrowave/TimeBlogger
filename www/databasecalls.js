@@ -32,7 +32,7 @@ function setupDBTable(tx){
     tx.executeSql("CREATE TABLE IF NOT EXISTS tbProjects(projectId INTEGER PRIMARY KEY AUTOINCREMENT, projectName TEXT, created DATE)");
     log("Project Table Setup successfully");
     // setup tasks table
-    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime TEXT, taskDetails TEXT, taskCreated DATE, taskUpdated DATE)");
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime TEXT, taskDetails TEXT, taskCreated TEXT, taskUpdated TEXT)");
     log("Tasks Table Setup successfully");
     
     // test fill of the DB
@@ -61,7 +61,7 @@ function getDBProjectEntries(){
 }
 
 
-// Database Task query function
+// Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id){
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
@@ -70,7 +70,7 @@ function getDBTaskEntries(id){
     // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskName, taskTime, taskDetails, taskCreated, taskUpdated FROM tbTasks WHERE projectId="+id+"", [], renderTaskDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId='"+id+"'", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 
 }
@@ -97,11 +97,26 @@ function renderProjectDBEntries(tx, results){
             $("#firstPage ul").append("<li class='arrow'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
         }
     }
+    log("...db project entries rendered!");
 }
 
 // Database function to fetch the DB entries for Tasks and render them in HTML format
 function renderTaskDBEntries(tx, results){
     log("...rendering db task entries");
+    if(results.rows.length == 0){
+        // alert of simply an li to create a task ?
+        $("#detailView").html("<li>You have no tasks</li>");
+    } else {
+        // for loop to run through the db query results
+        // some things to pull:
+        // results.rows.item(i).taskId - the id of the task (used to pull the taskDetails on the next page
+        // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
+        // results.rows.item(i).taskCreated - the creation date/time of the task
+        for(var i=0; i<results.rows.length; i++){
+            $("#detailView ul").append("<li class='arrow'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+        }
+    }
+    log("...db task entries rendered!");
 }
 /*
 // This function writes the relevant fields to the database that we have built
