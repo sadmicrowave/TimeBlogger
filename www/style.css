@@ -1,0 +1,76 @@
+li a.item{
+    margin-left:-45px !important;
+    -webkit-transition: -webkit-transform .4s ease;
+}
+a.item.pad{
+    -webkit-transform: translate(35px) !important;
+}
+a .delete-icon{
+    position:relative;
+    float:left;
+    font-size:40px;
+    color:#fff;
+    text-align:center;
+    line-height:16px;
+    left:-2px;
+    width:23px;
+    height:23px;
+    /*background: -webkit-linear-gradient(top, #cc3535 52%,#cc0000 54%);
+     border: 3px solid #fff;*/
+    -webkit-border-radius: 15px;
+    -webkit-box-shadow: 1px 1px 2px #000;
+    -webkit-transition: -webkit-transform .4s ease;
+    background:url(icons/ios-delete-circle.png) no-repeat;
+}
+.delete-icon.active{
+    -webkit-transform: rotate(90deg);
+}
+li .delete-button{
+    position:absolute;            
+    opacity:0;
+    height:10px !important;
+    width:0px !important;
+    line-height:10px !important;
+    font-size:15px !important;
+    margin-right:3px !important;
+    top:-4px;
+    -webkit-transition-property: width, opacity;
+    -webkit-transition-duration: .3s, .2s;
+    -webkit-transition-delay: .1s, .2s;
+} 
+li.deletemode .delete-button { 
+    opacity:1;
+    width:50px !important;
+}
+#jqt .pages {
+    background:url(jquery/themes/img/apple/pinstripes.png);
+}
+#jqt .timerbtn{
+    position:relative;
+    float:left;
+    width:80px;
+}
+#jqt h4{
+    padding:3px 0 0 10px;
+    color:#666;
+}
+/*setup notification banner properties and styles*/
+.banner-notify{
+    position:absolute;
+    bottom:-52px;
+    width:100%;
+    height:50px;
+    color:#fff;
+    font-weight:500;
+    font-size:18px;
+    text-align:center;
+    z-index:9998;
+}
+.banner-error{
+    background:#bf4343;
+    border-top:2px solid #ab1818;
+}
+.banner-success{
+    background:#50bc65;
+    border-top:2px solid #17962f;
+}
