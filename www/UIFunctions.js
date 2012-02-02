@@ -79,6 +79,20 @@ $(document).ready(function(){
                                                  
     });
                   
+    $('a.item').bind('tap', function(){
+        alert( 'hello' );
+    //create functionality for click/tap event for elements added to DOM rather than using onClick within element tag
+       /* var elid = $(this).find('a.item').attr('id'),
+            elclass = this.getAttribute('class');
+        //execute databasecalls.js function based on class of clicked list item
+        if( elclass.indexOf('project') != -1 ){
+            getDBTaskEntries( elid );
+        } else if( elclass.indexOf('task') != -1 ){
+            getDBDetailEntries( elid );
+        }*/
+                    
+    }
+      
     $('a.pad .delete-icon', document.body).bind(clickEvent, function(e){
         //console.log( e.target.className );
         //set animations for UI delete icon click event

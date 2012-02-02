@@ -63,6 +63,7 @@ function getDBProjectEntries(){
 
 // Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id){
+    alert( id );
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
@@ -103,7 +104,8 @@ function renderProjectDBEntries(tx, results){
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
             //$("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
-            listitems += "<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            //onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'
+            listitems += "<li class='arrow project' ><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
         }
         $("#firstPage ul").append( listitems );
     }
@@ -126,7 +128,9 @@ function renderTaskDBEntries(tx, results){
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
             //$("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
-            listitems += "<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            
+            //onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'
+            listitems += "<li class='arrow task' ><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
         }
         $("#detailView ul").append( listitems );
     }
