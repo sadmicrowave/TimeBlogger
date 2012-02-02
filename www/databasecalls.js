@@ -93,6 +93,7 @@ function renderProjectDBEntries(tx, results){
     } else {
         // html is where we are storing the rendered html
         // for loop to run through the db query results
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
             // ***** testing line to see what is coming out of DB ********
             // store the output in the html variable
@@ -101,8 +102,10 @@ function renderProjectDBEntries(tx, results){
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
-            $("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            //$("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            listitems += "<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
         }
+        $("#firstPage ul").append( listitems );
     }
     log("...db project entries rendered!");
 }
@@ -120,9 +123,12 @@ function renderTaskDBEntries(tx, results){
         // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
         // results.rows.item(i).taskCreated - the creation date/time of the task
         // "+results.rows.item(i).taskId+"
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            $("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            //$("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            listitems += "<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
         }
+        $("#detailView ul").append( listitems );
     }
     log("...db task entries rendered!");
 }
@@ -133,9 +139,12 @@ function renderTaskDetails(tx, results){
         //alert?
         log("No entries to display");
     } else {
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
+            //$("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
+            listitems += "<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>";
         }
+        $("#taskDetailView #detail_ul").append( listitems );
     }
     log("...task detail entry rendered!");
 }
