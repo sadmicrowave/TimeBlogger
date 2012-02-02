@@ -17,13 +17,14 @@ $(document).ready(function(){
         $(this).toggleClass('arrow deletemode');
     });
     
-    $(document.body).tap(function(){
+    $(document.body).bind(clickEvent, function(){
     //simulate web 'lost-focus' event when there are active/visible UI actions and anywhere else in the body is clicked
         //clear any other visible UI actions
         clearUIActions();
     });
                  
-    $('.cancelbtn').tap(function(){ $(this).clearUIInputs() });
+    $('.cancelbtn').bind(clickEvent, function(){ $(this).clearUIInputs() });
+                  
     $.fn.clearUIInputs = function(){
         //clear input, textareas, and timer value (if applicable) when cancel button is clicked
         //get document parent div for referencing throughout function
@@ -45,7 +46,7 @@ $(document).ready(function(){
         ppel.find('h2.time').text('00:00:00');
     }
 
-    $('li.deletemode .delete-button', document.body).tap(function(){
+    $('li.deletemode .delete-button', document.body).bind(clickEvent, function(){
         //setup delete record function when delete is clicked
         //remove the class which adds the delete button to the listitem
         $(this).parent().toggleClass('arrow deletemode');
@@ -53,7 +54,7 @@ $(document).ready(function(){
         return false;
     });
     
-    $('a.edit', document.body).tap(function(){
+    $('a.edit', document.body).bind(clickEvent, function(){
         //show/hide multiple delete UI icons and pad inner content of listitem to simulate iOS behavior
         //change text of button 
         $(this).html( ( this.innerHTML == 'Edit' ? 'Done' : 'Edit' ) )
@@ -78,7 +79,7 @@ $(document).ready(function(){
                                                  
     });
                   
-    $('a.pad .delete-icon', document.body).tap(function(e){
+    $('a.pad .delete-icon', document.body).bind(clickEvent, function(e){
         //console.log( e.target.className );
         //set animations for UI delete icon click event
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
@@ -91,7 +92,7 @@ $(document).ready(function(){
         return false;
     });
                   
-    $('a.save').tap(function(){
+    $('a.save').bind(clickEvent, function(){
         var newprojname = $('input#projectname_input').val();
         if( newprojname.length > 0 ){
             $('#firstPage ul').append(
@@ -106,7 +107,7 @@ $(document).ready(function(){
     });
                   
     //when timerbtn is tapped
-    $('.timerbtn').tap(function(){
+    $('.timerbtn').bind(clickEvent, function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
         $(this).toggleClass('greenButton redButton');
         //get inner text of tapped button and check its value

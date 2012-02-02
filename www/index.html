@@ -30,57 +30,23 @@ ________________________________________________________________________________
     <script type="text/javascript" charset="utf-8" src="jquery/src/lib/jquery-1.7.js"></script>
     <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch-jquery.js"></script>
     <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch.js"></script>
-    
+    <!--the jqtouch style must be referenced after jqtouch.js files-->
     <link rel="stylesheet" media="screen" href="jquery/themes/css/jqtouch.css" type="text/css">
-    
-    <script type="text/javascript" src="databasecalls.js"></script>
-
-        <!--<link rel="stylesheet" media="screen" href="jquery/themes/css/apple.css" type="text/css">-->
-
     <script type="text/javascript">
-        //initialize jqTouch with some placeholder value as object (irrelevant what the value actually is as long as it is real)
+        //initialize jqTouch with some placeholder value as object (irrelevant what the value is as long as it is real)
         //$.jQTouch(); fails without some value within function "()"
         $.jQTouch({'debug':true});
-
-	// If you want to prevent dragging, uncomment this section
-	/*
-	function preventBehavior(e) 
-	{ 
-      e.preventDefault(); 
-    };
-	document.addEventListener("touchmove", preventBehavior, false);
-	*/
-	
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-	/*
-	function handleOpenURL(url)
-	{
-		// TODO: do something with the url passed in.
-	}
-	*/
-    //$(document).bind("deviceready", function() {
-    /*document.addEventListener("deviceready", function(){
-
-        //you need to 'bind' this on 'deviceready' because 'deviceready' is a specific incoming call from the OS
-        //much like .click in web browsing (e.g. $(document).bind('click', function(){ //some click function; });
-        var natControl = window.plugins.nativeControls;
-        setupTabBar( natControl );
-        //setupToolBar( natControl );
-    });
-     */
         
-	/* When this function is called, PhoneGap has been initialized and is ready to roll */
-	/* If you are supporting your own protocol, the var invokeString will contain any arguments to the app launch.
-	see http://iphonedevelopertips.com/cocoa/launching-your-own-application-via-a-custom-url-scheme.html
-	for more details -jm */
-    
+        //Get user browser type and set event handler variable to use on .bind events
+        var userAgent = navigator.userAgent.toLowerCase(),
+            isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false,
+            clickEvent = isiPhone ? 'tap' : 'click';
 	</script>
+    <!--link custom style and js pages after jqtouch has been initialized and browser event handler variable has been set-->
+    <script type="text/javascript" src="databasecalls.js"></script>
     <script type="text/javascript" src="UIFunctions.js"></script>
     <link rel="stylesheet" media="screen" href="style.css" type="text/css">
 
-        
     <!--jqTouch DOM Element Functionality Reference-----------------------------------
      Direct Descendent Div's - create full screen page views
      Div.toolbar             - create width:100% toolbar
