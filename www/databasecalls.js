@@ -63,7 +63,6 @@ function getDBProjectEntries(){
 
 // Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id){
-    alert( id );
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
@@ -96,6 +95,7 @@ function renderProjectDBEntries(tx, results){
         // for loop to run through the db query results
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
+            var row = results.rows.item(i);
             // ***** testing line to see what is coming out of DB ********
             // store the output in the html variable
             // results.rows.item(i).projectID will give us the projectID to tie into the tasks table
@@ -104,9 +104,14 @@ function renderProjectDBEntries(tx, results){
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
             //$("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
-            //onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'
-            listitems += "<li class='arrow project' ><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            
+            //create inner function to define/limit scope of row variable
+            (function(pid, proj_name){
+                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+proj_name+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.projectId, row.projectName);
+            
         }
+        //append accumulated listitems into parent container
         $("#firstPage ul").append( listitems );
     }
     log("...db project entries rendered!");
@@ -127,11 +132,15 @@ function renderTaskDBEntries(tx, results){
         // "+results.rows.item(i).taskId+"
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
+            var row = results.rows.item(i);
             //$("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
             
-            //onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'
-            listitems += "<li class='arrow task' ><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            //create inner function to define/limit scope of row variable
+            (function(tid, task_created){
+                listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div       class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.taskId, row.taskCreated);
         }
+        //append accumulated listitems into parent container
         $("#detailView ul").append( listitems );
     }
     log("...db task entries rendered!");

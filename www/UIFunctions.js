@@ -78,20 +78,19 @@ $(document).ready(function(){
         //notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
                                                  
     });
-                  
-    $('a.item').bind('tap', function(){
-        alert( 'hello' );
-    //create functionality for click/tap event for elements added to DOM rather than using onClick within element tag
-       /* var elid = $(this).find('a.item').attr('id'),
+
+    //slightly different event listener syntax since at the time this function/page is loaded the li.project/li.task items may or may not actually reside in the DOM yet.
+    $(document.body).on(clickEvent, 'li.project, li.task', function(){
+        //create functionality for click/tap event for elements added to DOM rather than using onClick within element tag
+        var elid = $(this).find('a.item').attr('id'),
             elclass = this.getAttribute('class');
         //execute databasecalls.js function based on class of clicked list item
         if( elclass.indexOf('project') != -1 ){
             getDBTaskEntries( elid );
         } else if( elclass.indexOf('task') != -1 ){
             getDBDetailEntries( elid );
-        }*/
-                    
-    }
+        }
+    });
       
     $('a.pad .delete-icon', document.body).bind(clickEvent, function(e){
         //console.log( e.target.className );
@@ -106,7 +105,7 @@ $(document).ready(function(){
         return false;
     });
                   
-    $('a.save').bind(clickEvent, function(){
+    /*$('a.save').bind(clickEvent, function(){
         var newprojname = $('input#projectname_input').val();
         if( newprojname.length > 0 ){
             $('#firstPage ul').append(
@@ -118,7 +117,7 @@ $(document).ready(function(){
             notifyBanner( 'error', "Failure<br><span style='font-size:14px;'>Project Name Cannot Be Empty.</span>" );
             return false;
         }
-    });
+    });*/
                   
     //when timerbtn is tapped
     $('.timerbtn').bind(clickEvent, function(){
