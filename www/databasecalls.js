@@ -111,6 +111,8 @@ function renderProjectDBEntries(tx, results){
             })(row.projectId, row.projectName);
             
         }
+        // clear out whatever entries were there in the first place
+        $("#firstPage ul").html("");
         //append accumulated listitems into parent container
         $("#firstPage ul").append( listitems );
     }
@@ -140,6 +142,8 @@ function renderTaskDBEntries(tx, results){
                 listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div       class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.taskCreated);
         }
+        // clear out whatever entries were there in the first place
+        $("#detailView ul").html("");
         //append accumulated listitems into parent container
         $("#detailView ul").append( listitems );
     }
@@ -157,6 +161,9 @@ function renderTaskDetails(tx, results){
             //$("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
             listitems += "<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>";
         }
+        // clear out whatever entries were there in the first place
+        $("#taskDetailView #detail_ul").html("");
+        //append the listitem into the parent container
         $("#taskDetailView #detail_ul").append( listitems );
     }
     log("...task detail entry rendered!");
