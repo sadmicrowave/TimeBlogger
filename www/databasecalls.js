@@ -93,7 +93,9 @@ function renderProjectDBEntries(tx, results){
     } else {
         // html is where we are storing the rendered html
         // for loop to run through the db query results
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
+            var row = results.rows.item(i);
             // ***** testing line to see what is coming out of DB ********
             // store the output in the html variable
             // results.rows.item(i).projectID will give us the projectID to tie into the tasks table
@@ -101,8 +103,16 @@ function renderProjectDBEntries(tx, results){
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             // **** jquery statement to pass relevant peices to the right 'page' needs to be added
-            $("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            //$("#firstPage ul").append("<li class='arrow' onClick='getDBTaskEntries("+results.rows.item(i).projectId+")'><a class='item' href='#detailView' id='"+results.rows.item(i).projectId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).projectName+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            
+            //create inner function to define/limit scope of row variable
+            (function(pid, proj_name){
+                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+proj_name+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.projectId, row.projectName);
+            
         }
+        //append accumulated listitems into parent container
+        $("#firstPage ul").append( listitems );
     }
     log("...db project entries rendered!");
 }
@@ -120,9 +130,18 @@ function renderTaskDBEntries(tx, results){
         // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
         // results.rows.item(i).taskCreated - the creation date/time of the task
         // "+results.rows.item(i).taskId+"
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            $("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            var row = results.rows.item(i);
+            //$("#detailView ul").append("<li class='arrow' onClick='getDBDetailEntries("+results.rows.item(i).taskId+")'><a class='item' href='#taskDetailView' id='"+results.rows.item(i).taskId+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+results.rows.item(i).taskCreated+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>");
+            
+            //create inner function to define/limit scope of row variable
+            (function(tid, task_created){
+                listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div       class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.taskId, row.taskCreated);
         }
+        //append accumulated listitems into parent container
+        $("#detailView ul").append( listitems );
     }
     log("...db task entries rendered!");
 }
@@ -133,9 +152,12 @@ function renderTaskDetails(tx, results){
         //alert?
         log("No entries to display");
     } else {
+        var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            $("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
+            //$("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
+            listitems += "<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>";
         }
+        $("#taskDetailView #detail_ul").append( listitems );
     }
     log("...task detail entry rendered!");
 }

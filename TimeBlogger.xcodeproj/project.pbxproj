@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E3D841C14DA4A380025D766 /* UIFunctions.js in Sources */ = {isa = PBXBuildFile; fileRef = 4E3D841B14DA4A380025D766 /* UIFunctions.js */; };
+		4E3D841F14DA4E8D0025D766 /* style.css in Resources */ = {isa = PBXBuildFile; fileRef = 4E3D841E14DA4E8D0025D766 /* style.css */; };
 		4EFA060314D3A0D900054364 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFA060214D3A0D900054364 /* Foundation.framework */; };
 		4EFA060514D3A0D900054364 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFA060414D3A0D900054364 /* UIKit.framework */; };
 		4EFA060714D3A0D900054364 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4EFA060614D3A0D900054364 /* CoreGraphics.framework */; };
@@ -37,6 +39,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4E3D841B14DA4A380025D766 /* UIFunctions.js */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.javascript; name = UIFunctions.js; path = www/UIFunctions.js; sourceTree = "<group>"; };
+		4E3D841E14DA4E8D0025D766 /* style.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; name = style.css; path = www/style.css; sourceTree = "<group>"; };
 		4EFA05FE14D3A0D900054364 /* TimeBlogger.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TimeBlogger.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EFA060214D3A0D900054364 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		4EFA060414D3A0D900054364 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -106,6 +110,8 @@
 		4EFA05F014D3A0D900054364 = {
 			isa = PBXGroup;
 			children = (
+				4E3D841E14DA4E8D0025D766 /* style.css */,
+				4E3D841B14DA4A380025D766 /* UIFunctions.js */,
 				4EFA064B14D3AFFF00054364 /* www */,
 				4EFA061C14D3A0D900054364 /* TimeBlogger */,
 				4EFA060114D3A0D900054364 /* Frameworks */,
@@ -295,6 +301,7 @@
 				4EFA063D14D3A0D900054364 /* Capture.bundle in Resources */,
 				4EFA063F14D3A0D900054364 /* PhoneGap.plist in Resources */,
 				4EFA064C14D3AFFF00054364 /* www in Resources */,
+				4E3D841F14DA4E8D0025D766 /* style.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -323,6 +330,7 @@
 			files = (
 				4EFA062314D3A0D900054364 /* main.m in Sources */,
 				4EFA064314D3A0D900054364 /* AppDelegate.m in Sources */,
+				4E3D841C14DA4A380025D766 /* UIFunctions.js in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
