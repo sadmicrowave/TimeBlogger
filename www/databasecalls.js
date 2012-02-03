@@ -140,30 +140,13 @@ function renderTaskDetails(tx, results){
     log("...task detail entry rendered!");
 }
 
-/*
-// This function writes the relevant fields to the database that we have built
-function writeToDatabase(projectName, taskName, taskText){
-    // notice how executeSQL is within the transaction function ... transaction(funcToRun, errorFunc, successFunc)
-    dbShell.transaction(function(tx){tx.executeSQL("INSERT INTO tb (projectName, taskName, taskText) VALUES ("+projectName+","+taskName+","+taskText+")");}, errorHandler);
-    alert("Record Inserted Successfully!");
-    alert("DB Write Unsuccessful: "+e);
+
+// write a project to the database
+function createProject(){
+        $("#createProjectPage input").innerhtml
 }
 
-// Get the data from form fields
-function getFormData(){
-    // this targets the form fields specific to form1
-    // **** probably want to do input validation here before passing to writeToDatabase
-    var pName = document.form1.pName.value.trim();
-    var tName = document.form1.tName.value.trim();
-    var tText = document.form1.tText.value.trim();
-    
-    // try writing the fields to the DB
-    writeToDatabase(pName, tName, tText);
-    
-    // clear the form field values
-    document.form1.reset();
-}
-*/
+ 
 //Transaction Error Processing
 function errorHandler(err){
     //alert("Error processing SQL: "+err);
