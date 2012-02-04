@@ -146,13 +146,12 @@ function renderTaskDBEntries(tx, results){
         // results.rows.item(i).taskId - the id of the task (used to pull the taskDetails on the next page
         // results.rows.item(i).taskName - the name of the task which displays on this page (eventually)
         // results.rows.item(i).taskCreated - the creation date/time of the task
-        // "+results.rows.item(i).taskId+"
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
             (function(tid, task_created){
-                listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.taskCreated);
         }
         // clear out whatever entries were there in the first place
@@ -213,7 +212,7 @@ function createTask(projId){
     // need to re-run the sql call to generate the new project table
     getDBTaskEntries(projId);
     // reset the project name field for the user
-    //$("#createTaskPage #taskname_input, #createTaskPage #taskdetail_input").val("");
+    $("#createTaskPage #taskname_input, #createTaskPage #taskdetail_input").val("");
 }
 
 function updateTask(taskId){
