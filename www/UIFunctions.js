@@ -9,8 +9,8 @@ $(document).ready(function(){
         $('.toolbar a.edit-click').toggleClass('edit-click').text( ( $(this).text() == 'Edit' ? 'Done' : 'Edit' ) );
     }
                   
-    $('li.arrow').bind('swipe', function(event, info){ 
-    alert('swiped');
+    $(document.body).on('swipe', 'li.arrow', function(){
+    //alert('swiped');
     //setup swipe-to-delete functionality
         //clear any other visible UI actions
         clearUIActions();
@@ -47,7 +47,7 @@ $(document).ready(function(){
         ppel.find('h2.time').text('00:00:00');
     }
 
-    $('li.deletemode .delete-button', document.body).bind(clickEvent, function(){
+    $(document.body).on(clickEvent, 'li.deletemode .delete-button', function(){
         //setup delete record function when delete is clicked
         //remove the class which adds the delete button to the listitem
         $(this).parent().toggleClass('arrow deletemode');
@@ -95,9 +95,7 @@ $(document).ready(function(){
         }
     });
 
-                  
-    $('a.pad .delete-icon', document.body).bind(clickEvent, function(e){
-        //console.log( e.target.className );
+    $(document.body).on(clickEvent, 'a.pad .delete-icon', function(){
         //set animations for UI delete icon click event
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
         $(this).toggleClass('active')
@@ -109,23 +107,23 @@ $(document).ready(function(){
         return false;
     });
     
-    // when the project-save button is clicked    
-    $('a.save.project').bind(clickEvent, function(){
+    // when the project-save button is clicked
+    $('a.save.project').on(clickEvent, function(){
         createProject();
     });
                   
     // when the project-save button is clicked    
-    $('a.save.task').bind(clickEvent, function(){
+    $('a.save.task').on(clickEvent, function(){
         createTask($("#createTaskPage").attr("rel"));
     });
                   
     // when the existing task-save button is clicked (update task info)
-    $('a.save.update').bind(clickEvent, function(){
+    $('a.save.update').on(clickEvent, function(){
         updateTask($("#taskDetailView").attr("rel"));
     });
                  
     //when timerbtn is tapped
-    $('.timerbtn').bind(clickEvent, function(){
+    $('.timerbtn').on(clickEvent, function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
         $(this).toggleClass('greenButton redButton');
         //get inner text of tapped button and check its value
