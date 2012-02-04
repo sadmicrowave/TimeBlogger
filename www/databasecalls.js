@@ -152,7 +152,7 @@ function renderTaskDBEntries(tx, results){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
             (function(tid, task_created){
-                listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div       class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.taskCreated);
         }
         // clear out whatever entries were there in the first place
@@ -163,6 +163,7 @@ function renderTaskDBEntries(tx, results){
     log("...db task entries rendered!");
 }
 
+// this renders the task detail view for the DOM
 function renderTaskDetails(tx, results){
     log("...rendering task detail entries");
     if(results.rows.length == 0){
@@ -170,14 +171,11 @@ function renderTaskDetails(tx, results){
     } else {
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            $("#taskDetailView h2.time").html(""+toHHMMSS(results.rows.item(i).taskTime)+"");
-            listitems += "<li><input type='text' placeholder='Task Name' name='taskname' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'>"+results.rows.item(i).taskName+"</li>"
-            listitems += "<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>";
+            // append to the already existing DOM elements here since we are just dealing with one
+            $("#taskDetailView h2.time").html(toHHMMSS(results.rows.item(i).taskTime));
+            $("#taskname_input").attr('placeholder', '').val(results.rows.item(i).taskName);
+            $("#taskdetails_input").text(results.rows.item(i).taskDetails);
         }
-        // clear out whatever entries were there in the first place
-        $("#taskDetailView #detail_ul").html("");
-        //append the listitem into the parent container
-        $("#taskDetailView #detail_ul").append( listitems );
     }
     log("...task detail entry rendered!");
 }
@@ -203,10 +201,10 @@ function createProject(){
 function createTask(projId){
     // grab the task name that the user typed in
     var tName = $("#createTaskPage #taskname_input").val().trim();
-    var tDetails = $("#createTaskPage #taskdetail_input").val().trim();
+    var tDetails = $("#createTaskPage #taskdetails_input").val().trim();
     var tTime = toSeconds($("#createTaskPage h2.time").text().split(':'));
     // call to insert the project name into the DB
-    log("Inserting "+tName+" Task into database...");
+    log("Inserting "+tName+" task into database...");
     log("With the following details: "+tDetails+" ");
     dbShell.transaction(function(tx){
                         tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",[projId, tName, tTime, tDetails, setCurrTime(), setCurrTime()])}, errorHandler);
@@ -215,7 +213,20 @@ function createTask(projId){
     // need to re-run the sql call to generate the new project table
     getDBTaskEntries(projId);
     // reset the project name field for the user
-    $("#createTaskPage #taskname_input, #taskdetail_input").val("");
+    //$("#createTaskPage #taskname_input, #createTaskPage #taskdetail_input").val("");
+}
+
+function updateTask(taskId){
+    log("...updating task");
+    var tName = $("#taskDetailView #taskname_input").val().trim();
+    var tDetails = $("#taskDetailView #taskdetails_input").val().trim();
+    var tTime = toSeconds($("#taskDetailView h2.time").text().split(':'));
+    //alert(tName +" "+ tDetails +" "+ tTime +" "+ taskId);
+    // call to update the record entry
+    dbShell.transaction(function(tx){
+                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);
+    log("task updated successfully!");
+    getDBDetailEntries(taskId);
 }
 
 
