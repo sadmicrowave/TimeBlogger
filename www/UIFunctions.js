@@ -47,10 +47,20 @@ $(document).ready(function(){
         ppel.find('h2.time').text('00:00:00');
     }
 
+
+    //JUSTIN - USE THIS FUNCTION TO CALL YOUR DELETE DATABASECALL.JS FUNCTION
     $(document.body).on(clickEvent, 'li.deletemode .delete-button', function(){
+        var elclass = $(this).parent().attr('class'),
+            elid = $(this).parent().find('a.item').attr('id');
+        
+        if( elclass.indexOf('project') != -1 ){
+            deleteProject(elid);
+        } else if( elclass.indexOf('task') != -1 ){
+            deleteTask(elid);
+        }
         //setup delete record function when delete is clicked
         //remove the class which adds the delete button to the listitem
-        $(this).parent().toggleClass('arrow deletemode');
+        //$(this).parent().toggleClass('arrow deletemode');
         //prevent document event bubbling
         return false;
     });

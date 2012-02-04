@@ -123,7 +123,7 @@ function renderProjectDBEntries(tx, results){
             // this is the html that shows for the projects
             //create inner function to define/limit scope of row variable
             (function(pid, proj_name){
-                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+proj_name+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>04:33:25</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName);
             
         }
@@ -151,9 +151,9 @@ function renderTaskDBEntries(tx, results){
         for(var i=0; i<results.rows.length; i++){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
-            (function(tid, task_created){
-                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.taskId, row.taskUpdated);
+            (function(tid, task_name, task_updated){
+                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.taskId, row.taskName, row.taskUpdated);
         }
         // clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
@@ -233,7 +233,8 @@ function updateTask(taskId){
 function deleteProject(projId){
     log("deleting project and related tasks...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbProjects WHERE projectId='"+id+"'", deleteTaskEntries(projId), errorHandler)}, errorHandler);
+                        tx.executeSql("DELETE FROM tbProjects WHERE projectId="+projId+"")}, errorHandler);
+    deleteTaskEntries(projId);
     log("...removed project!");
     // deleted a project, so re-run the sql query to show projects
     getDBProjectEntries();
@@ -243,8 +244,18 @@ function deleteProject(projId){
 function deleteTaskEntries(projId){
     log("deleting tasks related to project...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+id+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+projId+"")}, errorHandler);
     log("...removed all associated project tasks!");
+}
+
+// database call to delete individual task entries
+function deleteTask(projID, taskId){
+    log("deleting task...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskID+"")}, errorHandler);
+    log("...removed task!");
+    getDBTaskEntries(projId);
+
 }
 
 

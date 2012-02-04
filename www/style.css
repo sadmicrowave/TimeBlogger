@@ -1,5 +1,6 @@
 li a.item{
     margin-left:-45px !important;
+    line-height:7px !important;
     -webkit-transition: -webkit-transform .4s ease;
 }
 a.item.pad{
@@ -74,3 +75,20 @@ li.deletemode .delete-button {
     background:#50bc65;
     border-top:2px solid #17962f;
 }
+
+span{
+    position:relative;
+    width:100%;
+    clear:both;
+    margin:0px;
+    }
+    span.item_header{
+        font-size:16px;
+        }
+    span.item_sub{
+        font-size:12px;
+        margin-left:10px;
+        top:11px;
+        color:#b5b5b5;
+        font-weight:100;
+        }
