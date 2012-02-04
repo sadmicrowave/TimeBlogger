@@ -88,7 +88,7 @@ function getDBTaskEntries(id){
     // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId='"+id+"'", [], renderTaskDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId="+id+"", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
@@ -107,6 +107,7 @@ function renderProjectDBEntries(tx, results){
     if(results.rows.length == 0){
         // **** needs be to changed to manipulate the DOM
         // **** ideally, we would have an <li> entry to say the message below
+        $("#firstPage ul").html("").hide();
         log("No entries to display");
     } else {
         // html is where we are storing the rendered html
@@ -127,9 +128,8 @@ function renderProjectDBEntries(tx, results){
             
         }
         // clear out whatever entries were there in the first place
-        $("#firstPage ul").html("");
         //append accumulated listitems into parent container
-        $("#firstPage ul").append( listitems );
+        $("#firstPage ul").html("").append( listitems );
     }
     log("...db project entries rendered!");
 }
@@ -139,6 +139,7 @@ function renderTaskDBEntries(tx, results){
     log("...rendering db task entries");
     if(results.rows.length == 0){
         // alert of simply an li to create a task ?
+        $("#detailView ul").html("").hide();
         log("No entries to display");
     } else {
         // for loop to run through the db query results
@@ -156,9 +157,8 @@ function renderTaskDBEntries(tx, results){
             })(row.taskId, row.taskCreated);
         }
         // clear out whatever entries were there in the first place
-        $("#detailView ul").html("");
         //append accumulated listitems into parent container
-        $("#detailView ul").append( listitems );
+        $("#detailView ul").html("").append( listitems );
     }
     log("...db task entries rendered!");
 }
