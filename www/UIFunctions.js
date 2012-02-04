@@ -87,11 +87,13 @@ $(document).ready(function(){
         //execute databasecalls.js function based on class of clicked list item
         if( elclass.indexOf('project') != -1 ){
             getDBTaskEntries( elid );
+            $('#createTaskPage').attr('rel', elid);
         } else if( elclass.indexOf('task') != -1 ){
             getDBDetailEntries( elid );
         }
     });
-      
+
+                  
     $('a.pad .delete-icon', document.body).bind(clickEvent, function(e){
         //console.log( e.target.className );
         //set animations for UI delete icon click event
@@ -112,15 +114,9 @@ $(document).ready(function(){
                   
     // when the project-save button is clicked    
     $('a.save.task').bind(clickEvent, function(){
-        //createTask();
+        createTask($("#createTaskPage").attr("rel"));
     });
-    
-/*
-    $('a.item').bind(clickEvent, function(){
-        p = $(this).attr("id");
-        log(p);
-    });
-*/                  
+                 
     //when timerbtn is tapped
     $('.timerbtn').bind(clickEvent, function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
@@ -177,22 +173,6 @@ $(document).ready(function(){
         },500);
     }
                   
-    function toHHMMSS( seconds ){
-        //convert seconds variable to HH:MM:SS
-        sec_numb    = parseInt( seconds );
-        var hours   = Math.floor(sec_numb / 3600);
-        var minutes = Math.floor((sec_numb - (hours * 3600)) / 60);
-        var seconds = sec_numb - (hours * 3600) - (minutes * 60);
-        //add leading zero (0) if value is less than 10
-        if (hours   < 10) {hours   = "0"+hours;}
-        if (minutes < 10) {minutes = "0"+minutes;}
-        if (seconds < 10) {seconds = "0"+seconds;}
-        return hours+':'+minutes+':'+seconds;
-    }
-                  
-    function toSeconds( aTime ) {
-        //convert text string HH:MM:SS to seconds variable
-        return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
-    }
+// put toSeconds and the HHMMSSS functions into databasecalls.js because they needed to go there. get over it
 
 });
