@@ -51,12 +51,15 @@ $(document).ready(function(){
     //JUSTIN - USE THIS FUNCTION TO CALL YOUR DELETE DATABASECALL.JS FUNCTION
     $(document.body).on(clickEvent, 'li.deletemode .delete-button', function(){
         var elclass = $(this).parent().attr('class'),
-            elid = $(this).parent().find('a.item').attr('id');
-        
+            // elid holds the task id of the clicked task
+            elid = $(this).parent().find('a.item').attr('id'),
+            // elrel holds the project id of the clicked task
+            elrel = $(this).parent().find('a.item').attr('rel');
         if( elclass.indexOf('project') != -1 ){
             deleteProject(elid);
         } else if( elclass.indexOf('task') != -1 ){
-            deleteTask(elid);
+            // pass the project id (elrel) and task id (elid) to the deleteTask function
+            deleteTask(elrel, elid);
         }
         //setup delete record function when delete is clicked
         //remove the class which adds the delete button to the listitem

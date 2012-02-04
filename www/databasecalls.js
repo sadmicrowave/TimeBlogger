@@ -88,7 +88,7 @@ function getDBTaskEntries(id){
     // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskId, taskName, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY taskUpdated DESC", [], renderTaskDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskId, projectId, taskName, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY taskUpdated DESC", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
@@ -151,9 +151,9 @@ function renderTaskDBEntries(tx, results){
         for(var i=0; i<results.rows.length; i++){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
-            (function(tid, task_name, task_updated){
-                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.taskId, row.taskName, row.taskUpdated);
+            (function(tid, pid, task_name, task_updated){
+                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"' rel='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.taskId, row.projectId, row.taskName, row.taskUpdated);
         }
         // clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
@@ -249,10 +249,10 @@ function deleteTaskEntries(projId){
 }
 
 // database call to delete individual task entries
-function deleteTask(projID, taskId){
+function deleteTask(projId, taskId){
     log("deleting task...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskID+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskId+"")}, errorHandler);
     log("...removed task!");
     getDBTaskEntries(projId);
 
