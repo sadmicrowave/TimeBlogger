@@ -58,11 +58,11 @@ function setupDBTable(tx){
     log("generating dummy data");
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "??", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "??", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Cleaned Garage", "??", "Cleaned the garage so I could fit the car in it", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "??", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "??", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "60", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "120", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Cleaned Garage", "187", "Cleaned the garage so I could fit the car in it", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "2232", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "23332", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
     log("generated dummy data");
 }
 
@@ -88,7 +88,7 @@ function getDBTaskEntries(id){
     // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskId, taskName, taskCreated FROM tbTasks WHERE projectId="+id+"", [], renderTaskDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskId, taskName, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY taskUpdated DESC", [], renderTaskDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
@@ -153,7 +153,7 @@ function renderTaskDBEntries(tx, results){
             //create inner function to define/limit scope of row variable
             (function(tid, task_created){
                 listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.taskId, row.taskCreated);
+            })(row.taskId, row.taskUpdated);
         }
         // clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
