@@ -90,6 +90,7 @@ $(document).ready(function(){
             $('#createTaskPage').attr('rel', elid);
         } else if( elclass.indexOf('task') != -1 ){
             getDBDetailEntries( elid );
+            $('#taskDetailView').attr('rel', elid);
         }
     });
 
@@ -115,6 +116,11 @@ $(document).ready(function(){
     // when the project-save button is clicked    
     $('a.save.task').bind(clickEvent, function(){
         createTask($("#createTaskPage").attr("rel"));
+    });
+                  
+    // when the existing task-save button is clicked (update task info)
+    $('a.save.update').bind(clickEvent, function(){
+        updateTask($("#taskDetailView").attr("rel"));
     });
                  
     //when timerbtn is tapped
