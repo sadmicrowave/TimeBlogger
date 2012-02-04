@@ -172,10 +172,49 @@ function renderTaskDetails(tx, results){
 
 // write a project to the database
 function createProject(){
-        $("#createProjectPage input").innerhtml
+    // grab the project name that the user typed in
+    var pName = "";
+    pName += $("#createProjectPage #projectname_input").val().trim();
+    // call to insert the project name into the DB
+    log("Inserting "+pName+" Project Name into database...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",[pName, setCurrTime()])}, errorHandler);
+                                      
+    log("...grabbing Project Name!");
+    // need to re-run the sql call to generate the new project table
+    getDBProjectEntries();
+    // reset the project name field for the user
+    $("#createProjectPage #projectname_input").val("")
 }
 
- 
+/* Not functional yet
+// write a project to the database
+function createTask(){
+    // grab the task name that the user typed in
+    var tName = "";
+    tName += $("#createTaskPage #taskname_input").val().trim();
+    var tDetails = "";
+    tDetails += $("createTaskPage #taskdetail_input").val().trim();
+    var tTime = "";
+    tTime += $("createTaskPage h2.time").innerhtml();
+    // hmmmm.... how do we want to pass the project ID along throughout the click processes?
+    var pId = "";
+    
+    // call to insert the project name into the DB
+    log("Inserting "+tName+" Task into database...");
+    log("With the following details: "+tDetails+" ");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",[pid, tName, tTime, tDetails, setCurrTime(), setCurrTime()])}, errorHandler);
+    
+    log("...inserting Task into database");
+    // need to re-run the sql call to generate the new project table
+    getDBProjectEntries();
+    // reset the project name field for the user
+    $("#createProjectPage #taskname_input").val("")
+    $("#createProjectPage #taskdetail_input").val("")
+}
+*/
+
 //Transaction Error Processing
 function errorHandler(err){
     //alert("Error processing SQL: "+err);

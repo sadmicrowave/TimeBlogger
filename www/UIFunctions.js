@@ -104,21 +104,23 @@ $(document).ready(function(){
         //prevent document event bubbling
         return false;
     });
+    
+    // when the project-save button is clicked    
+    $('a.save.project').bind(clickEvent, function(){
+        createProject();
+    });
                   
-    /*$('a.save').bind(clickEvent, function(){
-        var newprojname = $('input#projectname_input').val();
-        if( newprojname.length > 0 ){
-            $('#firstPage ul').append(
-                                      "<li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;" + newprojname + "</a><a class='delete-button button redButton' href='#'>Delete</a></li>"
-                                );
-            notifyBanner( 'success', "Success<br><span style='font-size:14px;'>Your Data Has Been Saved.</span>" );
-            $(this).clearUIInputs();
-        } else {
-            notifyBanner( 'error', "Failure<br><span style='font-size:14px;'>Project Name Cannot Be Empty.</span>" );
-            return false;
-        }
-    });*/
-                  
+    // when the project-save button is clicked    
+    $('a.save.task').bind(clickEvent, function(){
+        //createTask();
+    });
+    
+/*
+    $('a.item').bind(clickEvent, function(){
+        p = $(this).attr("id");
+        log(p);
+    });
+*/                  
     //when timerbtn is tapped
     $('.timerbtn').bind(clickEvent, function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
