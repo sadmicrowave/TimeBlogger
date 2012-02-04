@@ -111,6 +111,8 @@ function renderProjectDBEntries(tx, results){
             })(row.projectId, row.projectName);
             
         }
+        // clear out whatever entries were there in the first place
+        $("#firstPage ul").html("");
         //append accumulated listitems into parent container
         $("#firstPage ul").append( listitems );
     }
@@ -140,6 +142,8 @@ function renderTaskDBEntries(tx, results){
                 listitems += "<li class='arrow task' onClick='getDBDetailEntries("+tid+")'><a class='item' href='#taskDetailView' id='"+tid+"'>&nbsp;<div       class='delete-icon'></div>&nbsp;"+task_created+"</a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.taskCreated);
         }
+        // clear out whatever entries were there in the first place
+        $("#detailView ul").html("");
         //append accumulated listitems into parent container
         $("#detailView ul").append( listitems );
     }
@@ -157,35 +161,60 @@ function renderTaskDetails(tx, results){
             //$("#taskDetailView #detail_ul").append("<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>");
             listitems += "<li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'>"+results.rows.item(i).taskDetails+"</textarea></li>";
         }
+        // clear out whatever entries were there in the first place
+        $("#taskDetailView #detail_ul").html("");
+        //append the listitem into the parent container
         $("#taskDetailView #detail_ul").append( listitems );
     }
     log("...task detail entry rendered!");
 }
 
-/*
-// This function writes the relevant fields to the database that we have built
-function writeToDatabase(projectName, taskName, taskText){
-    // notice how executeSQL is within the transaction function ... transaction(funcToRun, errorFunc, successFunc)
-    dbShell.transaction(function(tx){tx.executeSQL("INSERT INTO tb (projectName, taskName, taskText) VALUES ("+projectName+","+taskName+","+taskText+")");}, errorHandler);
-    alert("Record Inserted Successfully!");
-    alert("DB Write Unsuccessful: "+e);
+
+// write a project to the database
+function createProject(){
+    // grab the project name that the user typed in
+    var pName = "";
+    pName += $("#createProjectPage #projectname_input").val().trim();
+    // call to insert the project name into the DB
+    log("Inserting "+pName+" Project Name into database...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",[pName, setCurrTime()])}, errorHandler);
+                                      
+    log("...grabbing Project Name!");
+    // need to re-run the sql call to generate the new project table
+    getDBProjectEntries();
+    // reset the project name field for the user
+    $("#createProjectPage #projectname_input").val("")
 }
 
-// Get the data from form fields
-function getFormData(){
-    // this targets the form fields specific to form1
-    // **** probably want to do input validation here before passing to writeToDatabase
-    var pName = document.form1.pName.value.trim();
-    var tName = document.form1.tName.value.trim();
-    var tText = document.form1.tText.value.trim();
+/* Not functional yet
+// write a project to the database
+function createTask(){
+    // grab the task name that the user typed in
+    var tName = "";
+    tName += $("#createTaskPage #taskname_input").val().trim();
+    var tDetails = "";
+    tDetails += $("createTaskPage #taskdetail_input").val().trim();
+    var tTime = "";
+    tTime += $("createTaskPage h2.time").innerhtml();
+    // hmmmm.... how do we want to pass the project ID along throughout the click processes?
+    var pId = "";
     
-    // try writing the fields to the DB
-    writeToDatabase(pName, tName, tText);
+    // call to insert the project name into the DB
+    log("Inserting "+tName+" Task into database...");
+    log("With the following details: "+tDetails+" ");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",[pid, tName, tTime, tDetails, setCurrTime(), setCurrTime()])}, errorHandler);
     
-    // clear the form field values
-    document.form1.reset();
+    log("...inserting Task into database");
+    // need to re-run the sql call to generate the new project table
+    getDBProjectEntries();
+    // reset the project name field for the user
+    $("#createProjectPage #taskname_input").val("")
+    $("#createProjectPage #taskdetail_input").val("")
 }
 */
+
 //Transaction Error Processing
 function errorHandler(err){
     //alert("Error processing SQL: "+err);
