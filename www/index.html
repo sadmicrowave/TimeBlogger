@@ -70,9 +70,6 @@ ________________________________________________________________________________
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
           <ul class='rounded'>
-<!--
-              <li class='arrow'><a class='item' href='#detailView'>&nbsp;<div class='delete-icon'></div>&nbsp;Burger King</a><a class='delete-button button redButton' href="#">Delete</a></li>
--->
           </ul>
       </div>
       <!--create the drilldown view holding out task list-->
@@ -83,12 +80,6 @@ ________________________________________________________________________________
               <a class="button add" href="#createTaskPage">+</a>
           </div>
           <ul id='detail_ul' class='rounded'>
-<!--
-              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;March 3 2011, 10:05 AM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 15 2011, 4:20 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;July 22 2011, 12:33 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
-              <li class='arrow'><a class='item' href='#taskDetailView'>&nbsp;<div class='delete-icon'></div>&nbsp;December 31 2011, 1:15 PM</a><a class='delete-button button redButton' href="#">Delete</a></li>
--->
           </ul>
       </div>
       <!--create the view to create projects and return to the 'firstPage' view-->
@@ -107,7 +98,7 @@ ________________________________________________________________________________
           <div class='toolbar'>
               <h1>Task Details</h1>
               <a class="button back" href="#">Back</a>
-              <a class="button save" href="#" style='right:6px;'>Save</a>
+              <a class="button save update" href="#" style='right:6px;'>Save</a>
           </div>
           <h4>Timer</h4>
           <ul id='detail_timer_ul' class='rounded' style='height:80px;'>
@@ -118,9 +109,8 @@ ________________________________________________________________________________
           </ul>
           <h4>Task Details</h4>
           <ul id='detail_ul' class='rounded'>
-              <!-- testing task details li's
-              <li><textarea name="taskdetails" style='height:280px;' id="taskdetails_input" autocapitalize="on" autocorrect="on" autocomplete="on">These are some default task details that will be specific to the task you clicked on within the previous screen once we link this program to a database.  At this time all the details within this view are the same.</textarea></li>
-               -->
+            <li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li>
+            <li><textarea name='taskdetails' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li>
           </ul>
       </div>
       <!--create the view to create tasks within a project-->
@@ -139,11 +129,9 @@ ________________________________________________________________________________
           </ul>
           <h4>Task Details</h4>
           <ul id='detail_ul' class='rounded'>
-              <!-- Added by Justin... take a look at how this displays.  Would you rather have the user enter a taskname, taskdetails, and start the timer, or only give the task a name and then start the timer?  I think the latter makes more sense, then have them add the details after/during the task... what do you think?
-              -->
               <li><input type="text" placeholder="Task Name" name="taskname" id="taskname_input" autocapitalize="off" autocorrect="off" autocomplete="off"></li>
               
-              <li><textarea placeholder="Enter a Description of Your Task" name="taskdetail" style='height:280px;' id="taskdetail_input" autocapitalize="on" autocorrect="on" autocomplete="on"></textarea></li>
+              <li><textarea placeholder="Enter a Description of Your Task" name="taskdetail" style='height:280px;' id="taskdetails_input" autocapitalize="on" autocorrect="on" autocomplete="on"></textarea></li>
           </ul>
       </div>
   </body>
