@@ -10,6 +10,7 @@ $(document).ready(function(){
     }
                   
     $('li.arrow').bind('swipe', function(event, info){ 
+    alert('swiped');
     //setup swipe-to-delete functionality
         //clear any other visible UI actions
         clearUIActions();

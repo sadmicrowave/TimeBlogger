@@ -101,24 +101,6 @@ function getDBDetailEntries(id){
 
 }
 
-/*
-// database calls to delete project and any related task entries
-function deleteProject(projId){
-    log("deleting project and related tasks...");
-    dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbProjects WHERE projectId='"+id+"'", deleteTaskEntries(projId), errorHandler)}, errorHandler);
-    log("...removed project!");
-}
-
-// database call to delete task entries *** This is related to deleting a project!!
-function deleteTaskEntries(projId){
-    log("deleting tasks related to project...");
-    dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+id+"")}, errorHandler);
-    log("...removed project tasks!");
-}
-*/
-
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
     log("rendering db project entries...");
@@ -244,6 +226,25 @@ function updateTask(taskId){
                         tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);
     log("task updated successfully!");
     getDBDetailEntries(taskId);
+}
+
+
+// database calls to delete project and any related task entries
+function deleteProject(projId){
+    log("deleting project and related tasks...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("DELETE FROM tbProjects WHERE projectId='"+id+"'", deleteTaskEntries(projId), errorHandler)}, errorHandler);
+    log("...removed project!");
+    // deleted a project, so re-run the sql query to show projects
+    getDBProjectEntries();
+}
+
+// database call to delete task entries *** This is related to deleting a project!!
+function deleteTaskEntries(projId){
+    log("deleting tasks related to project...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+id+"")}, errorHandler);
+    log("...removed all associated project tasks!");
 }
 
 
