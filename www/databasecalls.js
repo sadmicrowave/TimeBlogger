@@ -96,10 +96,28 @@ function getDBTaskEntries(id){
 function getDBDetailEntries(id){
     log("collecting Task Detail information...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskName, taskDetails, taskTime FROM tbTasks WHERE taskId='"+id+"'", [], renderTaskDetails, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskName, taskDetails, taskTime FROM tbTasks WHERE taskId="+id+"", [], renderTaskDetails, errorHandler)}, errorHandler);
     log("got Task Details!...");
 
 }
+
+/*
+// database calls to delete project and any related task entries
+function deleteProject(projId){
+    log("deleting project and related tasks...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("DELETE FROM tbProjects WHERE projectId='"+id+"'", deleteTaskEntries(projId), errorHandler)}, errorHandler);
+    log("...removed project!");
+}
+
+// database call to delete task entries *** This is related to deleting a project!!
+function deleteTaskEntries(projId){
+    log("deleting tasks related to project...");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+id+"")}, errorHandler);
+    log("...removed project tasks!");
+}
+*/
 
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
