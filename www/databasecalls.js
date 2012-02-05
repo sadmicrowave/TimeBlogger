@@ -249,10 +249,10 @@ function deleteTaskEntries(projId){
 }
 
 // database call to delete individual task entries
-function deleteTask(projID, taskId){
+function deleteTask(projId, taskId){
     log("deleting task...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskID+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskId+"")}, errorHandler);
     log("...removed task!");
     getDBTaskEntries(projId);
 

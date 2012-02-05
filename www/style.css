@@ -16,8 +16,6 @@ a .delete-icon{
     left:-2px;
     width:23px;
     height:23px;
-    /*background: -webkit-linear-gradient(top, #cc3535 52%,#cc0000 54%);
-     border: 3px solid #fff;*/
     -webkit-border-radius: 15px;
     -webkit-box-shadow: 1px 1px 2px #000;
     -webkit-transition: -webkit-transform .4s ease;
@@ -46,9 +44,11 @@ li.deletemode .delete-button {
     width:50px !important;
 }
 #taskDelete{
-    position:absolute;
-    float:left;
-    width:95% !important;
+    position:relative !important;
+    float:left !important;
+    opacity:1 !important;
+    width:85% !important;
+    margin:0 7.5% 0 7.5% !important;
 }
 #jqt .pages {
     background:url(jquery/themes/img/apple/pinstripes.png);

@@ -99,6 +99,7 @@ $(document).ready(function(){
         if( elclass.indexOf('project') != -1 ){
             getDBTaskEntries( elid );
             $('#createTaskPage').attr('rel', elid);
+            $('#taskDetailView').attr('projid', elid);
         } else if( elclass.indexOf('task') != -1 ){
             getDBDetailEntries( elid );
             $('#taskDetailView').attr('rel', elid);
@@ -120,6 +121,14 @@ $(document).ready(function(){
                 .toggleClass('arrow deletemode');
         //prevent document event bubbling
         return false;
+    });
+    
+    //when taskDelete button is clicked within a taskDetail view to delete individual tasks
+    $(document.body).on(clickEvent, '#taskDelete', function(){
+        //get taskid and projectid to pass to deleteTask databasecall.js function
+        var taskid = $(this).parent().attr('rel'),
+            projid = $(this).parent().attr('projid');
+        deleteTask(projid, taskid);
     });
     
     // when the project-save button is clicked
