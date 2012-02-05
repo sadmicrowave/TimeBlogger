@@ -60,6 +60,7 @@ li.deletemode .delete-button {
 }
 #jqt h4{
     padding:3px 0 0 10px;
+    text-shadow:#fff 0 1px 2px;
     color:#666;
 }
 /*setup notification banner properties and styles*/
@@ -99,3 +100,13 @@ span{
         color:#b5b5b5;
         font-weight:100;
         }
+        
+.blank-message{
+    width:85%;
+    margin:10px 7.5% 0 7.5%;
+    text-align:center;
+    color:#666;
+    text-shadow:#fff 0 1px 2px;
+    font-size:25px;
+    font-weight:500;
+    }

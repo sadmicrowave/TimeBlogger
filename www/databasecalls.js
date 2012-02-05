@@ -61,8 +61,8 @@ function setupDBTable(tx){
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "60", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "120", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Cleaned Garage", "187", "Cleaned the garage so I could fit the car in it", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "2232", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "23332", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
+    //tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "2232", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
+    //tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "23332", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
     log("generated dummy data");
 }
 
@@ -73,10 +73,9 @@ function getDBProjectEntries(){
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
     log("collecting DB Project entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT a.projectId, SUM(a.taskTime) AS totalTime, b.projectName FROM tbTasks a INNER JOIN tbProjects b ON a.projectId = b.projectId GROUP BY a.projectId ORDER BY b.created DESC", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT tbProjects.projectId, SUM(tbTasks.taskTime) AS totalTime, tbProjects.projectName FROM tbProjects LEFT OUTER JOIN tbTasks ON tbTasks.projectId = tbProjects.projectId GROUP BY tbProjects.projectId ORDER BY tbProjects.created DESC", [], renderProjectDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
-
 
 // Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id){
@@ -101,15 +100,26 @@ function getDBDetailEntries(id){
 // Database function to fetch the DB entries and render them in HTML format
 function renderProjectDBEntries(tx, results){
     log("rendering db project entries...");
+    var $fpage = $("#firstPage");
     if(results.rows.length == 0){
-        $("#firstPage ul").html("").hide();
+        //hide edit button and ul from view
+        $fpage.find('ul').html("").css('display','none');
+        $fpage.find('.toolbar a.edit').css('display','none');
+        //show project create instructions
+        $fpage.find('#noProjects').css('display','block');
         log("No entries to display");
     } else {
+        //show edit button and ul in view
+        $fpage.find('.toolbar a.edit, ul').css('display','block');
+        //hide project create instructions
+        $fpage.find('#noProjects').css('display','none');
+
         // html is where we are storing the rendered html
         // for loop to run through the db query results
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            var row = results.rows.item(i);
+            var row = results.rows.item(i),
+                totTime = ( row.totalTime ? toHHMMSS(row.totalTime) : "00:00:00" );
             // ***** testing line to see what is coming out of DB ********
             // store the output in the html variable
             // results.rows.item(i).projectID will give us the projectID to tie into the tasks table
@@ -119,12 +129,12 @@ function renderProjectDBEntries(tx, results){
             //create inner function to define/limit scope of row variable
             (function(pid, proj_name, totTime){
                 listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.projectId, row.projectName, toHHMMSS(row.totalTime));
+            })(row.projectId, row.projectName, totTime);
             
         }
         // clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
-        $("#firstPage ul").html("").append( listitems );
+        $fpage.find("ul").html("").append( listitems );
     }
     log("...db project entries rendered!");
 }
@@ -132,10 +142,16 @@ function renderProjectDBEntries(tx, results){
 // Database function to fetch the DB entries for Tasks and render them in HTML format
 function renderTaskDBEntries(tx, results){
     log("...rendering db task entries");
+    var $dpage = $("#detailView");
     if(results.rows.length == 0){
-        $("#detailView ul").html("").hide();
+        //hide ul from view
+        $dpage.find('ul').html("").css('display','none');
+        //show task create instructions
+        $dpage.find('#noTasks').css('display','block');
         log("No entries to display");
     } else {
+        //hide task create instructions
+        $dpage.find('#noTasks').css('display','none');
         // for loop to run through the db query results
         // some things to pull:
         // results.rows.item(i).taskId - the id of the task (used to pull the taskDetails on the next page
@@ -151,7 +167,7 @@ function renderTaskDBEntries(tx, results){
         }
         // clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
-        $("#detailView ul").html("").append( listitems );
+        $dpage.find("ul").html("").append( listitems ).css('display','block');
     }
     log("...db task entries rendered!");
 }
@@ -206,7 +222,8 @@ function createTask(projId){
     // need to re-run the sql call to generate the new project table
     getDBTaskEntries(projId);
     // reset the project name field for the user
-    $("#createTaskPage #taskname_input, #createTaskPage #taskdetail_input").val("");
+    $("#createTaskPage #taskname_input, #createTaskPage #taskdetails_input").text("").val("");
+    $("#createTaskPage ul h2.time").text("00:00:00");
 }
 
 function updateTask(taskId){

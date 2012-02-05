@@ -142,6 +142,7 @@ $(document).ready(function(){
     // when the project-save button is clicked    
     $('a.save.task').on(clickEvent, function(){
         createTask($("#createTaskPage").attr("rel"));
+        $(this).clearUIInputs();
     });
                   
     // when the existing task-save button is clicked (update task info)
