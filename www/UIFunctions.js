@@ -88,9 +88,6 @@ $(document).ready(function(){
         $('li.deletemode').toggleClass('arrow deletemode');
         //prevent document event bubbling
         return false;
-                                                 
-        //notifyBanner( $(this), 'error', "Request Failed<br><span style='font-size:14px;'>Failure During Data Insertion.</span>" );
-                                                 
     });
 
     //slightly different event listener syntax since at the time this function/page is loaded the li.project/li.task items may or may not actually reside in the DOM yet.
@@ -136,7 +133,14 @@ $(document).ready(function(){
     
     // when the project-save button is clicked
     $('a.save.project').on(clickEvent, function(){
-        createProject();
+    // grab the project name that the user typed in
+        var pName = $("#createProjectPage #projectname_input").val().trim();
+        if( pName.length > 0 ){
+            createProject(pName);
+        } else {
+            notifyBanner( 'error', "Request Failed<br><span style='font-size:14px;'>Project Name can not be empty.</span>" );
+            return false;
+        }
     });
                   
     // when the project-save button is clicked    
@@ -179,33 +183,9 @@ $(document).ready(function(){
         }
     });
                   
-    function notifyBanner( type, msg ){
-        //set class variable based on type of notifyBanner caller function
-        var bannerType = ( type == 'success' ? 'banner-success' : 'banner-error' );
-        //remove banner-notify from DOM if already showing
-        if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
-        //select .parent()*2 which is document parent
-        //$this.parents('.pages')
-        setTimeout(function(){
-            $('.pages')
-            //append the banner div and add the banner-notify class and success/error class
-                .append( $('<div/>').addClass('banner-notify ' + bannerType)
-                //add explanation content to banner div
-                            .html( msg )
-                        )
-                //find the banner just created within the parent document
-                .find('.banner-notify')
-                //animate the banner up from below the viewport
-                .animate({'bottom':'0px'}, 150)
-                //leave it visible for 4 seconds
-                .delay(4000)
-                //animate the banner back below the viewport bottom and remove it from the DOM
-                .animate({'bottom':'-52px'}, 500, function(){
-                         $(this).detach();
-                });
-        },500);
-    }
-                  
+
+
+//put notifyBanner function in databasecalls.js since the database errors should be the ones to call this function                  
 // put toSeconds and the HHMMSSS functions into databasecalls.js because they needed to go there. get over it
 
 });

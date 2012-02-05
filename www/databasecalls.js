@@ -32,6 +32,33 @@ function toSeconds( aTime ) {
     return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
 }
 
+function notifyBanner( type, msg ){
+        //set class variable based on type of notifyBanner caller function
+        var bannerType = ( type == 'success' ? 'banner-success' : 'banner-error' );
+        //remove banner-notify from DOM if already showing
+        if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
+        //select .parent()*2 which is document parent
+        //$this.parents('.pages')
+        setTimeout(function(){
+            $('.pages')
+            //append the banner div and add the banner-notify class and success/error class
+                .append( $('<div/>').addClass('banner-notify ' + bannerType)
+                //add explanation content to banner div
+                            .html( msg )
+                        )
+                //find the banner just created within the parent document
+                .find('.banner-notify')
+                //animate the banner up from below the viewport
+                .animate({'bottom':'0px'}, 150)
+                //leave it visible for 4 seconds
+                .delay(4000)
+                //animate the banner back below the viewport bottom and remove it from the DOM
+                .animate({'bottom':'-52px'}, 500, function(){
+                         $(this).detach();
+                });
+        },500);
+    }
+
 function phoneReady(){
     // **** first, open the database ****
     dbShell = window.openDatabase("TimeBlogger", 1, "TimeBlogger", 1000000);
@@ -191,19 +218,17 @@ function renderTaskDetails(tx, results){
 
 
 // write a project to the database
-function createProject(){
-    // grab the project name that the user typed in
-    var pName = $("#createProjectPage #projectname_input").val().trim();
-    // call to insert the project name into the DB
-    log("Inserting "+pName+" Project Name into database...");
-    dbShell.transaction(function(tx){
-                        tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",[pName, setCurrTime()])}, errorHandler);
+function createProject(pName){
+        // call to insert the project name into the DB
+        log("Inserting "+pName+" Project Name into database...");
+        dbShell.transaction(function(tx){
+                            tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",[pName, setCurrTime()])}, errorHandler);
                                       
-    log("...grabbing Project Name!");
-    // need to re-run the sql call to generate the new project table
-    getDBProjectEntries();
-    // reset the project name field for the user
-    $("#createProjectPage #projectname_input").val("")
+        log("...grabbing Project Name!");
+        // need to re-run the sql call to generate the new project table
+        getDBProjectEntries();
+        // reset the project name field for the user
+        $("#createProjectPage #projectname_input").val("")
 }
 
 // write a project to the database
