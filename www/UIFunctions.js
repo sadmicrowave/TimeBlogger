@@ -167,8 +167,7 @@ $(document).ready(function(){
                 aTime   = timediv.text().split(':'),
                 seconds = toSeconds( aTime );
                                      
-            //create 1 second interal loop which increments seconds var and calls toHHMMSS func
-            //then writes results to timer label
+            //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
             $(this).data('timer', setInterval( function(){ 
                                             seconds++;
                                             timediv.text( toHHMMSS( seconds ) ); 

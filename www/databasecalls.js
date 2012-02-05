@@ -56,7 +56,7 @@ function notifyBanner( type, msg ){
                 .animate({'bottom':'-52px'}, 500, function(){
                          $(this).detach();
                 });
-        },500);
+        },300);
     }
 
 function phoneReady(){
@@ -64,6 +64,47 @@ function phoneReady(){
     dbShell = window.openDatabase("TimeBlogger", 1, "TimeBlogger", 1000000);
     //and run another function if the setup is successful (displayEntries)
     dbShell.transaction(setupDBTable, errorHandler, getDBProjectEntries);
+    
+    //create background process event listeners
+    document.addEventListener("pause", onPause, false);
+    document.addEventListener("resume", onResume, false);
+}
+
+//set global variable to be used within onPause and onResume
+var pauseTimeMS = 0;
+function onPause(){
+    //time = toSeconds($("#createTaskPage h2.time").text().split(':'));
+    //create new date object to use when getting current date time
+    var d = new Date(); 
+    //get milliseconds from 1 January 1970 00:00:00 to now
+    pauseTimeMS = Date.UTC( d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds() );
+    //stop the active timers from incrementing
+    clearInterval( $('a.timerbtn.redButton').data('timer') );
+}
+
+function onResume(){
+    //create new date object to use when getting current date time
+    var d = new Date(),
+        //get milliseconds from 1 January 1970 00:00:00 to now
+        resumeTimeMS = Date.UTC( d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate(), d.getUTCHours(), d.getUTCMinutes(), d.getUTCSeconds(), d.getUTCMilliseconds() ),
+        //calculate the difference between the pauseTime and resumeTime, divide by 1000 to convert from milliseconds to seconds, then round down to nearest whole number
+        timeDiff = Math.floor( ( resumeTimeMS - pauseTimeMS )/1000 );
+    
+    //get all active timer buttons that are red and assign them to a variable
+    var $this = $('a.timerbtn.redButton'),
+        //get all active time label divs that are related to the active timer btn retrieved above
+        timediv = $this.parent().find('h2.time'),
+        //get the current time inside the timediv
+        aTime   = timediv.text().split(':'),
+        //calculate new time in seconds by adding pause-resume time difference to current time in h2.time label
+        seconds = toSeconds( aTime ) + timeDiff;
+    
+    //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
+    $this.data('timer', setInterval( function(){ 
+                                    seconds++;
+                                    timediv.text( toHHMMSS( seconds ) ); 
+                            },1000)
+               );
 }
 
 // setup the db

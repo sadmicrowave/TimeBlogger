@@ -561,7 +561,7 @@
                 hash = $el.prop('hash'),
                 href = $el.attr('href'),
                 animation = null;
-
+            
             if ($el.isExternalLink()) {
                 $el.unselect();
                 return true;
@@ -585,7 +585,6 @@
                 return true;
             } else {
                 animation = getAnimation($el);
-
                 if (hash && hash !== '#') {
                     // Internal href
                     $el.addClass('active');
