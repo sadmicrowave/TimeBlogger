@@ -71,10 +71,9 @@ function getDBProjectEntries(){
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
-    // **** Want to order the SQL results by something? date, project name?
     log("collecting DB Project entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT projectId, projectName FROM tbProjects", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT a.projectId, SUM(a.taskTime) AS totalTime, b.projectName FROM tbTasks a INNER JOIN tbProjects b ON a.projectId = b.projectId GROUP BY a.projectId ORDER BY b.created DESC", [], renderProjectDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
@@ -84,8 +83,6 @@ function getDBTaskEntries(id){
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
-    // **** Want to order the SQL results by something? date, project name?
-    // **** Eventually will add a WHERE statement within the SQL, but just wanted to get the damn thing to work first ... 'WHERE projectId = id'
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
                         tx.executeSql("SELECT taskId, projectId, taskName, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY taskUpdated DESC", [], renderTaskDBEntries, errorHandler)}, errorHandler);
@@ -105,8 +102,6 @@ function getDBDetailEntries(id){
 function renderProjectDBEntries(tx, results){
     log("rendering db project entries...");
     if(results.rows.length == 0){
-        // **** needs be to changed to manipulate the DOM
-        // **** ideally, we would have an <li> entry to say the message below
         $("#firstPage ul").html("").hide();
         log("No entries to display");
     } else {
@@ -122,9 +117,9 @@ function renderProjectDBEntries(tx, results){
             // on the next page after clicking the project name
             // this is the html that shows for the projects
             //create inner function to define/limit scope of row variable
-            (function(pid, proj_name){
-                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>04:33:25</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.projectId, row.projectName);
+            (function(pid, proj_name, totTime){
+                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+            })(row.projectId, row.projectName, toHHMMSS(row.totalTime));
             
         }
         // clear out whatever entries were there in the first place
@@ -138,7 +133,6 @@ function renderProjectDBEntries(tx, results){
 function renderTaskDBEntries(tx, results){
     log("...rendering db task entries");
     if(results.rows.length == 0){
-        // alert of simply an li to create a task ?
         $("#detailView ul").html("").hide();
         log("No entries to display");
     } else {
