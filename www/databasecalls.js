@@ -109,6 +109,7 @@ function onResume(){
 
 // setup the db
 function setupDBTable(tx){
+    // we will want to remove the following three lines before go live
     tx.executeSql("DROP TABLE IF EXISTS tbProjects");
     tx.executeSql("DROP TABLE IF EXISTS tbTasks");
     log("All tables dropped!");
@@ -196,7 +197,7 @@ function renderProjectDBEntries(tx, results){
             // this is the html that shows for the projects
             //create inner function to define/limit scope of row variable
             (function(pid, proj_name, totTime){
-                listitems += "<li class='arrow project'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow project' id='"+pid+"'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName, totTime);
             
         }
@@ -314,7 +315,7 @@ function deleteProject(projId){
     deleteTaskEntries(projId);
     log("...removed project!");
     // deleted a project, so re-run the sql query to show projects
-    getDBProjectEntries();
+    $("#firstPage li#"+projId+"").detach();
 }
 
 // database call to delete task entries *** This is related to deleting a project!!
