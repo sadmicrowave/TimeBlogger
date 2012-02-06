@@ -325,7 +325,7 @@ function createTask(projId){
     // reset the project name field for the user
     $("#createTaskPage #taskname_input, #createTaskPage #taskdetails_input").text("").val("");
     $("#createTaskPage ul h2.time").text("00:00:00");
-    // update the project page as well since the total time needs to change
+    // need to re-run the sql call to generate the new project table
     getDBProjectEntries();
 }
 
@@ -339,7 +339,7 @@ function updateTask(taskId, projId){
                         tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId);
-    // update the project page as well since the total time needs to change
+    // need to re-run the sql call to generate the new project table
     getDBProjectEntries();
 }
 
