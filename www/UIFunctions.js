@@ -45,7 +45,8 @@ $(document).ready(function(){
     
     function clearTimer( $parent ){
         var timeel = $parent.find('.timerbtn');
-        
+            //taskId = ppel.attr('rel'),
+            //$store = $("#detailView li#_"+taskId);
         if( timeel.length && timeel.hasClass('redButton') ){
             //stop the timer
             clearInterval( timeel.data('timer') );
@@ -106,10 +107,36 @@ $(document).ready(function(){
         if( elclass.indexOf('project') != -1 ){
             getDBTaskEntries( elid );
             $('#createTaskPage').attr('rel', elid);
-            $('#taskDetailView').attr('projid', elid);
+            //set projid to attribute inside detailView header
+            $('#detailView').attr('projid', elid);
         } else if( elclass.indexOf('task') != -1 ){
-            getDBDetailEntries( elid );
-            $('#taskDetailView').attr('rel', elid);
+            //create taskDetailsView dynamically when task item is clicked
+            var $detailView = $('#taskDetailView_'+elid);
+            //only create the div if it doesn't already exist
+            if( !$detailView.length ){
+                //actually create the DOM element
+                $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
+                //get the project id to assign as an attribute later
+                var projId = $('#detailView').attr('projid'),
+                    //create all the page elements (for visibility and modularity I assigned them to their own variables)
+                    toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
+                    timeh4lbl = "<h4>Timer</h4>",
+                    detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:80px;'><li style='height:55px;'><a class='button greenButton timerbtn'href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
+                    detailh4lbl = "<h4>Task Details</h4>",
+                    detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
+                    deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
+                
+                //assign attributes
+                $detailView.attr({'taskId': elid, 'projId': projId})
+                            //assign class
+                           .addClass('pages')
+                            //append all the page element variables defined above
+                           .append( toolbar, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
+                           //append completed div to body
+                           .appendTo('body');
+                //populate fields in page view with DB results
+                getDBDetailEntries( elid );
+            }
         }
     });
 
@@ -133,8 +160,8 @@ $(document).ready(function(){
     //when taskDelete button is clicked within a taskDetail view to delete individual tasks
     $(document.body).on(clickEvent, '#taskDelete', function(){
         //get taskid and projectid to pass to deleteTask databasecall.js function
-        var taskid = $(this).parent().attr('rel'),
-            projid = $(this).parent().attr('projid');
+        var taskid = $(this).parent().attr('taskId'),
+            projid = $(this).parent().attr('projId');
         deleteTask(projid, taskid);
     });
     
@@ -143,8 +170,10 @@ $(document).ready(function(){
     // grab the project name that the user typed in
         var pName = $("#createProjectPage #projectname_input").val().trim();
         if( pName.length > 0 ){
+            //create the project with the name if name is not empty
             createProject(pName);
         } else {
+            //show an error banner if name is empty
             notifyBanner( 'error', "Request Failed<br><span style='font-size:14px;'>Project Name can not be empty.</span>" );
             return false;
         }
@@ -157,15 +186,24 @@ $(document).ready(function(){
     });
                   
     // when the existing task-save button is clicked (update task info)
-    $('a.save.update').on(clickEvent, function(){
-        updateTask($("#taskDetailView").attr("rel"), $("#taskDetailView").attr("projid"));
-        clearTimer( $(this).parent().parent() );
+    $(document.body).on(clickEvent, 'a.save.update', function(){
+        var $parent = $(this).parent().parent(),
+            taskId = $parent.attr('taskId'),
+            projId = $parent.attr('projId');
+        updateTask(taskId, projId);
+        clearTimer( $parent );
+        setTimeout(function(){
+            $parent.detach();
+        },500);
     });
                  
     //when timerbtn is tapped
-    $('.timerbtn').on(clickEvent, function(){
+    $(document.body).on(clickEvent, '.timerbtn', function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
         $(this).toggleClass('greenButton redButton');
+        //get task view list item div to store the timer interval in
+        //var taskId = $(this).parents('#taskDetailView').attr('rel'),
+        //    $store = $("#detailView li#_"+taskId);
         //get inner text of tapped button and check its value
         if( this.innerHTML == 'Start' ){
             //change text to Stop

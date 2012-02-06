@@ -38,6 +38,7 @@ a .delete-icon{
     -webkit-transition-delay: .1s, .2s;
     border:1px solid #858585 !important;
     -webkit-box-shadow:#000 0 0 0 0 !important;
+    z-index:9999 !important;
 } 
 li.deletemode .delete-button { 
     opacity:1;

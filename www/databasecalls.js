@@ -128,6 +128,29 @@ function setupDBTable(tx){
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
+    //created many more projects to test what happens with jqtouch rendering objects that exceed the height of the originally set page height
+    
+    /*tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 4", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 5", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 6", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 7", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 8", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 9", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 10", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 11", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 12", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 13", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 14", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 15", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 16", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 17", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 18", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 19", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 20", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 21", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 22", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 23", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 24", setCurrTime()]);*/
 
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "60", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "120", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
@@ -163,7 +186,7 @@ function getDBTaskEntries(id){
 function getDBDetailEntries(id){
     log("collecting Task Detail information...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskName, taskDetails, taskTime FROM tbTasks WHERE taskId="+id+"", [], renderTaskDetails, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT taskId, taskName, taskDetails, taskTime FROM tbTasks WHERE taskId="+id+"", [], renderTaskDetails, errorHandler)}, errorHandler);
     log("got Task Details!...");
 
 }
@@ -233,7 +256,7 @@ function renderTaskDBEntries(tx, results){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
             (function(tid, pid, task_name, task_updated){
-                listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView' id='"+tid+"' rel='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView_"+tid+"' id='"+tid+"' rel='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.projectId, row.taskName, row.taskUpdated);
         }
         // clear out whatever entries were there in the first place
@@ -251,10 +274,16 @@ function renderTaskDetails(tx, results){
     } else {
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
+            var taskId = results.rows.item(i).taskId,
+                taskDetailView = "#taskDetailView_"+taskId;
             // append to the already existing DOM elements here since we are just dealing with one
-            $("#taskDetailView h2.time").html(toHHMMSS(results.rows.item(i).taskTime));
-            if( results.rows.item(i).taskName.length > 0 ) $("#taskname_input").attr('placeholder', '').val(results.rows.item(i).taskName);
-            if( results.rows.item(i).taskDetails.length > 0 ) $("#taskdetails_input").attr('placeholder', '').text(results.rows.item(i).taskDetails);
+            $(taskDetailView + " h2.time").html(toHHMMSS(results.rows.item(i).taskTime));
+            if( results.rows.item(i).taskName.length > 0 ) $(taskDetailView + " #taskname_input").attr('placeholder', '').val(results.rows.item(i).taskName);
+            if( results.rows.item(i).taskDetails.length > 0 ){
+                $(taskDetailView + " #taskdetails_input").attr('placeholder', '').text(results.rows.item(i).taskDetails);
+            } else {
+                $(taskDetailView + " #taskdetails_input").attr('placeholder', 'Enter a Description of Your Task').text("");
+            }
         }
     }
     log("...task detail entry rendered!");
@@ -281,6 +310,9 @@ function createTask(projId){
     var tName = $("#createTaskPage #taskname_input").val().trim(),
         tDetails = $("#createTaskPage #taskdetails_input").val().trim(),
         tTime = toSeconds($("#createTaskPage h2.time").text().split(':'));
+    //set task name to "New Task" if task name is blank
+    tName = ( tName.length > 0 ? tName : "New Task" );
+
     // call to insert the project name into the DB
     log("Inserting "+tName+" task into database...");
     log("With the following details: "+tDetails+" ");
@@ -299,9 +331,9 @@ function createTask(projId){
 
 function updateTask(taskId, projId){
     log("...updating task");
-    var tName = $("#taskDetailView #taskname_input").val().trim(),
-        tDetails = $("#taskDetailView #taskdetails_input").val().trim(),
-        tTime = toSeconds($("#taskDetailView h2.time").text().split(':'));
+    var tName = $("#taskDetailView_"+taskId+" #taskname_input").val().trim(),
+        tDetails = $("#taskDetailView_"+taskId+" #taskdetails_input").val().trim(),
+        tTime = toSeconds($("#taskDetailView_"+taskId+" h2.time").text().split(':'));
     // call to update the record entry
     dbShell.transaction(function(tx){
                         tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
