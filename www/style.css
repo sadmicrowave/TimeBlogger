@@ -111,3 +111,8 @@ span{
     font-size:20px;
     font-weight:500;
     }
+label{
+    float:left;
+    font-size:14px;
+    color:#b5b5b5;
+    }

@@ -127,11 +127,13 @@ function setupDBTable(tx){
     log("generating dummy data");
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
+
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Mowed Lawn", "60", "Mowed the lawn next to the church", setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Trimmed Hedges", "120", "Trimmed the hedges of the bushes that were growing over my fence", setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["1", "Cleaned Garage", "187", "Cleaned the garage so I could fit the car in it", setCurrTime(), setCurrTime()]);
-    //tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "2232", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
-    //tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "23332", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Cooked Dinner", "2232", "Cooked some great turkey in the stove that we are having for dinner tomorrow", setCurrTime(), setCurrTime()]);
+    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",["2", "Payed Bills", "23332", "Paid all those bills, those telephone bills, the auto-mo-bills.", setCurrTime(), setCurrTime()]);
     log("generated dummy data");
 }
 
@@ -197,7 +199,7 @@ function renderProjectDBEntries(tx, results){
             // this is the html that shows for the projects
             //create inner function to define/limit scope of row variable
             (function(pid, proj_name, totTime){
-                listitems += "<li class='arrow project' id='"+pid+"'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' href='#detailView' id='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName, totTime);
             
         }
@@ -231,7 +233,7 @@ function renderTaskDBEntries(tx, results){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
             (function(tid, pid, task_name, task_updated){
-                listitems += "<li class='arrow task'><a class='item' href='#taskDetailView' id='"+tid+"' rel='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView' id='"+tid+"' rel='"+pid+"'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'>"+task_updated+"</span></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.projectId, row.taskName, row.taskUpdated);
         }
         // clear out whatever entries were there in the first place
@@ -251,8 +253,8 @@ function renderTaskDetails(tx, results){
         for(var i=0; i<results.rows.length; i++){
             // append to the already existing DOM elements here since we are just dealing with one
             $("#taskDetailView h2.time").html(toHHMMSS(results.rows.item(i).taskTime));
-            $("#taskname_input").attr('placeholder', '').val(results.rows.item(i).taskName);
-            $("#taskdetails_input").text(results.rows.item(i).taskDetails);
+            if( results.rows.item(i).taskName.length > 0 ) $("#taskname_input").attr('placeholder', '').val(results.rows.item(i).taskName);
+            if( results.rows.item(i).taskDetails.length > 0 ) $("#taskdetails_input").attr('placeholder', '').text(results.rows.item(i).taskDetails);
         }
     }
     log("...task detail entry rendered!");
@@ -276,9 +278,9 @@ function createProject(pName){
 // write a project to the database
 function createTask(projId){
     // grab the task name that the user typed in
-    var tName = $("#createTaskPage #taskname_input").val().trim();
-    var tDetails = $("#createTaskPage #taskdetails_input").val().trim();
-    var tTime = toSeconds($("#createTaskPage h2.time").text().split(':'));
+    var tName = $("#createTaskPage #taskname_input").val().trim(),
+        tDetails = $("#createTaskPage #taskdetails_input").val().trim(),
+        tTime = toSeconds($("#createTaskPage h2.time").text().split(':'));
     // call to insert the project name into the DB
     log("Inserting "+tName+" task into database...");
     log("With the following details: "+tDetails+" ");
@@ -293,17 +295,16 @@ function createTask(projId){
     $("#createTaskPage ul h2.time").text("00:00:00");
 }
 
-function updateTask(taskId){
+function updateTask(taskId, projId){
     log("...updating task");
-    var tName = $("#taskDetailView #taskname_input").val().trim();
-    var tDetails = $("#taskDetailView #taskdetails_input").val().trim();
-    var tTime = toSeconds($("#taskDetailView h2.time").text().split(':'));
-    //alert(tName +" "+ tDetails +" "+ tTime +" "+ taskId);
+    var tName = $("#taskDetailView #taskname_input").val().trim(),
+        tDetails = $("#taskDetailView #taskdetails_input").val().trim(),
+        tTime = toSeconds($("#taskDetailView h2.time").text().split(':'));
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
     log("task updated successfully!");
-    getDBDetailEntries(taskId);
+    getDBTaskEntries(projId);
 }
 
 
@@ -314,8 +315,19 @@ function deleteProject(projId){
                         tx.executeSql("DELETE FROM tbProjects WHERE projectId="+projId+"")}, errorHandler);
     deleteTaskEntries(projId);
     log("...removed project!");
-    // deleted a project, so re-run the sql query to show projects
-    $("#firstPage li#"+projId+"").detach();
+    // deleted a project, animate the project list item out of view
+    $("#firstPage li#_"+projId+"").animate({'height':'0px', 'paddingTop':'0px', 'paddingBottom':'0px', 'opacity':0}, 250, function(){
+        //remove the list item from the DOM
+        $(this).detach();
+        //if no more list items are present execute functions to display the project create instructions and hide UL and Edit button.
+        if( $("#firstPage li.project").length == 0 ){
+            var $fpage = $("#firstPage");
+            $fpage.find('ul').html("").css('display','none');
+            $fpage.find('.toolbar a.edit').css('display','none');
+            //show project create instructions
+            $fpage.find('#noProjects').css('display','block');
+        }
+    });
 }
 
 // database call to delete task entries *** This is related to deleting a project!!
@@ -332,7 +344,19 @@ function deleteTask(projId, taskId){
     dbShell.transaction(function(tx){
                         tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskId+"")}, errorHandler);
     log("...removed task!");
-    getDBTaskEntries(projId);
+    // deleted a task, animate the task list item out of view
+    $("#detailView li#_"+taskId+"").animate({'height':'0px', 'paddingTop':'0px', 'paddingBottom':'0px', 'opacity':0}, 250, function(){
+        //remove the list item from the DOM
+        $(this).detach();
+        //if no more list items are present execute functions to display the project create instructions and hide UL and Edit button.
+        if( $("#detailView li.task").length == 0 ){
+            var $dpage = $("#detailView");
+            $dpage.find('ul').html("").css('display','none');
+            $dpage.find('.toolbar a.edit').css('display','none');
+            //show project create instructions
+            $dpage.find('#noTasks').css('display','block');
+        }
+    });
 
 }
 

@@ -30,21 +30,28 @@ $(document).ready(function(){
         //clear input, textareas, and timer value (if applicable) when cancel button is clicked
         //get document parent div for referencing throughout function
         var ppel = $(this).parent().parent();
+            //get timer button div for referencing
+            //timeel = ppel.find('.timerbtn');
         //clear text input and textarea fields
         ppel.find('input, textarea').val('').text('');
-        //get timer button div for referencing
-        var timeel = ppel.find('.timerbtn');
+        clearTimer( ppel );
         //check if timer is started
-        if( timeel.hasClass('redButton') ){
+        
+        //reset timer value to 0 regardless of Green or Red timer button
+        //ex: what if user starts and stops timer; timer=('00:04:34'), and cancels the creation
+        //we still need to reset the timer value even though button is Stop & Red
+        ppel.find('h2.time').text('00:00:00');
+    }
+    
+    function clearTimer( $parent ){
+        var timeel = $parent.find('.timerbtn');
+        
+        if( timeel.length && timeel.hasClass('redButton') ){
             //stop the timer
             clearInterval( timeel.data('timer') );
             //reset the timer button to Start & Green
             timeel.toggleClass('greenButton redButton').text('Start');
         }
-        //reset timer value to 0 regardless of Green or Red timer button
-        //ex: what if user starts and stops timer; timer=('00:04:34'), and cancels the creation
-        //we still need to reset the timer value even though button is Stop & Red
-        ppel.find('h2.time').text('00:00:00');
     }
 
 
@@ -151,7 +158,8 @@ $(document).ready(function(){
                   
     // when the existing task-save button is clicked (update task info)
     $('a.save.update').on(clickEvent, function(){
-        updateTask($("#taskDetailView").attr("rel"));
+        updateTask($("#taskDetailView").attr("rel"), $("#taskDetailView").attr("projid"));
+        clearTimer( $(this).parent().parent() );
     });
                  
     //when timerbtn is tapped
@@ -185,6 +193,6 @@ $(document).ready(function(){
 
 
 //put notifyBanner function in databasecalls.js since the database errors should be the ones to call this function                  
-// put toSeconds and the HHMMSSS functions into databasecalls.js because they needed to go there. get over it
+//put toSeconds and the HHMMSSS functions into databasecalls.js because they needed to go there. get over it
 
 });
