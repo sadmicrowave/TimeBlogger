@@ -1,0 +1,76 @@
+/* @group Segmented */
+
+ul.segmented {
+   border:                0px solid #484849 !important;
+   background-color:      #555658 !important;
+   overflow:              hidden !important;
+   list-style:            none !important;
+   text-align:            center !important;
+   font-size:             1px !important;
+   margin-top:            10px !important;
+   -webkit-border-radius: 8px !important;
+}
+ul.segmented li{
+   border-right:          1px solid #484849 !important;
+   border-bottom:         0px !important;
+   border-top:            0px !important;
+   border-left:           0px !important;
+   display:               inline-block !important;
+   font-size:             12px !important;
+   text-align:            center !important;
+   font-weight:           bold !important;
+   -webkit-box-sizing:    border-box !important;
+   -webkit-box-shadow:    #7c7c7c 1px 1px 2px;
+   width:                 33.55%;
+}
+ul.segmented li:last-child, 
+ul.segmented li:last-child a {
+   -webkit-border-radius:               8px !important;
+   -webkit-border-bottom-left-radius:   0px !important;
+   -webkit-border-top-left-radius:      0px !important;
+   border-right:                        0px !important;
+}
+
+ul.segmented li:first-child, 
+ul.segmented li:first-child a {
+   -webkit-border-radius:               8px !important;
+   -webkit-border-bottom-right-radius:  0px !important;
+   -webkit-border-top-right-radius:     0px !important;
+}
+
+ul.segmented li a{
+   color:                 #fff;
+   text-shadow:           #3c3d3e 0 -1px 0;
+   text-decoration:       none !important;
+   display:               block !important;
+   position:              relative !important;
+}
+
+ul.segmented li a.activated {
+   background-color:      #53b401 !important;
+   color:                 #eee !important;
+   text-shadow:           0px -1px 1px rgba(0, 0, 0, .4) !important;
+   overflow:              hidden !important;
+}
+ul.segmented li a.activated::before,
+ul.segmented li a.activated::after{
+  content:                " ";
+  display:                block !important;
+  position:               absolute !important;
+  -webkit-box-shadow:     rgba(0, 0, 0, 0.95) 0px 0px 10px !important;
+}
+ul.segmented li a.activated::after {
+  height:                 1px !important;
+  width:                  100% !important;
+  top:                    0px !important;
+  right:                  0px !important;
+}
+
+ul.segmented li a.activated::before{
+  height:                 100% !important;
+  width:                  1px !important;
+  top:                    0px !important;
+  right:                  0px !important;
+}
+
+/* @end * !important/
