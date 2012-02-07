@@ -231,15 +231,21 @@ $(document).ready(function(){
     
     //add control event handler for UI Segmented Controls
     $(document.body).on(clickEvent, 'ul.segmented li a', function(){
+        //cast $(this) to a variable since it will be used multiple times within this function
+        //this results in increased jquery response time since the DOM does not have to be search for the element every time it is called
+        var $this = $(this);
         //remove the activated class from a list item that was selected but not clicked now
         //$(this).closest('.pages').find('ul.segmented li a.activated').not(this).toggleClass('activated');
         //add class to the currently clicked list item
         //note: did not use toggleClass because at any given time at least 1 list item should always be activated
-        $(this).addClass('activated')
+        $this.addClass('activated')
                .parent().parent().find('li a.activated').not(this).toggleClass('activated');
         
-        if( $(this).parent().parent().attr('id') == 'detail_sort_seg' )
-            getDBTaskEntries( $(this).closest('#detailView').attr('projid'), $(this).attr('rel') );
+        if( $this.closest('ul.segmented').attr('id') == 'detail_sort_seg' ){
+            var sortOrder = $this.attr('sort');
+            getDBTaskEntries( $this.closest('#detailView').attr('projid'), $this.attr('rel')+' '+sortOrder );
+            $this.attr('sort', ( sortOrder == 'ASC' ? 'DESC' : 'ASC' ) );
+        }
     });
                   
 

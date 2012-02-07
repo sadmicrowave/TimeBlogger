@@ -218,13 +218,15 @@ function renderTaskDBEntries(tx, results){
     var $dpage = $("#detailView");
     if(results.rows.length == 0){
         //hide ul from view
-        $dpage.find('ul').html("").css('display','none');
+        $dpage.find('ul#detail_ul').html("").css('display','none');
+        $dpage.find('ul#detail_sort_seg').css('display','none');
         //show task create instructions
         $dpage.find('#noTasks').css('display','block');
         log("No entries to display");
     } else {
         //hide task create instructions
         $dpage.find('#noTasks').css('display','none');
+        $dpage.find('ul#detail_sort_seg').css('display','block');
         // for loop to run through the db query results
         // some things to pull:
         // results.rows.item(i).taskId - the id of the task (used to pull the taskDetails on the next page
@@ -291,6 +293,7 @@ function createTask(projId){
     var tName = $("#createTaskPage #taskname_input").val().trim(),
         tDetails = $("#createTaskPage #taskdetails_input").val().trim(),
         tTime = toSeconds($("#createTaskPage h2.time").text().split(':')),
+        taskStatus = ( tTime > 0 ? 2 : 1 ),
         sortOrder = $("ul#detail_sort_seg li a.activated").attr('rel');
     //set task name to "New Task" if task name is blank
     tName = ( tName.length > 0 ? tName : "New Task" );
@@ -299,7 +302,7 @@ function createTask(projId){
     log("Inserting "+tName+" task into database...");
     log("With the following details: "+tDetails+" ");
     dbShell.transaction(function(tx){
-                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?)",[projId, tName, tTime, tDetails, setCurrTime(), setCurrTime()])}, errorHandler);
+                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[projId, tName, tTime, tDetails, taskStatus, setCurrTime(), setCurrTime()])}, errorHandler);
     
     log("...inserting Task into database");
     // need to re-run the sql call to generate the new project table
@@ -317,8 +320,10 @@ function updateTask(taskId, projId){
         tName = $(taskDetailView +" #taskname_input").val().trim(),
         tDetails = $(taskDetailView +" #taskdetails_input").val().trim(),
         tTime = toSeconds($(taskDetailView +" h2.time").text().split(':')),
-        taskStatus = $(taskDetailView + " ul.segmented li a.activated").attr('rel'),
-        sortOrder = $("ul#detail_sort_seg li a.activated").attr('rel');
+        altStatus = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length, 
+        taskStatus = ( tTime > 0 ? ( !altStatus ? 2 : $(taskDetailView + " ul.segmented li a.activated").attr('rel') )  : 1 ),
+        sortDiv = $("ul#detail_sort_seg li a.activated"),
+        sortOrder = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
     // call to update the record entry
     dbShell.transaction(function(tx){
                         tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskStatus="+taskStatus+", taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);

@@ -18,6 +18,10 @@ ________________________________________________________________________________
 3 (GPS Integration | Corey/Justin) - Show map pins dropped where each task was performed within project view
 4 (Export Project | Corey/Justin) - Ability to export project including all tasks, times, descriptions to pdf or some other format
 
+5 (Start Timer on Phone Call Start | Corey/Justin) - Ability to start the timer when clicking on a phone number link from within TimeBlogger
+6 (Export to Invoice | Corey/Justin) - Export project/task to invoice with with hourly rate and client address/phone-number entered
+7 (User Profile | Corey/Justin) - Setup user profile including Name, Address, Phone Number, Email, and Company Name (if applicable) to include in invoice export
+
 -------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -82,9 +86,9 @@ ________________________________________________________________________________
               <a class="button add" href="#createTaskPage">+</a>
           </div>
           <ul id='detail_sort_seg' class='segmented'>
-            <li><a rel='taskStatus ASC' href='#'>Status</a></li><li><a rel='taskName ASC' href='#'>Name</a></li><li><a rel='taskUpdated DESC' href='#' class='activated'>Updated</a></li>
+            <li><a rel='taskStatus' sort='ASC' href='#'>Status</a></li><li><a rel='taskName' sort='ASC' href='#'>Name</a></li><li><a rel='taskUpdated' sort='DESC' href='#' class='activated'>Updated</a></li>
           </ul>
-          <ul id='detail_ul' class='rounded' style='margin-top:0px !important;'>
+          <ul id='detail_ul' class='rounded' style='margin-top:-5px !important;'>
           </ul>
           <div class='blank-message' id='noTasks'>Click the '+' button to create a new task within this project.</div>
       </div>
@@ -129,7 +133,7 @@ ________________________________________________________________________________
               <a class="cancelbtn button back" href="#">Cancel</a>
               <a class="button save task" href="#detailView" style='right:6px;'>Save</a>
           </div>
-          <h4>Timer</h4>
+          <h4 style='margin-top:10px !important;'>Timer</h4>
           <ul id='detail_timer_ul' class='rounded' style='height:80px;'>
               <li style='height:55px;'>
                   <a class='button greenButton timerbtn' href='#' >Start</a>
