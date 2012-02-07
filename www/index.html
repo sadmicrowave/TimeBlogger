@@ -46,6 +46,7 @@ ________________________________________________________________________________
     <!--link custom style and js pages after jqtouch has been initialized and browser event handler variable has been set-->
     <script type="text/javascript" src="databasecalls.js"></script>
     <script type="text/javascript" src="UIFunctions.js"></script>
+    <link rel="stylesheet" media="screen" href="segment-control.css" type="text/css">
     <link rel="stylesheet" media="screen" href="style.css" type="text/css">
 
     <!--jqTouch DOM Element Functionality Reference-----------------------------------
@@ -69,7 +70,7 @@ ________________________________________________________________________________
               <a class='button edit' href='#' style='left:6px; text-align:center; width:30px;'>Edit</a>
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
-          <ul class='rounded'>
+          <ul id='project_ul' class='rounded'>
           </ul>
           <div class='blank-message' id='noProjects'>Click the '+' button to create a new project.</div>
       </div>
@@ -80,7 +81,10 @@ ________________________________________________________________________________
               <a class="button back" href="#">Back</a>
               <a class="button add" href="#createTaskPage">+</a>
           </div>
-          <ul id='detail_ul' class='rounded'>
+          <ul id='detail_sort_seg' class='segmented'>
+            <li><a rel='taskStatus ASC' href='#'>Status</a></li><li><a rel='taskName ASC' href='#'>Name</a></li><li><a rel='taskUpdated DESC' href='#' class='activated'>Updated</a></li>
+          </ul>
+          <ul id='detail_ul' class='rounded' style='margin-top:0px !important;'>
           </ul>
           <div class='blank-message' id='noTasks'>Click the '+' button to create a new task within this project.</div>
       </div>

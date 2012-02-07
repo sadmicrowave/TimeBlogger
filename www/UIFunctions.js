@@ -101,15 +101,15 @@ $(document).ready(function(){
     //slightly different event listener syntax since at the time this function/page is loaded the li.project/li.task items may or may not actually reside in the DOM yet.
     $(document.body).on(clickEvent, 'li.project, li.task', function(){
         //create functionality for click/tap event for elements added to DOM rather than using onClick within element tag
-        var elid = $(this).find('a.item').attr('id'),
-            elclass = this.getAttribute('class');
+        var elid = $(this).find('a.item').attr('id');
+            //elclass = this.getAttribute('class');
         //execute databasecalls.js function based on class of clicked list item
-        if( elclass.indexOf('project') != -1 ){
+        if( $(this).hasClass('project') ){
             getDBTaskEntries( elid );
             $('#createTaskPage').attr('rel', elid);
             //set projid to attribute inside detailView header
             $('#detailView').attr('projid', elid);
-        } else if( elclass.indexOf('task') != -1 ){
+        } else if( $(this).hasClass('task') ){
             //create taskDetailsView dynamically when task item is clicked
             var $detailView = $('#taskDetailView_'+elid);
             //only create the div if it doesn't already exist
@@ -120,6 +120,8 @@ $(document).ready(function(){
                 var projId = $('#detailView').attr('projid'),
                     //create all the page elements (for visibility and modularity I assigned them to their own variables)
                     toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
+                    statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
+                    status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
                     timeh4lbl = "<h4>Timer</h4>",
                     detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:80px;'><li style='height:55px;'><a class='button greenButton timerbtn'href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
                     detailh4lbl = "<h4>Task Details</h4>",
@@ -131,7 +133,7 @@ $(document).ready(function(){
                             //assign class
                            .addClass('pages')
                             //append all the page element variables defined above
-                           .append( toolbar, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
+                           .append( toolbar, status_ul, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
                            //append completed div to body
                            .appendTo('body');
                 //populate fields in page view with DB results
@@ -219,13 +221,25 @@ $(document).ready(function(){
                                             timediv.text( toHHMMSS( seconds ) ); 
                                     },1000)
                         );
-                                     
         } else {
             //change text to Start
             this.innerHTML = 'Start';
             //stop the interval loop from incrementing seconds
             clearInterval( $(this).data('timer') );
         }
+    });
+    
+    //add control event handler for UI Segmented Controls
+    $(document.body).on(clickEvent, 'ul.segmented li a', function(){
+        //remove the activated class from a list item that was selected but not clicked now
+        //$(this).closest('.pages').find('ul.segmented li a.activated').not(this).toggleClass('activated');
+        //add class to the currently clicked list item
+        //note: did not use toggleClass because at any given time at least 1 list item should always be activated
+        $(this).addClass('activated')
+               .parent().parent().find('li a.activated').not(this).toggleClass('activated');
+        
+        if( $(this).parent().parent().attr('id') == 'detail_sort_seg' )
+            getDBTaskEntries( $(this).closest('#detailView').attr('projid'), $(this).attr('rel') );
     });
                   
 
