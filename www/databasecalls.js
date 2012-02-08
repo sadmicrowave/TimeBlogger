@@ -11,7 +11,11 @@ function log(s){
 // function to set the current time when it is called
 function setCurrTime(){
     //var time = new Date();
-    var time = new Date().toUTCString();
+    //var time = new Date().toUTCString();
+    var now = new Date(),
+        hours = ( now.getHours() > 12 ? now.getHours()-12 : ( now.getHours() == 0 ? 12 : now.getHours() ) ),
+        meridiem = ( now.getHours() == 0 ? ' AM' : ( now.getHours() > 11 ? ' PM' : ' AM' ) ),
+        time = now.toDateString() + ' ' +hours+':'+now.getMinutes()+':'+now.getSeconds()+meridiem;
     return time;
 }
 
