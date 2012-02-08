@@ -88,20 +88,26 @@ li.deletemode .delete-button {
 }
 
 span{
-    position:relative;
-    width:100%;
-    clear:both;
-    margin:0px;
+    /*position:relative !important;
+    width:100%;*/
+    clear:both !important;
+    margin:0px !important;
     }
     span.item_header{
         font-size:16px;
         }
     span.item_sub{
+        position:absolute;
         font-size:12px;
-        margin-left:10px;
-        top:11px;
+        margin-left:10px !important;
+        bottom:6px;
         color:#b5b5b5;
         font-weight:100;
+        }
+    .inner-item-sub{
+        position:absolute !important; 
+        margin:0 5px 5px 0 !important;
+        float:left;
         }
         
 .blank-message{
