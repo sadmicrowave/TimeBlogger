@@ -123,7 +123,7 @@ $(document).ready(function(){
                     statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
                     status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
                     timeh4lbl = "<h4>Timer</h4>",
-                    detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:80px;'><li style='height:55px;'><a class='button greenButton timerbtn'href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
+                    detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn'href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
                     detailh4lbl = "<h4>Task Details</h4>",
                     detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
                     deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";

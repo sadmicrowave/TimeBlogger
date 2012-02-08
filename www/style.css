@@ -37,13 +37,18 @@ a .delete-icon{
     -webkit-transition-duration: .3s, .2s;
     -webkit-transition-delay: .1s, .2s;
     border:1px solid #858585 !important;
-    -webkit-box-shadow:#000 0 0 0 0 !important;
+    -webkit-box-shadow:none !important;
     z-index:9999 !important;
 } 
 li.deletemode .delete-button { 
     opacity:1;
     width:50px !important;
 }
+.timerbtn{
+    height:25px !important;
+    line-height:25px !important;
+    -webkit-box-shadow:none !important;
+    }
 #taskDelete{
     position:relative !important;
     float:left !important;
@@ -52,7 +57,8 @@ li.deletemode .delete-button {
     margin:0 7.5% 0 7.5% !important;
 }
 #jqt .pages {
-    background:url(jquery/themes/img/apple/pinstripes.png);
+    /*background:url(jquery/themes/img/apple/pinstripes.png);*/
+    background:url(jquery/img/iOS_Fabric_bg.jpg) no-repeat;
 }
 #jqt .timerbtn{
     position:relative;
@@ -62,9 +68,10 @@ li.deletemode .delete-button {
 #jqt h4{
     margin-top:-5px !important;
     padding:0 0 0 10px;
-    text-shadow:#fff 0 1px 2px;
+    text-shadow:#000 0 1px 1px;
     font-size:14px;
-    color:#666;
+    /*color:#666;*/
+    color:#c0c0c0;
 }
 /*setup notification banner properties and styles*/
 .banner-notify{
@@ -115,8 +122,8 @@ span{
     width:85%;
     margin:10px 7.5% 0 7.5%;
     text-align:center;
-    color:#666;
-    text-shadow:#fff 0 1px 2px;
+     color:#c0c0c0;
+    text-shadow:#000 0 1px 1px;
     font-size:20px;
     font-weight:500;
     }
