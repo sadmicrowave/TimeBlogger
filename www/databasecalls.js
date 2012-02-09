@@ -392,8 +392,9 @@ function deleteTask(projId, taskId){
             $dpage.find('#noTasks').css('display','block');
         }
     });
-    // need to re-run the sql call to generate the new project table
+    // update the project page as well since the total time needs to change
     getDBProjectEntries();
+
 }
 
 
