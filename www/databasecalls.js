@@ -327,8 +327,10 @@ function updateTask(taskId, projId){
         tName = $(taskDetailView +" #taskname_input").val().trim(),
         tDetails = $(taskDetailView +" #taskdetails_input").val().trim(),
         tTime = toSeconds($(taskDetailView +" h2.time").text().split(':')),
-        altStatus = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length, 
-        taskStatus = ( tTime > 0 ? ( !altStatus ? 2 : $(taskDetailView + " ul.segmented li a.activated").attr('rel') )  : 1 ),
+        noStartStatus = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length,
+        compStatus = $(taskDetailView + " ul.segmented li:last-child a.activated").length,
+        selectedStatus = $(taskDetailView + " ul.segmented li a.activated").attr('rel'),
+        taskStatus = ( tTime > 0 ? ( !noStartStatus ? 2 : selectedStatus )  : ( compStatus ? selectedStatus : 1 ) ),
         sortDiv = $("ul#detail_sort_seg li a.activated"),
         sortOrder = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
     // call to update the record entry

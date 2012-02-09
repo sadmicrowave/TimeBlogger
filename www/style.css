@@ -1,3 +1,8 @@
+.toolbar{
+    background:url(jquery/themes/img/jqt/toolbar.png) repeat-x !important;
+    height:45px !important;
+    width:100%;
+}
 li a.item{
     margin-left:-45px !important;
     line-height:7px !important;
@@ -58,7 +63,7 @@ li.deletemode .delete-button {
 }
 #jqt .pages {
     /*background:url(jquery/themes/img/apple/pinstripes.png);*/
-    background:url(jquery/img/iOS_Fabric_bg.jpg) no-repeat;
+    background:url(jquery/img/iOS_Fabric_bg.jpg);
 }
 #jqt .timerbtn{
     position:relative;
