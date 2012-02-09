@@ -1,6 +1,7 @@
 .toolbar{
-    background:url(jquery/themes/img/jqt/toolbar.png) repeat-x !important;
-    height:45px !important;
+    /*background:url(jquery/themes/img/jqt/toolbar.png) repeat-x !important;*/
+    background:url(jquery/themes/img/jqt/leather_toolbar.png) repeat-x !important;
+    height:44px !important;
     width:100%;
 }
 li a.item{
