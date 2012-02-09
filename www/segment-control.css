@@ -23,6 +23,7 @@ ul.segmented li{
    -webkit-box-sizing:    border-box !important;
    /*-webkit-box-shadow:    #7c7c7c 1px 1px 2px;*/
    width:                 33.55%;
+   float:                 left !important;
 }
 ul.segmented li:last-child, 
 ul.segmented li:last-child a {
@@ -30,6 +31,11 @@ ul.segmented li:last-child a {
    -webkit-border-bottom-left-radius:   0px !important;
    -webkit-border-top-left-radius:      0px !important;
    border-right:                        0px !important;
+}
+
+ul.segmented li:last-child{
+    margin-left:            1px !important;
+    border-left:            .7px solid #5f5f5f !important;
 }
 
 ul.segmented li:first-child, 
