@@ -1297,8 +1297,8 @@ body {
 #jqt .toolbar {
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
-  -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
-  box-shadow: rgba(0, 0, 0, 0.4) 0 1px 6px;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.8) 0 2px 5px !important;
+  box-shadow: rgba(0, 0, 0, 0.4) 0 1px 8px;
   border-bottom: 1px solid black;
   z-index: 10;
   position: relative;
