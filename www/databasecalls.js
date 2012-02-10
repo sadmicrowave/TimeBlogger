@@ -416,9 +416,5 @@ function successCB(){
 
 function init(){
     document.addEventListener("deviceready", phoneReady, false);
-    // delay the splash screen from hiding so quick on load, the delay is 2 sec.
-    setTimeout(function(){
-               navigator.splashscreen.hide();
-    }, 2000);
 }
 

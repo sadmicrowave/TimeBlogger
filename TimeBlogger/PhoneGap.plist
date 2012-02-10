@@ -9,7 +9,7 @@
 	<key>EnableViewportScale</key>
 	<false/>
 	<key>AutoHideSplashScreen</key>
-	<false/>
+	<true/>
 	<key>ShowSplashScreenSpinner</key>
 	<true/>
 	<key>MediaPlaybackRequiresUserAction</key>
