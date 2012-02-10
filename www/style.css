@@ -1,13 +1,13 @@
 .toolbar{
-    /*background:url(jquery/themes/img/jqt/toolbar.png) repeat-x !important;*/
     background:url(jquery/themes/img/jqt/leather_toolbar.png) repeat-x !important;
     height:44px !important;
     width:100%;
 }
 li a.active{
-    -webkit-box-shadow:none !important;
-    background: -webkit-linear-gradient(top, #70aafc, #336ed2) !important; 
+    -webkit-box-shadow: none !important;
+    background: -webkit-linear-gradient(top, #70aafc, #336ed2) !important;
 }
+
 li a.item{
     margin-left:-45px !important;
     line-height:7px !important;
