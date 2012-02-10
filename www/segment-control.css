@@ -59,7 +59,8 @@ ul.segmented li a{
 }
 
 ul.segmented li a.activated {
-   background-color:      #53b401 !important;
+   /*background-color:      #53b401 !important;*/
+   background:            -webkit-linear-gradient(top, #70aafc, #336ed2) !important; 
    color:                 #eee !important;
    text-shadow:           0px -1px 1px rgba(0, 0, 0, .4) !important;
    overflow:              hidden !important;
