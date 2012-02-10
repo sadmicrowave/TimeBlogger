@@ -9,11 +9,16 @@ li a.active{
     background: -webkit-linear-gradient(top, #70aafc, #336ed2) !important; 
 }
 li a.item{
-    margin-left:-45px !important;
+    height:20px !important;
+}
+li a.item .all-sub{
+    position:absolute !important;
+    margin-left:-35px !important;
+    margin-top:-2px !important;
     line-height:7px !important;
     -webkit-transition: -webkit-transform .4s ease;
 }
-a.item.pad{
+a.item.pad .all-sub{
     -webkit-transform: translate(35px) !important;
 }
 a .delete-icon{
@@ -42,7 +47,7 @@ a .delete-icon{
     line-height:10px !important;
     font-size:15px !important;
     margin-right:3px !important;
-    top:-4px;
+    top:-5px;
     -webkit-transition-property: width, opacity;
     -webkit-transition-duration: .3s, .2s;
     -webkit-transition-delay: .1s, .2s;
@@ -117,7 +122,7 @@ span{
         position:absolute;
         font-size:12px;
         margin-left:10px !important;
-        bottom:6px;
+        bottom:-2px;
         color:#b5b5b5;
         font-weight:100;
         }
@@ -132,7 +137,7 @@ span{
     width:85%;
     margin:10px 7.5% 0 7.5%;
     text-align:center;
-     color:#c0c0c0;
+    color:#c0c0c0;
     text-shadow:#000 0 1px 1px;
     font-size:20px;
     font-weight:500;

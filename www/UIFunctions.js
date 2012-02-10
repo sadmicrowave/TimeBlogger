@@ -142,7 +142,7 @@ $(document).ready(function(){
         }
     });
 
-    $(document.body).on(clickEvent, 'a.pad .delete-icon', function(){
+    $(document.body).on(clickEvent, 'a.pad .all-sub .delete-icon', function(){
     //set animations for UI delete icon click event
         //remove active and deletemode classes for other list items that have been clicked before and still have those states
         $('.delete-icon.active').not(this).toggleClass('active')
@@ -152,7 +152,7 @@ $(document).ready(function(){
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
         $(this).toggleClass('active')
         //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
-                .parent().toggleClass('active').parent()
+                .parent().parent().toggleClass('active').parent()
                 //show/hide the main list item delete button
                 .toggleClass('arrow deletemode');
         //prevent document event bubbling
