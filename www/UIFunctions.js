@@ -152,7 +152,7 @@ $(document).ready(function(){
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
         $(this).toggleClass('active')
         //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
-                .parent().parent().toggleClass('active').parent()
+                .parents('a.item').toggleClass('active').parent()
                 //show/hide the main list item delete button
                 .toggleClass('arrow deletemode');
         //prevent document event bubbling

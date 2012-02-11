@@ -9,10 +9,11 @@ li a.active{
 }
 
 li a.item{
-    height:20px !important;
+    height:25px !important;
 }
 li a.item .all-sub{
     position:absolute !important;
+    height:25px; 
     margin-left:-35px !important;
     margin-top:-2px !important;
     line-height:7px !important;
