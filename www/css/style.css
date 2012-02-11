@@ -15,10 +15,13 @@ li a.item{
 
 li a.item .all-sub{
     position:absolute !important;
-    height:25px; 
+    height:30px; 
     margin-left:-35px !important;
     margin-top:-2px !important;
     line-height:7px !important;
+    width:95%;
+    overflow:hidden;
+    text-overflow: ellipsis;
     -webkit-transition: -webkit-transform .4s ease;
 }
 
@@ -137,7 +140,7 @@ span.item_sub{
     position:absolute;
     font-size:12px;
     margin-left:10px !important;
-    bottom:-2px;
+    bottom:1px;
     color:#b5b5b5;
     font-weight:100;
 }
