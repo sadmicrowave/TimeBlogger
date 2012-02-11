@@ -103,32 +103,33 @@ $(document).ready(function(){
         } else if( $(this).hasClass('task') ){
             //create taskDetailsView dynamically when task item is clicked
             var $detailView = $('#taskDetailView_'+elid);
-            //only create the div if it doesn't already exist
-            $detailView.detach();
-            //actually create the DOM element
-            $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
-            //get the project id to assign as an attribute later
-            var projId = $('#detailView').attr('projid'),
-                //create all the page elements (for visibility and modularity I assigned them to their own variables)
-                toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
-                statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
-                status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
-                timeh4lbl = "<h4>Timer</h4>",
-                detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
-                detailh4lbl = "<h4>Task Details</h4>",
-                detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
+            if( $detailView.length == 0 ){
+                //only create the div if it doesn't already exist
+                //actually create the DOM element
+                $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
+                //get the project id to assign as an attribute later
+                var projId = $('#detailView').attr('projid'),
+                    //create all the page elements (for visibility and modularity I assigned them to their own variables)
+                    toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
+                    statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
+                    status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
+                    timeh4lbl = "<h4>Timer</h4>",
+                    detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
+                    detailh4lbl = "<h4>Task Details</h4>",
+                    detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
                     deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
                 
-            //assign attributes
-            $detailView.attr({'taskId': elid, 'projId': projId})
-                        //assign class
-                        .addClass('pages')
-                        //append all the page element variables defined above
-                        .append( toolbar, status_ul, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
-                        //append completed div to body
-                        .appendTo('body');
-            //populate fields in page view with DB results
-            getDBDetailEntries( elid );
+                //assign attributes
+                $detailView.attr({'taskId': elid, 'projId': projId})
+                            //assign class
+                            .addClass('pages')
+                            //append all the page element variables defined above
+                            .append( toolbar, status_ul, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
+                            //append completed div to body
+                            .appendTo('body');
+                //populate fields in page view with DB results
+                getDBDetailEntries( elid );
+            }
         }
     });
 
@@ -183,6 +184,10 @@ $(document).ready(function(){
             taskId = $parent.attr('taskId'),
             projId = $parent.attr('projId');
         updateTask(taskId, projId);
+        
+        $parent.delay(1000).queue(function(){ 
+            $(this).detach(); 
+        });
     });
                  
     //when timerbtn is tapped
