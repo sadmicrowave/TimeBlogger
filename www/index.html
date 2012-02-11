@@ -1,28 +1,3 @@
-<!------------------------------------------------------------------------------------------------------------------------------------------------------
-TO DO LIST | Format = "n ( [Issue Caption] | [Assigned To] ) - [Issue Description Details]"
-________________________________________________________________________________________________________________________________________________________
- 
---DEPLOYMENT REQUIREMENTS---
-1 [COMPLETED] /// (Fix Timer | Corey) - Timer function loses place if started, then stopped, then move to different view, then move back and start again.
-2 (Setup Internal Database | Justin) - create and setup internal database structure for app data.
-3 (Delete/Edit Records | Corey) - enable swipe-to-delete and edit-to-delete functionality of list item records
-4 [COMPLETED] /// (View Transitions | Corey) - Fix transition/animation of from-to views; fix slide direction of viewport on 'save'
-5 [COMPLETED] /// (Notification Banners | Corey) - Add Success/Error notification banners to viewport containing details behind successful and failed actions
-6 [COMPLETED] /// (Empty UI Fields | Corey) - Empty each user input/interface field when cancel button is clicked
-
-
- 
---POTENTIAL FUTURE ENHANCEMENTS--
-1 (Social Aspect | Corey/Justin) - Enable social functionality to connect project views with friends, enabling access to friends task lists
-2 (Calendar Integration | Corey/Justin) - Link completed/saved tasks to internal phone calendar as an appointment with start & end time
-3 (GPS Integration | Corey/Justin) - Show map pins dropped where each task was performed within project view
-4 (Export Project | Corey/Justin) - Ability to export project including all tasks, times, descriptions to pdf or some other format
-
-5 (Start Timer on Phone Call Start | Corey/Justin) - Ability to start the timer when clicking on a phone number link from within TimeBlogger
-6 (Export to Invoice | Corey/Justin) - Export project/task to invoice with with hourly rate and client address/phone-number entered
-7 (User Profile | Corey/Justin) - Setup user profile including Name, Address, Phone Number, Email, and Company Name (if applicable) to include in invoice export
-
--------------------------------------------------------------------------------------------------------------------------------------------------------->
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -30,40 +5,26 @@ ________________________________________________________________________________
   
     <meta name="viewport" content="width=device-width, user-scalable=no;" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-	
-    <script type="text/javascript" charset="utf-8" src="phonegap-1.3.0.js"></script>
-    <script type="text/javascript" charset="utf-8" src="jquery/src/lib/jquery-1.7.js"></script>
-    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch-jquery.js"></script>
-    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch.js"></script>
+
+    <script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery-1.7.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="js/jqtouch-jquery.js"></script>
+    <script type="application/x-javascript" chrset="utf-8" src="js/jqtouch.js"></script>
+    
     <!--the jqtouch style must be referenced after jqtouch.js files-->
+    <!-- haven't touched this one yet since I need to look at what other files are affected by it's move -->
     <link rel="stylesheet" media="screen" href="jquery/themes/css/jqtouch.css" type="text/css">
     <script type="text/javascript">
-        //initialize jqTouch with some placeholder value as object (irrelevant what the value is as long as it is real)
-        //$.jQTouch(); fails without some value within function "()"
         $.jQTouch({'debug':true});
-        
-        //Get user browser type and set event handler variable to use on .bind events
         var userAgent = navigator.userAgent.toLowerCase(),
             isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false,
             clickEvent = isiPhone ? 'tap' : 'click';
 	</script>
-    <!--link custom style and js pages after jqtouch has been initialized and browser event handler variable has been set-->
-    <script type="text/javascript" src="databasecalls.js"></script>
-    <script type="text/javascript" src="UIFunctions.js"></script>
-    <link rel="stylesheet" media="screen" href="segment-control.css" type="text/css">
-    <link rel="stylesheet" media="screen" href="style.css" type="text/css">
 
-    <!--jqTouch DOM Element Functionality Reference-----------------------------------
-     Direct Descendent Div's - create full screen page views
-     Div.toolbar             - create width:100% toolbar
-     a.button                - create button
-     ul                      - create list container bubble
-     li                      - create list items within the bubble
-     li.a                    - create clickable list items linked to other views/pages
-     h4                      - create section titles
-     li input                - create list items containing textbox field
-     li textarea             - create list items containing textarea field
-     -------------------------------------------------------------------------------->
+    <script type="text/javascript" src="js/databasecalls.js"></script>
+    <script type="text/javascript" src="js/UIFunctions.js"></script>
+    <link rel="stylesheet" media="screen" href="css/segment-control.css" type="text/css">
+    <link rel="stylesheet" media="screen" href="css/style.css" type="text/css">
         
   </head>
     <body onload="init();">
