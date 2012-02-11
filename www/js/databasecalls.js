@@ -31,6 +31,19 @@ function toSeconds( aTime ) {
     return (parseInt(aTime[0])*60*60) + (parseInt(aTime[1])*60) + parseInt(aTime[2]);
 }
 
+filterInputText = function(str){
+    //function to sanatize DOM input fields 
+    try
+    {
+        return str.replace(/\s+/gm, ' ').match(/[a-zA-Z0-9\(\), \.!\/:%@&\?\+_=\-\$]+/gm).join('');
+    }
+    catch(e)
+    {
+        return '';
+    }
+}
+
+
 function notifyBanner( type, msg ){
         //set class variable based on type of notifyBanner caller function
         var bannerType = ( type == 'success' ? 'banner-success' : 'banner-error' );
@@ -188,6 +201,7 @@ function renderProjectDBEntries(tx, results){
             var row = results.rows.item(i),
                 totTime = ( row.totalTime ? toHHMMSS(row.totalTime) : "00:00:00" );
             (function(pid, proj_name, totTime){
+                proj_name = filterInputText( proj_name );
                 listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' href='#detailView' id='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName, totTime);
             
@@ -219,7 +233,8 @@ function renderTaskDBEntries(tx, results){
             var row = results.rows.item(i);
             //create inner function to define/limit scope of row variable
             (function(tid, pid, task_name, taskStatus, task_updated){
-                var taskStatusText = '';
+                var taskStatusText  = '',
+                    task_name       = filterInputText( task_name );
                 switch( taskStatus ){ case 1: taskStatusText='Not Started'; break; case 2: taskStatusText='In Process'; break; case 3: taskStatusText='Complete'; break; }
                 listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView_"+tid+"' id='"+tid+"' rel='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'><div class='inner-item-sub' style='color:#eaeaea;'>"+taskStatusText+"</div><div style='margin-left:75px;'>"+task_updated+"</div></span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.projectId, row.taskName, row.taskStatus, row.taskUpdated);
@@ -240,13 +255,15 @@ function renderTaskDetails(tx, results){
             var row             = results.rows.item(i),
                 taskId          = row.taskId,
                 taskDetailView  = "#taskDetailView_"+taskId,
-                taskStatus      = row.taskStatus;
+                taskStatus      = row.taskStatus,
+                taskDetails     = filterInputText( row.taskDetails ),
+                taskName        = filterInputText( row.taskName );
             // append to the already existing DOM elements here since we are just dealing with one
             $(taskDetailView + " h2.time").html(toHHMMSS(row.taskTime));
             $(taskDetailView + " ul.segmented li#_"+taskStatus +" a").addClass('activated');
-            if( row.taskName.length > 0 ) $(taskDetailView + " #taskname_input").attr('placeholder', '').val(row.taskName);
-            if( row.taskDetails.length > 0 ){
-                $(taskDetailView + " #taskdetails_input").attr('placeholder', '').text(row.taskDetails);
+            if( taskName.length > 0 ) $(taskDetailView + " #taskname_input").attr('placeholder', '').val(taskName);
+            if( taskDetails.length > 0 ){
+                $(taskDetailView + " #taskdetails_input").attr('placeholder', '').text(taskDetails);
             } else {
                 $(taskDetailView + " #taskdetails_input").attr('placeholder', 'Enter a Description of Your Task').text("");
             }
