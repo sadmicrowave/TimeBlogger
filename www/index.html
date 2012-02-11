@@ -10,8 +10,6 @@
     <link rel="stylesheet" media="screen" href="jquery/themes/css/jqtouch.css" type="text/css">
     <script type="text/javascript">
         $.jQTouch({'debug':true});
-        
-        //Get user browser type and set event handler variable to use on .bind events
         var userAgent = navigator.userAgent.toLowerCase(),
             isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false,
             clickEvent = isiPhone ? 'tap' : 'click';

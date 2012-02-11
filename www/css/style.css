@@ -1,0 +1,166 @@
+.toolbar{
+    background:url(../img/leather_toolbar.png) repeat-x !important;
+    height:44px !important;
+    width:100%;
+}
+
+li a.active{
+    -webkit-box-shadow: none !important;
+    background: -webkit-linear-gradient(top, #70aafc, #336ed2) !important;
+}
+
+li a.item{
+    height:25px !important;
+}
+
+li a.item .all-sub{
+    position:absolute !important;
+    height:25px; 
+    margin-left:-35px !important;
+    margin-top:-2px !important;
+    line-height:7px !important;
+    -webkit-transition: -webkit-transform .4s ease;
+}
+
+a.item.pad .all-sub{
+    -webkit-transform: translate(35px) !important;
+}
+
+a .delete-icon{
+    position:relative;
+    float:left;
+    font-size:40px;
+    color:#fff;
+    text-align:center;
+    line-height:16px;
+    left:-2px;
+    width:23px;
+    height:23px;
+    -webkit-border-radius: 15px;
+    -webkit-box-shadow: 1px 1px 2px #000;
+    -webkit-transition: -webkit-transform .4s ease;
+    background:url(../img/ios-delete-circle.png) no-repeat;
+}
+
+.delete-icon.active{
+    -webkit-transform: rotate(90deg);
+}
+
+.delete-button{
+    position:absolute;            
+    opacity:0;
+    height:10px !important;
+    width:0px !important;
+    line-height:10px !important;
+    font-size:15px !important;
+    margin-right:3px !important;
+    top:-5px;
+    -webkit-transition-property: width, opacity;
+    -webkit-transition-duration: .3s, .2s;
+    -webkit-transition-delay: .1s, .2s;
+    border:1px solid #575757 !important;
+    -webkit-box-shadow:none !important;
+    z-index:9999 !important;
+} 
+
+li.deletemode .delete-button { 
+    opacity:1;
+    width:50px !important;
+}
+
+.timerbtn{
+    height:25px !important;
+    line-height:25px !important;
+    -webkit-box-shadow:none !important;
+}
+
+#taskDelete{
+    position:relative !important;
+    float:left !important;
+    opacity:1 !important;
+    width:85% !important;
+    margin:0 7.5% 0 7.5% !important;
+}
+
+#jqt .pages {
+    background:url(../img/ios_fabric.png);
+}
+
+#jqt .timerbtn{
+    position:relative;
+    float:left;
+    width:80px;
+}
+
+#jqt h4{
+    margin-top:-5px !important;
+    padding:0 0 0 10px;
+    text-shadow:#000 0 1px 1px;
+    font-size:14px;
+    color:#c0c0c0;
+}
+
+/*setup notification banner properties and styles*/
+/********************** is this stuff still being used? */
+.banner-notify{
+    position:absolute;
+    bottom:-52px;
+    width:100%;
+    height:50px;
+    color:#fff;
+    font-weight:500;
+    font-size:18px;
+    text-align:center;
+    z-index:9998;
+}
+
+.banner-error{
+    background:#bf4343;
+    border-top:2px solid #ab1818;
+}
+
+.banner-success{
+    background:#50bc65;
+    border-top:2px solid #17962f;
+}
+
+span{
+    clear:both !important;
+    margin:0px !important;
+}
+
+span.item_header{
+    font-size:16px;
+}    
+
+span.item_sub{
+    position:absolute;
+    font-size:12px;
+    margin-left:10px !important;
+    bottom:-2px;
+    color:#b5b5b5;
+    font-weight:100;
+}
+
+.inner-item-sub{
+    position:absolute !important; 
+    margin:0 5px 5px 0 !important;
+    float:left;
+}
+        
+.blank-message{
+    display:none;
+    width:85%;
+    margin:10px 7.5% 0 7.5%;
+    text-align:center;
+    color:#c0c0c0;
+    text-shadow:#000 0 1px 1px;
+    font-size:20px;
+    font-weight:500;
+}
+
+label{
+    float:left;
+    font-size:14px;
+    color:#b5b5b5;
+}
