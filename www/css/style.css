@@ -1,5 +1,5 @@
 .toolbar{
-    background:url(img/leather_toolbar.png) repeat-x !important;
+    background:url(../img/leather_toolbar.png) repeat-x !important;
     height:44px !important;
     width:100%;
 }
@@ -38,7 +38,7 @@ a .delete-icon{
     -webkit-border-radius: 15px;
     -webkit-box-shadow: 1px 1px 2px #000;
     -webkit-transition: -webkit-transform .4s ease;
-    background:url(img/ios-delete-circle.png) no-repeat;
+    background:url(../img/ios-delete-circle.png) no-repeat;
 }
 
 .delete-icon.active{
@@ -82,7 +82,7 @@ li.deletemode .delete-button {
 }
 
 #jqt .pages {
-    background:url(img/ios_fabric.png);
+    background:url(../img/ios_fabric.png);
 }
 
 #jqt .timerbtn{
