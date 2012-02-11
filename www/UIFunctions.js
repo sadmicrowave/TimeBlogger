@@ -34,7 +34,8 @@ $(document).ready(function(){
             //timeel = ppel.find('.timerbtn');
         //clear text input and textarea fields
         ppel.find('input, textarea').val('').text('');
-        clearTimer( ppel );
+        ppel.clearTimer();
+        //clearTimer( ppel );
         //check if timer is started
         
         //reset timer value to 0 regardless of Green or Red timer button
@@ -43,8 +44,8 @@ $(document).ready(function(){
         ppel.find('h2.time').text('00:00:00');
     }
     
-    function clearTimer( $parent ){
-        var timeel = $parent.find('.timerbtn');
+    $.fn.clearTimer = function(){
+        var timeel = $(this).find('.timerbtn');
             //taskId = ppel.attr('rel'),
             //$store = $("#detailView li#_"+taskId);
         if( timeel.length && timeel.hasClass('redButton') ){
@@ -53,6 +54,7 @@ $(document).ready(function(){
             //reset the timer button to Start & Green
             timeel.toggleClass('greenButton redButton').text('Start');
         }
+        log('finished clearTimer function');
     }
 
 
@@ -113,7 +115,8 @@ $(document).ready(function(){
             //create taskDetailsView dynamically when task item is clicked
             var $detailView = $('#taskDetailView_'+elid);
             //only create the div if it doesn't already exist
-            if( !$detailView.length ){
+            //if( $detailView.length ){
+                $detailView.detach();
                 //actually create the DOM element
                 $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
                 //get the project id to assign as an attribute later
@@ -138,7 +141,7 @@ $(document).ready(function(){
                            .appendTo('body');
                 //populate fields in page view with DB results
                 getDBDetailEntries( elid );
-            }
+            //}
         }
     });
 
@@ -193,10 +196,14 @@ $(document).ready(function(){
             taskId = $parent.attr('taskId'),
             projId = $parent.attr('projId');
         updateTask(taskId, projId);
-        clearTimer( $parent );
-        setTimeout(function(){
-            $parent.detach();
-        },500);
+        //goBack();
+        //$parent.clearTimer().delay(500, function(){
+        //$(this).remove();
+        //});
+        log('finished update button click');
+        //setTimeout(function(){
+        //    $parent.detach();
+        //},500);
     });
                  
     //when timerbtn is tapped
