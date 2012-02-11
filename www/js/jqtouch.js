@@ -249,9 +249,6 @@
             return orientation;
         }
         function goBack() {
-            console.log('going backwards...');
-
-
             // Error checking
             if (history.length < 1 ) {
             }
