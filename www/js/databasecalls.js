@@ -153,7 +153,7 @@ function getDBTaskEntries(id, sortOrder){
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskId, projectId, taskName, taskStatus, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY "+sortOrder+", taskUpdated DESC", [], renderTaskDBEntries, errorHandler)}, errorHandler); //taskUpdated DESC
+                        tx.executeSql("SELECT taskId, projectId, taskName, taskStatus, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY "+sortOrder+"", [], renderTaskDBEntries, errorHandler)}, errorHandler); //taskUpdated DESC
     log("got DB entries!...");
 }
 
@@ -311,6 +311,9 @@ function updateTask(taskId, projId){
         taskStatus      = ( tTime > 0 ? ( !noStartStatus ? 2 : selectedStatus )  : ( compStatus ? selectedStatus : 1 ) ),
         sortDiv         = $("ul#detail_sort_seg li a.activated"),
         sortOrder       = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
+    log( 'selectedStatus = ' + selectedStatus );
+    log( 'tTime = ' + tTime );
+    if( selectedStatus == 2 && tTime == 0 ) alert("Task will not be saved as 'In Process' since the timer has not been started");
     // call to update the record entry
     dbShell.transaction(function(tx){
                         tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);

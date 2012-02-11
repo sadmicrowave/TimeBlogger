@@ -1,23 +1,24 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
+  <title>TimeBlogger</title>
     <meta name="viewport" content="width=device-width, user-scalable=no;" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-    <script type="text/javascript" charset="utf-8" src="phonegap-1.3.0.js"></script>
-    <script type="text/javascript" charset="utf-8" src="jquery/src/lib/jquery-1.7.min.js"></script>
-    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch-jquery.min.js"></script>
-    <script type="application/x-javascript" charset="utf-8" src="jquery/src/jqtouch.js"></script>
-    <link rel="stylesheet" media="screen" href="jquery/themes/css/jqtouch.css" type="text/css">
+    <script type="text/javascript" charset="utf-8" src="js/phonegap-1.3.0.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/jquery-1.7.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="js/jqtouch-jquery.js"></script>
+    <script type="application/x-javascript" charset="utf-8" src="js/jqtouch.js"></script>
+    <link rel="stylesheet" media="screen" href="css/jqtouch.css" type="text/css">
     <script type="text/javascript">
         $.jQTouch({'debug':true});
         var userAgent = navigator.userAgent.toLowerCase(),
             isiPhone = (userAgent.indexOf('iphone') != -1 || userAgent.indexOf('ipod') != -1) ? true : false,
             clickEvent = isiPhone ? 'tap' : 'click';
 	</script>
-    <script type="text/javascript" src="databasecalls.js"></script>
-    <script type="text/javascript" src="UIFunctions.js"></script>
-    <link rel="stylesheet" media="screen" href="segment-control.css" type="text/css">
-    <link rel="stylesheet" media="screen" href="style.css" type="text/css">
+    <script type="text/javascript" src="js/databasecalls.js"></script>
+    <script type="text/javascript" src="js/UIFunctions.js"></script>
+    <link rel="stylesheet" media="screen" href="css/segment-control.css" type="text/css">
+    <link rel="stylesheet" media="screen" href="css/style.css" type="text/css">
   </head>
     <body onload="init();">
       <!--create the first view holding our project list-->
