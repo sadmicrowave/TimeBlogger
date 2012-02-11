@@ -10,7 +10,6 @@ $(document).ready(function(){
     }
                   
     $(document.body).on('swipe', 'li.arrow', function(){
-    //alert('swiped');
     //setup swipe-to-delete functionality
         //clear any other visible UI actions
         clearUIActions();
@@ -31,11 +30,9 @@ $(document).ready(function(){
         //get document parent div for referencing throughout function
         var ppel = $(this).parent().parent();
             //get timer button div for referencing
-            //timeel = ppel.find('.timerbtn');
         //clear text input and textarea fields
         ppel.find('input, textarea').val('').text('');
         ppel.clearTimer();
-        //clearTimer( ppel );
         //check if timer is started
         
         //reset timer value to 0 regardless of Green or Red timer button
@@ -46,17 +43,13 @@ $(document).ready(function(){
     
     $.fn.clearTimer = function(){
         var timeel = $(this).find('.timerbtn');
-            //taskId = ppel.attr('rel'),
-            //$store = $("#detailView li#_"+taskId);
         if( timeel.length && timeel.hasClass('redButton') ){
             //stop the timer
             clearInterval( timeel.data('timer') );
             //reset the timer button to Start & Green
             timeel.toggleClass('greenButton redButton').text('Start');
         }
-        log('finished clearTimer function');
     }
-
 
     //JUSTIN - USE THIS FUNCTION TO CALL YOUR DELETE DATABASECALL.JS FUNCTION
     $(document.body).on(clickEvent, 'li.deletemode .delete-button', function(){
@@ -71,9 +64,6 @@ $(document).ready(function(){
             // pass the project id (elrel) and task id (elid) to the deleteTask function
             deleteTask(elrel, elid);
         }
-        //setup delete record function when delete is clicked
-        //remove the class which adds the delete button to the listitem
-        //$(this).parent().toggleClass('arrow deletemode');
         //prevent document event bubbling
         return false;
     });
@@ -104,7 +94,6 @@ $(document).ready(function(){
     $(document.body).on(clickEvent, 'li.project, li.task', function(){
         //create functionality for click/tap event for elements added to DOM rather than using onClick within element tag
         var elid = $(this).find('a.item').attr('id');
-            //elclass = this.getAttribute('class');
         //execute databasecalls.js function based on class of clicked list item
         if( $(this).hasClass('project') ){
             getDBTaskEntries( elid );
@@ -115,33 +104,31 @@ $(document).ready(function(){
             //create taskDetailsView dynamically when task item is clicked
             var $detailView = $('#taskDetailView_'+elid);
             //only create the div if it doesn't already exist
-            //if( $detailView.length ){
-                $detailView.detach();
-                //actually create the DOM element
-                $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
-                //get the project id to assign as an attribute later
-                var projId = $('#detailView').attr('projid'),
-                    //create all the page elements (for visibility and modularity I assigned them to their own variables)
-                    toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
-                    statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
-                    status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
-                    timeh4lbl = "<h4>Timer</h4>",
-                    detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
-                    detailh4lbl = "<h4>Task Details</h4>",
-                    detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
+            $detailView.detach();
+            //actually create the DOM element
+            $detailView = $("<div/>").attr('id','taskDetailView_'+elid);
+            //get the project id to assign as an attribute later
+            var projId = $('#detailView').attr('projid'),
+                //create all the page elements (for visibility and modularity I assigned them to their own variables)
+                toolbar = "<div class='toolbar'><h1>Task Details</h1><a class='button back' href='#'>Back</a><a class='button save update' href='#' style='right:6px;'>Save</a></div>",
+                statush4lbl = "<h4 style='margin-top:5px !important;'>Task Status</h4>",
+                status_ul = "<ul class='segmented'><li id='_1'><a rel='1' href='#'>Not Started</a></li><li id='_2'><a rel='2' href='#'>In Process</a></li><li id='_3' ><a rel='3' href='#'>Complete</a></li></ul>",
+                timeh4lbl = "<h4>Timer</h4>",
+                detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
+                detailh4lbl = "<h4>Task Details</h4>",
+                detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
                     deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
                 
-                //assign attributes
-                $detailView.attr({'taskId': elid, 'projId': projId})
-                            //assign class
-                           .addClass('pages')
-                            //append all the page element variables defined above
-                           .append( toolbar, status_ul, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
-                           //append completed div to body
-                           .appendTo('body');
-                //populate fields in page view with DB results
-                getDBDetailEntries( elid );
-            //}
+            //assign attributes
+            $detailView.attr({'taskId': elid, 'projId': projId})
+                        //assign class
+                        .addClass('pages')
+                        //append all the page element variables defined above
+                        .append( toolbar, status_ul, timeh4lbl, detail_timer_ul, detailh4lbl, detail_ul, deletebtn )
+                        //append completed div to body
+                        .appendTo('body');
+            //populate fields in page view with DB results
+            getDBDetailEntries( elid );
         }
     });
 
@@ -196,14 +183,6 @@ $(document).ready(function(){
             taskId = $parent.attr('taskId'),
             projId = $parent.attr('projId');
         updateTask(taskId, projId);
-        //goBack();
-        //$parent.clearTimer().delay(500, function(){
-        //$(this).remove();
-        //});
-        log('finished update button click');
-        //setTimeout(function(){
-        //    $parent.detach();
-        //},500);
     });
                  
     //when timerbtn is tapped
@@ -211,8 +190,6 @@ $(document).ready(function(){
         //toggle the greenButton and redButton classes from themed css making button appear red and green after tap
         $(this).toggleClass('greenButton redButton');
         //get task view list item div to store the timer interval in
-        //var taskId = $(this).parents('#taskDetailView').attr('rel'),
-        //    $store = $("#detailView li#_"+taskId);
         //get inner text of tapped button and check its value
         if( this.innerHTML == 'Start' ){
             //change text to Stop
@@ -242,7 +219,6 @@ $(document).ready(function(){
         //this results in increased jquery response time since the DOM does not have to be search for the element every time it is called
         var $this = $(this);
         //remove the activated class from a list item that was selected but not clicked now
-        //$(this).closest('.pages').find('ul.segmented li a.activated').not(this).toggleClass('activated');
         //add class to the currently clicked list item
         //note: did not use toggleClass because at any given time at least 1 list item should always be activated
         $this.addClass('activated')
