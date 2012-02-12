@@ -7,9 +7,21 @@ function log(s){
 // function to set the current time when it is called
 function setCurrTime(){
     var now = new Date(),
-        hours = ( now.getHours() > 12 ? now.getHours()-12 : ( now.getHours() == 0 ? 12 : now.getHours() ) ),
-        meridiem = ( now.getHours() == 0 ? ' AM' : ( now.getHours() > 11 ? ' PM' : ' AM' ) ),
-        time = now.toDateString() + ' ' +hours+':'+now.getMinutes()+':'+now.getSeconds()+meridiem;
+        hours = now.getHours();
+        hours = ( hours > 12 ? hours-12 : ( hours == 0 ? 12 : hours ) ),
+        minutes = now.getMinutes(),
+        seconds = now.getSeconds(),
+        meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
+        // fix the leading zero issue for minutes
+        if (minutes < 10 ){
+            minutes = "0" + minutes;
+        }
+        
+        if (seconds < 10){
+            seconds = "0" + seconds;
+        }
+    
+        time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds+' '+meridiem;
     return time;
 }
 
