@@ -116,7 +116,7 @@ $(document).ready(function(){
                     timeh4lbl = "<h4>Timer</h4>",
                     detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
                     detailh4lbl = "<h4>Task Details</h4>",
-                    detail_ul = "<ul id='detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
+                    detail_ul = "<ul id='task_detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
                     deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
                 
                 //assign attributes
@@ -137,13 +137,13 @@ $(document).ready(function(){
     //set animations for UI delete icon click event
         //remove active and deletemode classes for other list items that have been clicked before and still have those states
         $('.delete-icon.active').not(this).toggleClass('active')
-                                .parents('li.deletemode')
+                                .closest('li.deletemode')
                                 .toggleClass('arrow deletemode');
         
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
         $(this).toggleClass('active')
         //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
-                .parents('a.item').toggleClass('active').parent()
+                .closest('a.item').toggleClass('active').parent()
                 //show/hide the main list item delete button
                 .toggleClass('arrow deletemode');
         //prevent document event bubbling

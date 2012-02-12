@@ -51,7 +51,7 @@
                 icon4: null, // available in iOS 4.2 and later.
                 preloadImages: false,
                 startupScreen: null,
-                statusBar: 'default', // other options: black-translucent, black
+                statusBar: 'default', // other options: default, black-translucent, black
                 submitSelector: '.submit',
                 touchSelector: 'a, .touch',
                 trackScrollPositions: true,
