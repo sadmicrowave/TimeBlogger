@@ -114,10 +114,14 @@ a#info-link{
 #jqt h4.info{
     font-size:18px;
     margin-top:5px !important;
-    -webkit-box-shadow: rgba(0, 0, 0, 0.4) -3px 2px 4px !important;
+    -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px !important;
     box-shadow: rgba(0, 0, 0, 0.4) 0 2px 6px;
     border-bottom: 1px solid #aaa;
     border-top: 1px solid #585858;
+}
+#jqt h4.info:last-child{
+    -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 4px !important;
+    box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 4px;
 }
 
 #jqt h3{
