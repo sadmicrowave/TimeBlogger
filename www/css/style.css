@@ -77,12 +77,12 @@ li.deletemode .delete-button {
     -webkit-box-shadow:none !important;
 }
 
-#taskDelete{
+#taskDelete, #projectDelete{
     position:relative !important;
     float:left !important;
     opacity:1 !important;
     width:85% !important;
-    margin:0 7.5% 0 7.5% !important;
+    margin:10px 7.5% 0 7.5% !important;
 }
 
 #jqt .pages {

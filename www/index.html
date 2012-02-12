@@ -21,7 +21,7 @@
     <link rel="stylesheet" media="screen" href="css/style.css" type="text/css">
   </head>
     <body onload="init();">
-      <!--create the first view holding our project list-->
+    <!--create the first view holding our project list-->
       <div id='firstPage' class='pages'>
           <div class='toolbar' >
               <h1>My Projects</h1>
@@ -32,6 +32,19 @@
           </ul>
           <div class='blank-message' id='noProjects'>Click the '+' button to create a new project.</div>
           <a class='slideup' id='info-link' href='#infoPage'></a>
+      </div>
+      <!--create edit project page-->
+      <div id='editProjectPage' class='pages'>
+          <div class='toolbar'>
+              <h1>Edit Project</h1>
+              <a class="cancelbtn button back" href="#">Cancel</a>
+              <a class="button save project-edit" href="#firstPage">Save</a>
+          </div>
+          <ul id='edit_project_ul' class='rounded' style='margin-top:10px;'>
+              <li><input type="text" placeholder="Project Name" name="projectname" id="projectname_input" autocapitalize="off" autocorrect="off" autocomplete="off"></li>
+          </ul>
+          <h3 style='width:95%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Project also permanently deletes all tasks associated with it.</h3>
+          <a class='button redButton save delete-button' id='projectDelete' href='#firstPage'>Delete This Project</a>
       </div>
       <!--create info wiki page-->
       <div id='infoPage' class='pages'>

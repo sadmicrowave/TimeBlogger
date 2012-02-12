@@ -4,7 +4,7 @@ $(document).ready(function(){
         //remove list item main delete button
         $('li.deletemode').toggleClass('deletemode arrow');
         //remove list item a tag padding and hide and rotate UI delete icons
-        $('li a.pad').toggleClass('pad').find('.delete-icon.active').toggleClass('active');
+        $('li a.pad').toggleClass('pad').attr('href', '#detailView').find('.delete-icon.active').toggleClass('active');
         //change inner text of 'done' button to 'edit' if button has active state
         $('.toolbar a.edit-click').toggleClass('edit-click').text( ( $(this).text() == 'Edit' ? 'Done' : 'Edit' ) );
     }
@@ -117,7 +117,7 @@ $(document).ready(function(){
                     detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
                     detailh4lbl = "<h4>Task Details</h4>",
                     detail_ul = "<ul id='task_detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
-                    deletebtn = "<a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
+                    deletebtn = "<h3 style='width:95%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Task is permanent and cannot be reversed.</h3><a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
                 
                 //assign attributes
                 $detailView.attr({'taskId': elid, 'projId': projId})
@@ -131,6 +131,17 @@ $(document).ready(function(){
                 getDBDetailEntries( elid );
             }
         }
+    });
+    
+    $(document.body).on(clickEvent, 'a.pad', function(){
+        var href        = this.getAttribute('href'),
+            proj_name   = this.getAttribute('projname'),
+            projId      = this.getAttribute('id');
+        
+        this.setAttribute('href', '#editProjectPage');
+        $('#editProjectPage').attr('projId', projId)
+            .find('ul#edit_project_ul li input').val( proj_name );
+            
     });
 
     $(document.body).on(clickEvent, 'a.pad .all-sub .delete-icon', function(){
@@ -170,6 +181,21 @@ $(document).ready(function(){
             notifyBanner( 'error', "Request Failed<br><span style='font-size:14px;'>Project Name can not be empty.</span>" );
             return false;
         }
+    });
+    
+    $('a.save.project-edit').on(clickEvent, function(){
+        var projId = $('#editProjectPage').attr('projId'),
+            proj_name = $('ul#edit_project_ul li input').val();
+        updateProject(projId, proj_name);
+    });
+    
+    $('#projectDelete').on(clickEvent, function(){
+        var projId = $('#editProjectPage').attr('projId');
+        deleteProject(projId);
+            //answer = confirm("Are you sure you want to delete this project and all associated tasks?");
+        //if( answer ) deleteProject(projId);
+        //navigator.notification.confirm("Are you sure you want to delete this project and all associated tasks?", 
+          //                          function(i){ if(i==2)deleteProject(projId); window.location('#firstPage'); }, "Delete?", "No,Yes");
     });
                   
     // when the project-save button is clicked    
