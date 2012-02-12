@@ -101,7 +101,7 @@ function onResume(){
     
     //get all active timer buttons that are red and assign them to a variable
     //var $this = $('a.timerbtn.redButton'),
-    $('a.timerbtn.redButton').each(function(i,e){
+    $('a.timerbtn.redButton').each(function(){
         var $this = $(this),
             //get all active time label divs that are related to the active timer btn retrieved above
             timediv = $this.parent().find('h2.time'),
@@ -109,12 +109,12 @@ function onResume(){
             aTime   = timediv.text().split(':'),
             //calculate new time in seconds by adding pause-resume time difference to current time in h2.time label
             seconds = toSeconds( aTime ) + timeDiff;
-            //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
-            $this.data('timer', setInterval( function(){ 
-                                    seconds++;
-                                    timediv.text( toHHMMSS( seconds ) ); 
+        //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
+        $this.data('timer', setInterval( function(){ 
+                                seconds++;
+                                timediv.text( toHHMMSS( seconds ) ); 
                             },1000)
-                        );
+                  );
     });
 }
 
