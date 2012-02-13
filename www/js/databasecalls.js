@@ -63,21 +63,18 @@ function notifyBanner( type, msg ){
         if( $('.banner-notify').length > 0 ) $('.banner-notify').detach();
         setTimeout(function(){
             $('.pages')
-            //append the banner div and add the banner-notify class and success/error class
-                .append( $('<div/>').addClass('banner-notify ' + bannerType)
-                //add explanation content to banner div
-                            .html( msg )
-                        )
-                //find the banner just created within the parent document
-                .find('.banner-notify')
-                //animate the banner up from below the viewport
-                .animate({'bottom':'0px'}, 150)
-                //leave it visible for 4 seconds
-                .delay(4000)
-                //animate the banner back below the viewport bottom and remove it from the DOM
-                .animate({'bottom':'-52px'}, 500, function(){
-                         $(this).detach();
-                });
+                    //append the banner div and add the banner-notify class and success/error class
+                    .append( $('<div/>').addClass('banner-notify ' + bannerType).html( msg ) )
+                    //find the banner just created within the parent document
+                    .find('.banner-notify')
+                    //animate the banner up from below the viewport
+                    .animate({'bottom':'0px'}, 250)
+                    //leave it visible for 4 seconds
+                    .delay(3500)
+                    //animate the banner back below the viewport bottom and remove it from the DOM
+                    .animate({'bottom':'-52px'}, 500, function(){
+                        $(this).detach();
+                    });
         },300);
     }
 
