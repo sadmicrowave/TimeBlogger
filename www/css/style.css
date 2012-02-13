@@ -103,9 +103,8 @@ li.deletemode .delete-button {
     color:#c0c0c0;
 }
 a#info-link{
-    position:inherit;
-    float:left;
-    margin-left:10px !important;
+    float:right;
+    margin-right:10px !important;
     margin-top:-5px;
     width:22px;
     height:22px;
