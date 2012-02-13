@@ -351,7 +351,7 @@ function updateTask(taskId, projId){
        if( selectedStatus == 1 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId, sortOrder);
     // need to re-run the sql call to generate the new project table
