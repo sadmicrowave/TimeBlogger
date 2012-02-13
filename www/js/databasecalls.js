@@ -344,14 +344,14 @@ function updateTask(taskId, projId){
         noStartStatus   = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length,
         compStatus      = $(taskDetailView + " ul.segmented li:last-child a.activated").length,
         selectedStatus  = $(taskDetailView + " ul.segmented li a.activated").attr('rel'),
-        taskStatus      = ( tTime > 0 ? ( !noStartStatus ? 2 : selectedStatus )  : ( compStatus ? selectedStatus : 1 ) ),
+        taskStatus      = ( tTime > 0 ? ( !noStartStatus ? 2 : selectedStatus ) : ( compStatus ? selectedStatus : 1 ) ),
         sortDiv         = $("ul#detail_sort_seg li a.activated"),
         sortOrder       = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
        if( selectedStatus == 2 && tTime == 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'In Process' if timer is empty</span>" );
        if( selectedStatus == 1 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskStatus="+taskStatus+", taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId, sortOrder);
     // need to re-run the sql call to generate the new project table
