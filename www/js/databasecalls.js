@@ -113,7 +113,7 @@ function onResume(){
     
     //get all active timer buttons that are red and assign them to a variable
     //var $this = $('a.timerbtn.redButton'),
-    $('a.timerbtn.redButton').each(function(i,e){
+    $('a.timerbtn.redButton').each(function(){
         var $this = $(this),
             //get all active time label divs that are related to the active timer btn retrieved above
             timediv = $this.parent().find('h2.time'),
@@ -121,12 +121,12 @@ function onResume(){
             aTime   = timediv.text().split(':'),
             //calculate new time in seconds by adding pause-resume time difference to current time in h2.time label
             seconds = toSeconds( aTime ) + timeDiff;
-            //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
-            $this.data('timer', setInterval( function(){ 
-                                    seconds++;
-                                    timediv.text( toHHMMSS( seconds ) ); 
+        //create 1 second interal loop which increments seconds var and calls toHHMMSS func then writes results to timer label
+        $this.data('timer', setInterval( function(){ 
+                                seconds++;
+                                timediv.text( toHHMMSS( seconds ) ); 
                             },1000)
-                        );
+                  );
     });
 }
 
@@ -216,7 +216,7 @@ function renderProjectDBEntries(tx, results){
                 totTime = ( row.totalTime ? toHHMMSS(row.totalTime) : "00:00:00" );
             (function(pid, proj_name, totTime){
                 proj_name = filterInputText( proj_name );
-                listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' href='#detailView' id='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' projname='"+proj_name+"' href='#detailView' id='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName, totTime);
             
         }
@@ -330,6 +330,14 @@ function createTask(projId){
     getDBProjectEntries();
 }
 
+function updateProject(projId, proj_name){
+    log("...updating project");
+    dbShell.transaction(function(tx){
+                        tx.executeSql("UPDATE tbProjects SET projectName='"+proj_name+"' WHERE projectId="+projId+"")}, errorHandler);
+    log("project updated successfully!");
+    getDBProjectEntries();
+}
+
 function updateTask(taskId, projId){
     log("...updating task");
     var taskDetailView  = "#taskDetailView_"+taskId,
@@ -345,7 +353,7 @@ function updateTask(taskId, projId){
        if( selectedStatus == 2 && tTime == 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'In Process' while timer is empty</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId='"+taskId+"'")}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime='"+tTime+"', taskDetails='"+tDetails+"', taskStatus='"+taskStatus+"', taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId, sortOrder);
     // need to re-run the sql call to generate the new project table

@@ -21,8 +21,8 @@
     <link rel="stylesheet" media="screen" href="css/style.css" type="text/css">
   </head>
     <body onload="init();">
-      <!--create the first view holding our project list-->
-      <div id='firstPage' class='pages'>
+    <!--create the first view holding our project list-->
+      <div id='firstPage' class='fullscreen pages'>
           <div class='toolbar' >
               <h1>My Projects</h1>
               <a class='button edit' href='#' style='left:6px; text-align:center; width:30px;'>Edit</a>
@@ -31,6 +31,44 @@
           <ul id='project_ul' class='rounded' style='margin-top:10px;'>
           </ul>
           <div class='blank-message' id='noProjects'>Click the '+' button to create a new project.</div>
+          <div style='width:100%; text-align:right;'><a class='slideup' id='info-link' href='#infoPage'></a></div>
+      </div>
+      <!--create edit project page-->
+      <div id='editProjectPage' class='pages'>
+          <div class='toolbar'>
+              <h1>Edit Project</h1>
+              <a class="cancelbtn button back" href="#">Cancel</a>
+              <a class="button save project-edit" href="#firstPage">Save</a>
+          </div>
+          <ul id='edit_project_ul' class='rounded' style='margin-top:10px;'>
+              <li><input type="text" placeholder="Project Name" name="projectname" id="projectname_input" autocapitalize="off" autocorrect="off" autocomplete="off"></li>
+          </ul>
+          <h3 style='width:95%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Project also permanently deletes all tasks associated with it.</h3>
+          <a class='button redButton save delete-button' id='projectDelete' href='#firstPage'>Delete This Project</a>
+      </div>
+      <!--create info wiki page-->
+      <div id='infoPage' class='pages'>
+        <div class='toolbar' >
+            <h1>Usage Wiki</h1>
+            <a class='button goback cancel' href='#'>Close</a>
+        </div>
+        <h4 class='info' style='margin-top:0px !important;' >&#9884; Creating Projects &#9884;</h4>
+        <h3>To create a project, click on the '+' button in the project window, enter the project name, and click 'save'.</h3>
+        <h4 class='info'>&#9884; Editing Projects &#9884;</h4>
+        <h3>To edit a project name, click on the edit button in the project window, select a project to edit, then change the project name and click 'save'.</h3>
+        <h4 class='info'>&#9884; Deleting Projects &#9884;</h4>
+        <h3>To delete a project, click on the edit button in the project window, click the delete icon for the project you wish to delete and press the resulting delete button.  Also, you can swipe your finger across the project name and tap the resulting delete button.  Alternatively, you can edit a project by clicking the 'edit' buttin in the project window and click the delete button in the edit project window.  Note, deleting a project automatically deletes all associated tasks.</h3>
+        <h4 class='info'>&#9884; Creating Tasks &#9884;</h4>
+        <h3>To create a task within a project, click on the project you want to enter, then click the '+' button in the task window.  Enter a task name and some details, and start the timer.  When your ready, click 'save'.</h3>
+        <h4 class='info'> &#9884;Updating Tasks &#9884;</h4>
+        <h3>To edit/update a task click on a task in the task window, change/update any information you wish and tap 'save'.</h3>
+        <h4 class='info'>&#9884; Task Status &#9884;</h4>
+        <h3>Task Status is a way to keep track of tasks that have not been started, are currently in process, or have been completed.  To change the task status click on a task in the task window and tap any of the three task status options in the segmented control bar at the top of the task details window.</h3>
+        <h4 class='info'>&#9884; Deleting Tasks &#9884;</h4>
+        <h3>To delete a task swipe your finger across the task name and click the resulting delete button.  Alternatively, you can click a task in the task window, scroll to the bottom of the task details window and press the 'Delete This Task' button.</h3>
+        <h4 class='info'>&#9884; Sorting Lists &#9884;</h4>
+        <h3>You can sort project and task lists by utilizing the sorting segmented control bar at the top of each list window.  Tap each section multiple times to switch between ascending and descending sort orders.</h3>
+        <h4 class='info'>&#9884;</h4>
       </div>
       <!--create the drilldown view holding out task list-->
       <div id='detailView' class='pages'>
