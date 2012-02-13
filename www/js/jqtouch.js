@@ -17,8 +17,8 @@
 
     (c) 2009-2011 Sencha Labs
     jQTouch may be freely distributed under the MIT license.
-
 */
+
 (function() {
 
     jQTouchCore = function(options) {
@@ -51,7 +51,7 @@
                 icon4: null, // available in iOS 4.2 and later.
                 preloadImages: false,
                 startupScreen: null,
-                statusBar: 'default', // other options: default, black-translucent, black
+                statusBar: 'black-translucent', // other options: default, black-translucent, black
                 submitSelector: '.submit',
                 touchSelector: 'a, .touch',
                 trackScrollPositions: true,
@@ -748,3 +748,6 @@
         })(Zepto);
     }
 })(); // Double closure, ALL THE WAY ACROSS THE SKY
+
+
+
