@@ -118,7 +118,7 @@ $(document).ready(function(){
                     detailh4lbl = "<h4>Task Details</h4>",
                     detail_ul = "<ul id='task_detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' style='height:280px;' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
                     deletebtn = "<h3 style='width:95%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Task is permanent and cannot be reversed.</h3><a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br>";
-                
+                        
                 //assign attributes
                 $detailView.attr({'taskId': elid, 'projId': projId})
                             //assign class
@@ -129,6 +129,7 @@ $(document).ready(function(){
                             .appendTo('body');
                 //populate fields in page view with DB results
                 getDBDetailEntries( elid );
+                        
             }
         }
     });

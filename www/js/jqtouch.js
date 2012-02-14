@@ -55,10 +55,11 @@
                 submitSelector: '.submit',
                 touchSelector: 'a, .touch',
                 trackScrollPositions: true,
-                useAnimations: true,
+                useAnimations: false, //true is default, but this is buggy. ~JF
                 useFastTouch: true,
                 useTouchScroll: true,
                 animations: [ // highest to lowest priority
+                    {name:'slideleft', selector:'.slideleft, .slide, #jqt > * > ul li a'}, // <-- this is the culprit ~JF
                     {name:'cubeleft', selector:'.cubeleft, .cube', is3d: true},
                     {name:'cuberight', selector:'.cuberight', is3d: true},
                     {name:'dissolve', selector:'.dissolve'},
@@ -70,7 +71,7 @@
                     {name:'slidedown', selector:'.slidedown'},
                     {name:'slideright', selector:'.slideright'},
                     {name:'slideup', selector:'.slideup'},
-                    {name:'slideleft', selector:'.slideleft, .slide, #jqt > * > ul li a'}
+                    
                 ]
             }; // end defaults
 
