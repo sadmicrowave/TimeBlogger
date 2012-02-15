@@ -148,6 +148,27 @@ function setupDBTable(tx){
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 4", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 5", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 6", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 7", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 8", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 9", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 10", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 11", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 12", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 13", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 14", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 15", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 16", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 17", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 18", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 19", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 20", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 21", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 22", setCurrTime()]);
+    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 23", setCurrTime()]);
     //created many more projects to test what happens with jqtouch rendering objects that exceed the height of the originally set page height
     
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[1, "Mowed Lawn", 60, "Mowed the lawn next to the church", 3, setCurrTime(), setCurrTime()]);
