@@ -59,7 +59,8 @@
                 useFastTouch: true,
                 useTouchScroll: true,
                 animations: [ // highest to lowest priority
-                    {name:'slideleft', selector:'.slideleft, .slide, #jqt > * > ul li a'}, // <-- this is the culprit ~JF
+                    {name:'slideleft', selector:'.slideleft, .slide, .pages'},
+                    //{name:'slideleft', selector:'.slideleft, .slide, #jqt > * > ul li a'}, // <-- this is the culprit ~JF
                     {name:'cubeleft', selector:'.cubeleft, .cube', is3d: true},
                     {name:'cuberight', selector:'.cuberight', is3d: true},
                     {name:'dissolve', selector:'.dissolve'},
