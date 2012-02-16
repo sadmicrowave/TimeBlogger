@@ -105,10 +105,11 @@ li.deletemode .delete-button {
 a#info-link{
     float:right;
     margin-right:10px !important;
-    margin-top:-5px;
-    width:22px;
-    height:22px;
-    background:url(../img/info-icon.png);
+    margin-top:5px;
+    margin-bottom:5px;
+    width:30px;
+    height:30px;
+    background:url(../img/info-icon.png) 0 0 no-repeat;
 }
 #jqt h4.info{
     font-size:18px;
