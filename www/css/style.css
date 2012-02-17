@@ -37,16 +37,17 @@ a .delete-icon{
     text-align:center;
     line-height:16px;
     left:0px;
-    width:23px;
-    height:23px; /*23px*/
+    width:27px;  /*22px*
+    height:28px; /*22px*/
     -webkit-border-radius: 15px;
-    -webkit-box-shadow: 1px 1px 2px #000;
+    /*-webkit-box-shadow: 1px 1px 2px #000;*/
     -webkit-transition: -webkit-transform .4s ease;
-    background:url(../img/ios-delete-circle.png) no-repeat;
+    /*background:url(../img/ios-delete-circle.png) no-repeat;*/
+    background:url(../img/ios-delete-circle-with-shadow.png) no-repeat;
 }
 
 .delete-icon.activated{
-    -webkit-transform: rotate(90deg);
+    -webkit-transform: rotate(-90deg);
 }
 
 .delete-button{
