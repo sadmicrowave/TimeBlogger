@@ -81,9 +81,9 @@ $(document).ready(function(){
                 //toggle the inner padding of link and show multiple UI delete buttons
                 .toggleClass('pad')
                 //find the active (clicked state) UI delete buttons
-                .find('.delete-icon.active')
+                .find('.delete-icon.activated')
                 //toggle the active click state of active UI delete icons found
-                .toggleClass('active');
+                .toggleClass('activated');
                 //hide large delete buttons if any are visible
         $('li.deletemode').toggleClass('arrow deletemode');
         //prevent document event bubbling
@@ -148,12 +148,13 @@ $(document).ready(function(){
     $(document.body).on(clickEvent, 'a.pad .all-sub .delete-icon', function(){
     //set animations for UI delete icon click event
         //remove active and deletemode classes for other list items that have been clicked before and still have those states
-        $('.delete-icon.active').not(this).toggleClass('active')
+        //alert( $('.delete-icon.active').not(this).attr('projname') );
+        $('.delete-icon.activated').not(this).toggleClass('activated')
                                 .closest('li.deletemode')
                                 .toggleClass('arrow deletemode');
         
         //set active (clicked) status of UI delete icon (rotate icon 90deg)
-        $(this).toggleClass('active')
+        $(this).toggleClass('activated')
         //reverse event bubble effecting listitem-a link active state (a tag turns green after click)
                 .closest('a.item').toggleClass('active').parent()
                 //show/hide the main list item delete button
