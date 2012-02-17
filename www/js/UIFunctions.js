@@ -117,7 +117,7 @@ $(document).ready(function(){
                     detail_timer_ul = "<ul id='detail_timer_ul' class='rounded' style='height:55px;'><li style='height:55px; padding:0px; margin:0px; line-height:55px;'><a class='button greenButton timerbtn' href='#'>Start</a><h2 class='time' style='position:relative; float:right; color:#fff; font-size:23px; right:5px; top:5px; vertical-align:middle;'>00:00:00</h2></li></ul>",
                     detailh4lbl = "<h4>Task Details</h4>",
                     detail_ul = "<ul id='task_detail_ul' class='rounded'><li><input type='text' name='taskname' placeholder='Task Name' id='taskname_input' autocapitalize='off' autocorrect='off' autocomplete='off'></li><li><textarea name='taskdetails' placeholder='Enter a Description of Your Task' rows='3' cols='2' id='taskdetails_input' autocapitalize='on' autocorrect='on' autocomplete='on'></textarea></li></ul>",
-                    deletebtn = "<h3 style='width:95%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Task is permanent and cannot be reversed.</h3><a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br></div>";
+                    deletebtn = "<h3 style='width:93%; text-align:center;'>Delete Warning: This action cannot be undone.  Deleting a Task is permanent and cannot be reversed.</h3><a class='button redButton save delete-button' id='taskDelete' href='#detailView'>Delete This Task</a><br><br></div>";
                  //style='height:280px;'       
                 //assign attributes
                 $detailView.attr({'taskId': elid, 'projId': projId})
