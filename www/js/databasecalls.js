@@ -351,7 +351,7 @@ function createTask(projId){
 function updateProject(projId, proj_name){
     log("...updating project");
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbProjects SET projectName='"+proj_name+"' WHERE projectId="+projId+"")}, errorHandler);
+                        tx.executeSql("UPDATE tbProjects SET projectName=? WHERE projectId=?", [proj_name, projId])}, errorHandler);
     log("project updated successfully!");
     getDBProjectEntries();
 }
@@ -372,7 +372,7 @@ function updateTask(taskId, projId){
        if( selectedStatus == 1 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName='"+tName+"', taskTime="+tTime+", taskDetails='"+tDetails+"', taskStatus="+taskStatus+", taskUpdated='"+setCurrTime()+"' WHERE taskId="+taskId+"")}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName=?, taskTime=?, taskDetails=?, taskStatus=?, taskUpdated=? WHERE taskId=?",[tName, tTime, tDetails, taskStatus, setCurrTime(), taskId])}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId, sortOrder);
     // need to re-run the sql call to generate the new project table
@@ -384,7 +384,7 @@ function updateTask(taskId, projId){
 function deleteProject(projId){
     log("deleting project and related tasks...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbProjects WHERE projectId="+projId+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbProjects WHERE projectId=?",[projId])}, errorHandler);
     deleteTaskEntries(projId);
     log("...removed project!");
     // deleted a project, animate the project list item out of view
@@ -404,7 +404,7 @@ function deleteProject(projId){
 function deleteTaskEntries(projId){
     log("deleting tasks related to project...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE projectId="+projId+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbTasks WHERE projectId=?",[projId])}, errorHandler);
     log("...removed all associated project tasks!");
 }
 
@@ -412,7 +412,7 @@ function deleteTaskEntries(projId){
 function deleteTask(projId, taskId){
     log("deleting task...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("DELETE FROM tbTasks WHERE taskId="+taskId+"")}, errorHandler);
+                        tx.executeSql("DELETE FROM tbTasks WHERE taskId=?",[taskId])}, errorHandler);
     log("...removed task!");
     // deleted a task, animate the task list item out of view
     $("#detailView li#_"+taskId+"").animate({'height':'0px', 'paddingTop':'0px', 'paddingBottom':'0px', 'opacity':0}, 250, function(){
