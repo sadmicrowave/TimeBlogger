@@ -32,9 +32,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4EFA05FD14D3A0D900054364"
-            BuildableName = "TimeBlogger.app"
-            BlueprintName = "TimeBlogger"
-            ReferencedContainer = "container:TimeBlogger.xcodeproj">
+            BuildableName = "jobTails.app"
+            BlueprintName = "jobTails"
+            ReferencedContainer = "container:jobTails.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
    </TestAction>
@@ -50,9 +50,9 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "4EFA05FD14D3A0D900054364"
-            BuildableName = "TimeBlogger.app"
-            BlueprintName = "TimeBlogger"
-            ReferencedContainer = "container:TimeBlogger.xcodeproj">
+            BuildableName = "jobTails.app"
+            BlueprintName = "jobTails"
+            ReferencedContainer = "container:jobTails.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
