@@ -234,7 +234,7 @@ function renderProjectDBEntries(tx, results){
                 totTime = ( row.totalTime ? toHHMMSS(row.totalTime) : "00:00:00" );
             (function(pid, proj_name, totTime){
                 proj_name = filterInputText( proj_name );
-                listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' projname='"+proj_name+"' href='#detailView' id='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow project' id='_"+pid+"'><a class='item' projname='"+proj_name+"' href='#detailView' id='"+pid+"'><div class='all-sub'><div class='outer-delete-icon'><div class='delete-icon'></div></div>&nbsp;<span class='item_header'>"+proj_name+"</span><br><span class='item_sub'>Total Time: "+totTime+"</span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.projectId, row.projectName, totTime);
             
         }
@@ -268,7 +268,7 @@ function renderTaskDBEntries(tx, results){
                 var taskStatusText  = '',
                     task_name       = filterInputText( task_name );
                 switch( taskStatus ){ case 1: taskStatusText='Not Started'; break; case 2: taskStatusText='In Process'; break; case 3: taskStatusText='Complete'; break; }
-                listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView_"+tid+"' id='"+tid+"' rel='"+pid+"'><div class='all-sub'>&nbsp;<div class='delete-icon'></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'><div class='inner-item-sub' style='color:#eaeaea;'>"+taskStatusText+"</div><div style='margin-left:75px;'>"+task_updated+"</div></span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
+                listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView_"+tid+"' id='"+tid+"' rel='"+pid+"'><div class='all-sub'><div class='outer-delete-icon'><div class='delete-icon'></div></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'><div class='inner-item-sub' style='color:#eaeaea;'>"+taskStatusText+"</div><div style='margin-left:75px;'>"+task_updated+"</div></span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
             })(row.taskId, row.projectId, row.taskName, row.taskStatus, row.taskUpdated);
         }
         //clear out whatever entries were there in the first place
