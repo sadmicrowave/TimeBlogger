@@ -130,9 +130,9 @@ function onResume(){
 // setup the db
 function setupDBTable(tx){
     // we will want to remove the following three lines before go live
-    tx.executeSql("DROP TABLE IF EXISTS tbProjects");
-    tx.executeSql("DROP TABLE IF EXISTS tbTasks");
-    log("All tables dropped!");
+    //tx.executeSql("DROP TABLE IF EXISTS tbProjects");
+    //tx.executeSql("DROP TABLE IF EXISTS tbTasks");
+    //log("All tables dropped!");
     // this statement creates the table named 'tb'. We use 'IF NOT EXISTS' so that this statement
     // is safe to run again and again
     // setup project table
@@ -144,7 +144,7 @@ function setupDBTable(tx){
     
     // test fill of the DB
     // for now the date and time is hardcoded... this will need to be changed to generate the date & time when task is created
-    log("generating dummy data");
+    /*log("generating dummy data");
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
     tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
@@ -177,6 +177,7 @@ function setupDBTable(tx){
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[2, "Cooked Dinner", 2232, "Cooked some great turkey in the stove that we are having for dinner tomorrow", 2, setCurrTime(), setCurrTime()]);
     tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[2, "Payed Bills", 23332, "Paid all those bills, those telephone bills, the auto-mo-bills.", 3, setCurrTime(), setCurrTime()]);
     log("generated dummy data");
+    */
 }
 
 // Database query function
