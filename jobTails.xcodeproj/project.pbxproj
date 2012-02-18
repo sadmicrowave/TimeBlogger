@@ -51,10 +51,10 @@
 		4EFA061614D3A0D900054364 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		4EFA061814D3A0D900054364 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		4EFA061A14D3A0D900054364 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
-		4EFA061E14D3A0D900054364 /* jobTails-Info.plist */ = {isa = PBXFileReference; path = "jobTails-Info.plist"; sourceTree = "<group>"; };
+		4EFA061E14D3A0D900054364 /* jobTails-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "jobTails-Info.plist"; sourceTree = "<group>"; };
 		4EFA062014D3A0D900054364 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4EFA062214D3A0D900054364 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		4EFA062414D3A0D900054364 /* jobTails-Prefix.pch */ = {isa = PBXFileReference; path = "jobTails-Prefix.pch"; sourceTree = "<group>"; };
+		4EFA062414D3A0D900054364 /* jobTails-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "jobTails-Prefix.pch"; sourceTree = "<group>"; };
 		4EFA062514D3A0D900054364 /* PhoneGap.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PhoneGap.framework; path = /Users/Shared/PhoneGap/Frameworks/PhoneGap.framework; sourceTree = "<absolute>"; };
 		4EFA062A14D3A0D900054364 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = Resources/en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		4EFA062E14D3A0D900054364 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = Resources/es.lproj/Localizable.strings; sourceTree = "<group>"; };
