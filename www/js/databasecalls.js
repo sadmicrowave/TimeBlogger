@@ -41,7 +41,7 @@ filterInputText = function(str){
     //function to sanatize DOM input fields 
     try
     {
-        return str.replace(/\s+/gm, ' ').match(/[a-zA-Z0-9\(\), \.!\/:%@&\?\+_=\-\$]+/gm).join('');
+        return str.match(/[a-zA-Z0-9\(\), \.!\/:%@&\?\+_=\-\$\n\r\s]+/gm).join(''); ///.replace(/\s+/gm, ' ')
     }
     catch(e)
     {
@@ -277,15 +277,19 @@ function renderTaskDetails(tx, results){
     if(results.rows.length > 0){    
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
+            log( "original details = " + results.rows.item(i).taskDetails );
             var row             = results.rows.item(i),
                 taskId          = row.taskId,
                 taskDetailView  = "#taskDetailView_"+taskId,
                 taskStatus      = row.taskStatus,
-                taskDetails     = filterInputText( row.taskDetails ),
-                taskName        = filterInputText( row.taskName );
+                taskDetails     = row.taskDetails.replace(/\r+/gm, '<br>'),
+                taskName        = row.taskName;
+                //taskDetails     = filterInputText( row.taskDetails ),
+                //taskName        = filterInputText( row.taskName );
             // append to the already existing DOM elements here since we are just dealing with one
             $(taskDetailView + " h2.time").html(toHHMMSS(row.taskTime));
             $(taskDetailView + " ul.segmented li#_"+taskStatus +" a").addClass('activated');
+            log( taskDetails );
             if( taskName.length > 0 ) $(taskDetailView + " #taskname_input").attr('placeholder', '').val(taskName);
             if( taskDetails.length > 0 ){
                 $(taskDetailView + " #taskdetails_input").attr('placeholder', '').text(taskDetails);
@@ -317,7 +321,7 @@ function createProject(pName){
 
 // write a project to the database
 function createTask(projId){
-    // grab the task name that the user typed in
+    // grab the task name that the user typed in    
     var tName       = filterInputText( $("#createTaskPage #taskname_input").val().trim() ),
         tDetails    = filterInputText( $("#createTaskPage #taskdetails_input").val().trim() ),
         tTime       = toSeconds($("#createTaskPage h2.time").text().split(':')),
