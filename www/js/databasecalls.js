@@ -13,14 +13,8 @@ function setCurrTime(){
         seconds = now.getSeconds(),
         meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
         // fix the leading zero issue for minutes
-        if (minutes < 10 ){
-            minutes = "0" + minutes;
-        }
-        
-        if (seconds < 10){
-            seconds = "0" + seconds;
-        }
-    
+        if (minutes < 10 ) minutes = "0" + minutes;
+        if (seconds < 10) seconds = "0" + seconds;
         time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds+' '+meridiem;
     return time;
 }
@@ -187,12 +181,13 @@ function getDBProjectEntries(){
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
     log("collecting DB Project entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT tbProjects.projectId, SUM(tbTasks.taskTime) AS totalTime, tbProjects.projectName FROM tbProjects LEFT OUTER JOIN tbTasks ON tbTasks.projectId = tbProjects.projectId GROUP BY tbProjects.projectId ORDER BY tbProjects.created DESC", [], renderProjectDBEntries, errorHandler)}, errorHandler);
+                        tx.executeSql("SELECT tbProjects.projectId, SUM(tbTasks.taskTime) AS totalTime, tbProjects.projectName FROM tbProjects LEFT OUTER JOIN tbTasks ON tbTasks.projectId = tbProjects.projectId GROUP BY tbProjects.projectId ORDER BY tbProjects.projectId DESC", [], renderProjectDBEntries, errorHandler)}, errorHandler);
     log("got DB entries!...");
 }
 
 // Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id, sortOrder){
+    log( "sortOrder = " + sortOrder );
     sortOrder = ( sortOrder ? sortOrder : 'taskUpdated DESC' );
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
@@ -364,11 +359,12 @@ function updateTask(taskId, projId){
         noStartStatus   = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length,
         compStatus      = $(taskDetailView + " ul.segmented li:last-child a.activated").length,
         selectedStatus  = $(taskDetailView + " ul.segmented li a.activated").attr('rel'),
-        taskStatus      = ( tTime > 0 ? ( !noStartStatus ? 2 : selectedStatus ) : ( compStatus ? selectedStatus : 1 ) ),
+        taskStatus      = ( tTime > 0 ? ( noStartStatus == 0 ? 2 : selectedStatus ) : ( compStatus ? selectedStatus : 1 ) ),
         sortDiv         = $("ul#detail_sort_seg li a.activated"),
         sortOrder       = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
+       //log( "taskStatus = " + taskStatus + ", selectedStatus = " + selectedStatus + ", tTime = " + tTime );
        if( selectedStatus == 2 && tTime == 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'In Process' if timer is empty</span>" );
-       if( selectedStatus == 1 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
+       if( selectedStatus == 1 && taskStatus != 2 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
                         tx.executeSql("UPDATE tbTasks SET taskName=?, taskTime=?, taskDetails=?, taskStatus=?, taskUpdated=? WHERE taskId=?",[tName, tTime, tDetails, taskStatus, setCurrTime(), taskId])}, errorHandler);
