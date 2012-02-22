@@ -39,14 +39,8 @@ function toSeconds( aTime ) {
 
 filterInputText = function(str){
     //function to sanatize DOM input fields 
-    try
-    {
-        return str.match(/[a-zA-Z0-9\(\), \.!\/:%@&\?\+_=\-\$\n\r\s]+/gm).join(''); ///.replace(/\s+/gm, ' ')
-    }
-    catch(e)
-    {
-        return '';
-    }
+    try { return str.match(/[a-zA-Z0-9\(\), \.!\/:%@&\?\+_=\-\$\n\r\s]+/gm).join(''); }
+    catch(e) { return ''; }
 }
 
 
@@ -277,15 +271,12 @@ function renderTaskDetails(tx, results){
     if(results.rows.length > 0){    
         var listitems = '';
         for(var i=0; i<results.rows.length; i++){
-            log( "original details = " + results.rows.item(i).taskDetails );
             var row             = results.rows.item(i),
                 taskId          = row.taskId,
                 taskDetailView  = "#taskDetailView_"+taskId,
                 taskStatus      = row.taskStatus,
                 taskDetails     = row.taskDetails.replace(/\r+/gm, '<br>'),
                 taskName        = row.taskName;
-                //taskDetails     = filterInputText( row.taskDetails ),
-                //taskName        = filterInputText( row.taskName );
             // append to the already existing DOM elements here since we are just dealing with one
             $(taskDetailView + " h2.time").html(toHHMMSS(row.taskTime));
             $(taskDetailView + " ul.segmented li#_"+taskStatus +" a").addClass('activated');
