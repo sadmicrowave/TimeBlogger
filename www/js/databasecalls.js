@@ -68,7 +68,7 @@ function notifyBanner( type, msg ){
 
 function phoneReady(){
     // **** first, open the database ****
-    dbShell = window.openDatabase("TimeBlogger", 1, "TimeBlogger", 1000000);
+    dbShell = window.openDatabase("jobtails", 1, "jobtails", 1000000);
     //and run another function if the setup is successful (displayEntries)
     dbShell.transaction(setupDBTable, errorHandler, getDBProjectEntries);
     
