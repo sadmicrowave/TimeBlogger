@@ -127,7 +127,7 @@ function setupDBTable(tx){
     tx.executeSql("CREATE TABLE IF NOT EXISTS tbProjects(projectId INTEGER PRIMARY KEY AUTOINCREMENT, projectName TEXT, created DATE)");
     log("Project Table Setup successfully");
     // setup tasks table
-    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime INTEGER, taskDetails TEXT, taskStatus INTEGER, taskCreated TEXT, userTime TEXT, taskUpdated TEXT)");
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT COLLATE NOCASE, taskTime INTEGER, taskDetails TEXT, taskStatus INTEGER, taskCreated TEXT, userTime TEXT, taskUpdated TEXT)");
     log("Tasks Table Setup successfully");
     
     // test fill of the DB
