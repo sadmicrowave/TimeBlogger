@@ -7,15 +7,15 @@ function log(s){
 // function to set the current time when it is called
 function setCurrTime(){
     var now = new Date(),
-        hours = now.getHours();
-        hours = ( hours > 12 ? hours-12 : ( hours == 0 ? 12 : hours ) ),
+        hours = now.getHours(),
+        //hours = ( hours > 12 ? hours-12 : ( hours == 0 ? 12 : hours ) ),
         minutes = now.getMinutes(),
-        seconds = now.getSeconds(),
-        meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
+        seconds = now.getSeconds();
+        //meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
         // fix the leading zero issue for minutes
         if (minutes < 10 ) minutes = "0" + minutes;
         if (seconds < 10) seconds = "0" + seconds;
-        time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds+' '+meridiem;
+        time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds ; //+' '+meridiem
     return time;
 }
 
@@ -181,7 +181,6 @@ function getDBProjectEntries(){
 
 // Database Task query function to get the general task information (taskId, taskname, taskCreated)
 function getDBTaskEntries(id, sortOrder){
-    log( "sortOrder = " + sortOrder );
     sortOrder = ( sortOrder ? sortOrder : 'taskUpdated DESC' );
     // embedding the function with the transaction call, if successful run 'renderDBEntries,
     // if result is bad run errorHandler, if the whole transaction fails run erroHandler
@@ -410,7 +409,7 @@ function deleteTask(projId, taskId){
         $(this).detach();
         //if no more list items are present execute functions to display the project create instructions and hide UL and Edit button.
         if( $("#detailView li.task").length == 0 ){
-            $('ul#detail_ul, .toolbar a.edit').css('display','none');
+            $('ul#detail_ul, ul#detail_sort_seg').css('display','none');
             //show project create instructions
             $('#noTasks').css('display','block');
         }
