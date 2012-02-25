@@ -350,15 +350,16 @@ function updateTask(taskId, projId){
         tName           = filterInputText( $(taskDetailView +" #taskname_input").val().trim() ),
         tDetails        = filterInputText( $(taskDetailView +" #taskdetails_input").val().trim() ),
         tTime           = toSeconds( $(taskDetailView +" h2.time").text().split(':') ),
-        noStartStatus   = $(taskDetailView + " ul.segmented li:not(:first-child) a.activated").length,
-        compStatus      = $(taskDetailView + " ul.segmented li:last-child a.activated").length,
+        //noStartStatus   = $(taskDetailView + " ul.segmented li:first-child a.activated").length,
+        //compStatus      = $(taskDetailView + " ul.segmented li:last-child a.activated").length,
         selectedStatus  = $(taskDetailView + " ul.segmented li a.activated").attr('rel'),
-        taskStatus      = ( tTime > 0 ? ( noStartStatus == 0 ? 2 : selectedStatus ) : ( compStatus ? selectedStatus : 1 ) ),
+        //taskStatus      = ( tTime > 0 ? ( noStartStatus == 0 ? 2 : selectedStatus ) : ( compStatus ? selectedStatus : 1 ) ),
+        taskStatus      = ( tTime > 0 ? ( selectedStatus == 1 ? 2 : selectedStatus ) : ( selectedStatus == 3 ? selectedStatus : 1 ) ),
         sortDiv         = $("ul#detail_sort_seg li a.activated"),
         sortOrder       = sortDiv.attr('rel') +' '+ sortDiv.attr('sort');
        //log( "taskStatus = " + taskStatus + ", selectedStatus = " + selectedStatus + ", tTime = " + tTime );
        if( selectedStatus == 2 && tTime == 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'In Process' if timer is empty</span>" );
-       if( selectedStatus == 1 && taskStatus != 2 && tTime > 0 ) notifyBanner( 'error', "Status Not Updated<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
+       if( selectedStatus == 1 && taskStatus == 2 && tTime > 0 ) notifyBanner( 'error', "Status Changed - 'In Process'<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
                         tx.executeSql("UPDATE tbTasks SET taskName=?, taskTime=?, taskDetails=?, taskStatus=?, taskUpdated=? WHERE taskId=?",[tName, tTime, tDetails, taskStatus, setCurrTime(), taskId])}, errorHandler);
