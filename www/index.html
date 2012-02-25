@@ -22,16 +22,15 @@
   </head>
     <body onload="init();">
     <!--create the first view holding our project list-->
-      <div id='firstPage' class='fullscreen pages'>
+      <div id='firstPage' class='pages'>
           <div class='toolbar' >
               <h1>My Projects</h1>
               <a class='button edit' href='#' style='left:6px; text-align:center; width:30px;'>Edit</a>
               <a href='#createProjectPage' class='button add'>+</a>
           </div>
-          <ul id='project_ul' class='rounded' style='margin-top:10px;'>
-          </ul>
+          <ul id='project_ul' class='rounded' style='margin-top:10px;'></ul>
           <div class='blank-message' id='noProjects'>Click the '+' button to create a new project.</div>
-          <div style='width:100%; text-align:right;'><a class='slideup' id='info-link' href='#ProjectInfoPage'></a></div>
+          <div style='width:100%; text-align:right;'><a class='slideup info-link' href='#ProjectInfoPage'></a></div>
       </div>
       <!--create edit project page-->
       <div id='editProjectPage' class='pages'>
@@ -48,37 +47,18 @@
       </div>
       <!--create info wiki page-->
       <div id='ProjectInfoPage' class='pages'>
-        <div class='toolbar' >
+        <div class='toolbar'>
             <h1>Project Wiki</h1>
             <a class='button goback cancel' href='#'>Close</a>
         </div>
-        <h4 class='info' style='margin-top:0px !important;' >&#9884; Creating Projects &#9884;</h4>
+        <h4 class='info' style='margin-top:0px !important;'>&#9884; Creating Projects &#9884;</h4>
         <h3>To create a project, click on the '+' button in the project window, enter the project name, and click 'save'.</h3>
         <h4 class='info'>&#9884; Editing Projects &#9884;</h4>
         <h3>To edit a project name, click on the 'edit' button in the project window, select a project to edit, then change the project name and tap 'save'.</h3>
         <h4 class='info'>&#9884; Deleting Projects &#9884;</h4>
         <h3>To delete a project, click on the 'edit' button in the project window, tap the delete icon for the project you wish to delete and press the resulting 'delete' button.  Also, you can swipe your finger across the project name and tap the resulting 'delete' button.  Alternatively, you can edit a project by clicking the 'edit' button in the project window and press the delete button in the edit project window.  Note, deleting a project permanently deletes all associated tasks as well.</h3>
+        <h4 class='info'>&#9884;</h4>
       </div>
-      <div id='TaskInfoPage' class='pages'>
-            <div class='toolbar' >
-                <h1>Task Wiki</h1>
-                <a class='button goback cancel' href='#'>Close</a>
-            </div>
-            <div>
-            <h4 class='info'>&#9884; Creating Tasks &#9884;</h4>
-            <h3>To create a task within a project, click on the project you want to enter, then click the '+' button in the task window.  Enter a task name and some details, and start the timer.  When your ready, click 'save'.</h3>
-            <h4 class='info'> &#9884;Updating Tasks &#9884;</h4>
-            <h3>To update a task click on a task in the task window, make your changes and tap 'save'.</h3>
-            <h4 class='info'>&#9884; Task Status &#9884;</h4>
-            <h3>Task Status is a way to keep track of tasks that have not been started, are currently in process, or have been completed.  To change the task status click on a task in the task window and tap any of the three task status options in the segmented control bar at the top of the task details window.</h3>
-            <h4 class='info'>&#9884; Deleting Tasks &#9884;</h4>
-            <h3>To delete a task swipe your finger across the task name and click the resulting 'delete' button.  Alternatively, you can select a task in the task window, scroll to the bottom of the task details window and press the 'Delete This Task' button.</h3>
-            <h4 class='info'>&#9884; Sorting Tasks &#9884;</h4>
-            <h3>You can sort the task list by utilizing the sorting segmented control bar at the top of task window.  Tap each section multiple times to switch between ascending and descending sort orders.</h3>
-            <h4 class='info'>&#9884;</h4>
-            </div>
-        </div>
-
       <!--create the drilldown view holding out task list-->
       <div id='detailView' class='pages'>
           <div class='toolbar'>
@@ -89,10 +69,26 @@
           <ul id='detail_sort_seg' class='segmented'>
             <li><a rel='taskStatus' sort='ASC' href='#'>Status</a></li><li><a rel='taskName' sort='ASC' href='#'>Name</a></li><li><a rel='taskUpdated' sort='DESC' href='#' class='activated'>Updated</a></li>
           </ul>
-          <ul id='detail_ul' class='rounded' style='margin-top:-5px !important;'>
-          </ul>
+          <ul id='detail_ul' class='rounded' style='margin-top:-5px !important;'></ul>
           <div class='blank-message' id='noTasks'>Click the '+' button to create a new task within this project.</div>
-          <div style='width:100%; text-align:right;'><a class='slideup' id='info-link' href='#TaskInfoPage'></a></div>
+          <div style='width:100%; text-align:right;'><a class='slideup info-link' href='#TaskInfoPage'></a></div>
+      </div>
+      <div id='TaskInfoPage' class='pages'>
+        <div class='toolbar'>
+            <h1>Task Wiki</h1>
+            <a class='button goback cancel' href='#'>Close</a>
+        </div>
+        <h4 class='info'>&#9884; Creating Tasks &#9884;</h4>
+        <h3>To create a task within a project, click on the project you want to enter, then click the '+' button in the task window.  Enter a task name and some details, and start the timer.  When your ready, click 'save'.</h3>
+        <h4 class='info'> &#9884;Updating Tasks &#9884;</h4>
+        <h3>To update a task click on a task in the task window, make your changes and tap 'save'.</h3>
+        <h4 class='info'>&#9884; Task Status &#9884;</h4>
+        <h3>Task Status is a way to keep track of tasks that have not been started, are currently in process, or have been completed.  To change the task status click on a task in the task window and tap any of the three task status options in the segmented control bar at the top of the task details window.</h3>
+        <h4 class='info'>&#9884; Deleting Tasks &#9884;</h4>
+        <h3>To delete a task swipe your finger across the task name and click the resulting 'delete' button.  Alternatively, you can select a task in the task window, scroll to the bottom of the task details window and press the 'Delete This Task' button.</h3>
+        <h4 class='info'>&#9884; Sorting Tasks &#9884;</h4>
+        <h3>You can sort the task list by utilizing the sorting segmented control bar at the top of task window.  Tap each section multiple times to switch between ascending and descending sort orders.</h3>
+        <h4 class='info'>&#9884;</h4>
       </div>
       <!--create the view to create projects and return to the 'firstPage' view-->
       <div id='createProjectPage' class='pages'>

@@ -60,6 +60,7 @@
                 useTouchScroll: true,
                 animations: [ // highest to lowest priority
                     {name:'slideleft', selector:'.slideleft, .slide, .pages'},
+                    {name:'slideup', selector:'.slideup'},
                     //{name:'slideleft', selector:'.slideleft, .slide, #jqt > * > ul li a'}, // <-- this is the culprit ~JF
                     {name:'cubeleft', selector:'.cubeleft, .cube', is3d: true},
                     {name:'cuberight', selector:'.cuberight', is3d: true},
@@ -71,8 +72,6 @@
                     {name:'swapleft', selector:'.swap', is3d: true},
                     {name:'slidedown', selector:'.slidedown'},
                     {name:'slideright', selector:'.slideright'},
-                    {name:'slideup', selector:'.slideup'},
-                    
                 ]
             }; // end defaults
 

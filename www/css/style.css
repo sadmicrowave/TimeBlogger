@@ -13,7 +13,7 @@ li.deletemode .delete-button { opacity:1; width:50px !important; }
 #jqt .pages { background:url(../img/ios_fabric.png);}
 #jqt .timerbtn{ position:relative; float:left; width:80px; }
 #jqt h4{ margin-top:-5px !important; padding:0 0 0 10px; text-shadow:#000 0 1px 1px; font-size:14px; color:#c0c0c0; }
-a#info-link{ float:right; margin-right:10px !important; margin-top:5px; margin-bottom:5px; width:30px; height:30px; background:url(../img/info-icon.png) 0 0 no-repeat; }
+a.info-link{ float:right; margin-right:10px !important; margin-top:5px; margin-bottom:5px; width:30px; height:30px; background:url(../img/info-icon.png) 0 0 no-repeat; }
 #jqt h4.info{ font-size:18px; margin-top:5px !important; -webkit-box-shadow: rgba(0, 0, 0, 0.4) 0 2px 4px !important; box-shadow: rgba(0, 0, 0, 0.4) 0 2px 6px; border-bottom: 1px solid #aaa; border-top: 1px solid #585858; }
 #jqt h4.info:last-child{ -webkit-box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 4px !important; box-shadow: rgba(0, 0, 0, 0.3) 0 -1px 4px; }
 #jqt h3{ font-size:14px !important; margin:5px 0 5px 0 !important; padding: 0 10px 0 10px; text-shadow:#000 0 1px 1px; color:#c0c0c0; }
