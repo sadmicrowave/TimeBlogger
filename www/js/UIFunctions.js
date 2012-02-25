@@ -22,7 +22,7 @@ $(document).ready(function(){
         //clear any other visible UI actions
         clearUIActions();
     });
-                 
+
     $('.cancelbtn').bind(clickEvent, function(){ $(this).clearUIInputs() });
                   
     $.fn.clearUIInputs = function(){
