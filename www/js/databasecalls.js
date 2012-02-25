@@ -68,7 +68,7 @@ function notifyBanner( type, msg ){
 
 function phoneReady(){
     // **** first, open the database ****
-    dbShell = window.openDatabase("TimeBlogger", 1, "TimeBlogger", 1000000);
+    dbShell = window.openDatabase("jobtails", 1, "jobtails", 1000000);
     //and run another function if the setup is successful (displayEntries)
     dbShell.transaction(setupDBTable, errorHandler, getDBProjectEntries);
     
@@ -127,7 +127,7 @@ function setupDBTable(tx){
     tx.executeSql("CREATE TABLE IF NOT EXISTS tbProjects(projectId INTEGER PRIMARY KEY AUTOINCREMENT, projectName TEXT, created DATE)");
     log("Project Table Setup successfully");
     // setup tasks table
-    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT, taskTime INTEGER, taskDetails TEXT, taskStatus INTEGER, taskCreated TEXT, taskUpdated TEXT)");
+    tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT COLLATE NOCASE, taskTime INTEGER, taskDetails TEXT, taskStatus INTEGER, taskCreated TEXT, userTime TEXT, taskUpdated TEXT)");
     log("Tasks Table Setup successfully");
     
     // test fill of the DB
@@ -187,7 +187,7 @@ function getDBTaskEntries(id, sortOrder){
     // executeSQL('THE SQL STATEMENT', empty array, successFunc, failFunc)
     log("collecting DB Task entries...");
     dbShell.transaction(function(tx){
-                        tx.executeSql("SELECT taskId, projectId, taskName, taskStatus, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY "+sortOrder+"", [], renderTaskDBEntries, errorHandler)}, errorHandler); //taskUpdated DESC
+                        tx.executeSql("SELECT taskId, projectId, taskName, taskStatus, userTime, taskUpdated FROM tbTasks WHERE projectId="+id+" ORDER BY "+sortOrder+"", [], renderTaskDBEntries, errorHandler)}, errorHandler); //taskUpdated DESC
     log("got DB entries!...");
 }
 
@@ -256,7 +256,7 @@ function renderTaskDBEntries(tx, results){
                 var taskStatusText  = '';
                 switch( taskStatus ){ case 1: taskStatusText='Not Started'; break; case 2: taskStatusText='In Process'; break; case 3: taskStatusText='Complete'; break; }
                 listitems += "<li class='arrow task' id='_"+tid+"'><a class='item' href='#taskDetailView_"+tid+"' id='"+tid+"' rel='"+pid+"'><div class='all-sub'><div class='outer-delete-icon'><div class='delete-icon'></div></div>&nbsp;<span class='item_header'>"+task_name+"</span><br><span class='item_sub'><div class='inner-item-sub' style='color:#eaeaea;'>"+taskStatusText+"</div><div style='margin-left:75px;'>"+task_updated+"</div></span></div></a><a class='delete-button button redButton' href='#'>Delete</a></li>";
-            })(row.taskId, row.projectId, row.taskName, row.taskStatus, row.taskUpdated);
+            })(row.taskId, row.projectId, row.taskName, row.taskStatus, row.userTime);
         }
         //clear out whatever entries were there in the first place
         //append accumulated listitems into parent container
@@ -323,7 +323,7 @@ function createTask(projId){
     log("Inserting "+tName+" task into database...");
     log("With the following details: "+tDetails+" ");
     dbShell.transaction(function(tx){
-                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[projId, tName, tTime, tDetails, taskStatus, setCurrTime(), setCurrTime()])}, errorHandler);
+                        tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, userTime, taskUpdated) VALUES (?,?,?,?,?,?,?,?)",[projId, tName, tTime, tDetails, taskStatus, setCurrTime(), setCurrTime(), Date()])}, errorHandler);
     
     log("...inserting Task into database");
     // need to re-run the sql call to generate the new project table
@@ -362,7 +362,7 @@ function updateTask(taskId, projId){
        if( selectedStatus == 1 && taskStatus == 2 && tTime > 0 ) notifyBanner( 'error', "Status Changed - 'In Process'<br><span style='font-size:12px;'>Status cannot be 'Not Started' if task has time value.</span>" );
     // call to update the record entry
     dbShell.transaction(function(tx){
-                        tx.executeSql("UPDATE tbTasks SET taskName=?, taskTime=?, taskDetails=?, taskStatus=?, taskUpdated=? WHERE taskId=?",[tName, tTime, tDetails, taskStatus, setCurrTime(), taskId])}, errorHandler);
+                        tx.executeSql("UPDATE tbTasks SET taskName=?, taskTime=?, taskDetails=?, taskStatus=?, userTime=?, taskUpdated=? WHERE taskId=?",[tName, tTime, tDetails, taskStatus, setCurrTime(), Date(), taskId])}, errorHandler);
     log("task updated successfully!");
     getDBTaskEntries(projId, sortOrder);
     // need to re-run the sql call to generate the new project table
