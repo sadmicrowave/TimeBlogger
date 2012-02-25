@@ -15,7 +15,7 @@ function setCurrTime(){
         // fix the leading zero issue for minutes
         if (minutes < 10 ) minutes = "0" + minutes;
         if (seconds < 10) seconds = "0" + seconds;
-        time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds ; //+' '+meridiem
+        time = now.toDateString() + ' ' +hours+':'+minutes+':'+seconds+' '+meridiem ;
     return time;
 }
 
