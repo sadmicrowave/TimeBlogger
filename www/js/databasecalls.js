@@ -8,10 +8,10 @@ function log(s){
 function setCurrTime(){
     var now = new Date(),
         hours = now.getHours(),
-        //hours = ( hours > 12 ? hours-12 : ( hours == 0 ? 12 : hours ) ),
+        hours = ( hours > 12 ? hours-12 : ( hours == 0 ? 12 : hours ) ),
         minutes = now.getMinutes(),
         seconds = now.getSeconds();
-        //meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
+        meridiem = ( hours == 0 ? ' AM' : ( hours > 11 ? ' PM' : ' AM' ) );
         // fix the leading zero issue for minutes
         if (minutes < 10 ) minutes = "0" + minutes;
         if (seconds < 10) seconds = "0" + seconds;
@@ -129,43 +129,6 @@ function setupDBTable(tx){
     // setup tasks table
     tx.executeSql("CREATE TABLE IF NOT EXISTS tbTasks(taskId INTEGER PRIMARY KEY AUTOINCREMENT, projectId INTEGER, taskName TEXT COLLATE NOCASE, taskTime INTEGER, taskDetails TEXT, taskStatus INTEGER, taskCreated TEXT, userTime TEXT, taskUpdated TEXT)");
     log("Tasks Table Setup successfully");
-    
-    // test fill of the DB
-    // for now the date and time is hardcoded... this will need to be changed to generate the date & time when task is created
-    /*log("generating dummy data");
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 1", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 2", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 3", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 4", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 5", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 6", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 7", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 8", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 9", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 10", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 11", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 12", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 13", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 14", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 15", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 16", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 17", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 18", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 19", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 20", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 21", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 22", setCurrTime()]);
-    tx.executeSql("INSERT INTO tbProjects(projectName, created) VALUES (?,?)",["Project 23", setCurrTime()]);
-    //created many more projects to test what happens with jqtouch rendering objects that exceed the height of the originally set page height
-    
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[1, "Mowed Lawn", 60, "Mowed the lawn next to the church", 3, setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[1, "Trimmed Hedges", 120, "Trimmed the hedges of the bushes that were growing over my fence", 1, setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[1, "Cleaned Garage", 0, "Cleaned the garage so I could fit the car in it", 1, setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[2, "Cooked Dinner", 2232, "Cooked some great turkey in the stove that we are having for dinner tomorrow", 2, setCurrTime(), setCurrTime()]);
-    tx.executeSql("INSERT INTO tbTasks(projectId, taskName, taskTime, taskDetails, taskStatus, taskCreated, taskUpdated) VALUES (?,?,?,?,?,?,?)",[2, "Payed Bills", 23332, "Paid all those bills, those telephone bills, the auto-mo-bills.", 3, setCurrTime(), setCurrTime()]);
-    log("generated dummy data");
-    */
 }
 
 // Database query function
